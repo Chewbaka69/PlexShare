@@ -1,3 +1,8 @@
+https://img.shields.io/badge/Php_version_min-PHP_5.6-738bd7.svg?style=flat-square
+https://img.shields.io/badge/Needed-Curl-blue.svg?style=flat-square
+https://img.shields.io/badge/Needed-MySQL-blue.svg?style=flat-square
+https://img.shields.io/badge/Needed-PlexServer-blue.svg?style=flat-square
+
 # PlexShare
 Web Application standalone that provide the management of local users, many server and the libraries.
 
