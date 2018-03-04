@@ -9,6 +9,17 @@ Web Application standalone that provide the management of local users, many serv
 # Description
 
 # Features
+- Register and Login without plex.tv account
+- Manage some PlexServer to share theirs libraries
+- Manage permission to limit acces to the users
+
+# Tehcnologies
+- MySQL
+- PHP
+- Framework FuelPHP 1.8
+- Bootstrap
+- jQuery
+- jQuery widget pwstrength [Github](https://github.com/ablanco/jquery.pwstrength.bootstrap)
 
 # Preview
 Not at this time
