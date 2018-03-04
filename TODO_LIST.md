@@ -1,3 +1,5 @@
+# TODO LIST
+
 - [x] Installer
   - [x] Checking Configuration server
   - [x] Connect to the database
