@@ -6,47 +6,20 @@
 # PlexShare
 Web Application standalone that provide the management of local users, many server and the libraries.
 
+# Description
+
+# Features
+
+# Preview
+Not at this time
+
+# Installation And Support
+Not at this time
+
 # Todo-List
-- [x] Installer
-  - [x] Checking Configuration server
-  - [x] Connect to the database
-  - [x] Create tables
-  - [x] Add one PlexServer and check connection
-  - [x] Create Admin account
-- [ ] Registration User
-- [ ] Login User
-- [ ] Main Interface
-  - [ ] List Libraries
-  - [ ] List Movies
-  - [ ] List Musics
-  - [ ] Filter By Libraries
-  - [ ] Search
-- [ ] Movies/Musics Page
-  - [ ] Title
-  - [ ] Description
-  - [ ] Note
-  - [ ] Other information like in Plex
-- [ ] Streaming
-  - [ ] Basic options (Play, pause, next...)
-  - [ ] Implement Video Player
-  - [ ] Implement Video Player that stay when we change of page [V2]
-  - [ ] Select Quality
-  - [ ] Select Subtitles
-- [ ] Management PlexServer
-  - [ ] Add, Edit and Delete
-  - [ ] Disable Server
-  - [ ] Check state and latence
-  - [ ] Add permission on libraries
-  - [ ] Add permission on Movies and Musics
-  - [ ] Modify server parameters [V2]
-- [ ] Management User
-  - [ ] Profil edition
-  - [ ] Delete Account [V2]
-  - [ ] Limit acces to ip [V2]
-- [ ] Management Permission
-  - [ ] Create, Edit and Delete permission
-  - [ ] Assign to a libraries
-  - [ ] Show only, Show and Stream, Manage (Can delete file)
-  - [ ] Limit number streaming
-  - [ ] Limit Quality [V2]
-  - [ ] Limit Bandwidth [V2]
+[TODO LIST](https://github.com/Chewbaka69/PlexShare/blob/master/TODO_LIST.md)
+
+# Licence
+This is free software under the GPL v3 open source license. Feel free to do with it what you wish, but any modification must be open sourced. A copy of the license is included.
+
+This software includes Highsoft software libraries which you may freely distribute for non-commercial use. Commerical users must licence this software, for more information visit https://shop.highsoft.com/faq/non-commercial#non-commercial-redistribution.
