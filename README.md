@@ -1,7 +1,7 @@
 # PlexShare
 Web Application standalone that provide the management of local users, many server and the libraries.
 
-#Todo-List
+# Todo-List
 - [x] Installer
   - [x] Checking Configuration server
   - [x] Connect to the database
