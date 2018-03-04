@@ -1,4 +1,4 @@
-![PHP](https://img.shields.io/badge/Php_version_min-PHP_5.6-738bd7.svg?style=flat-square)
+![PHP](https://img.shields.io/badge/PHP->=_5.6-738bd7.svg?style=flat-square)
 ![Extension](https://img.shields.io/badge/Needed-Curl-blue.svg?style=flat-square)
 ![Database](https://img.shields.io/badge/Needed-MySQL-blue.svg?style=flat-square)
 ![PlexServer](https://img.shields.io/badge/Needed-PlexServer-blue.svg?style=flat-square)
