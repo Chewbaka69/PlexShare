@@ -7,6 +7,9 @@
 Web Application standalone that provide the management of local users, many server and the libraries.
 
 # Description
+With this web application, your friends can create an account directly on your server.
+You can manage permission by user or by library like limit of number streaming, quality and other
+You can add the server of your friend, and use only one interface to share with all of your friend.
 
 # Features
 - Register and Login without plex.tv account
