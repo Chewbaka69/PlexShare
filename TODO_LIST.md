@@ -1,13 +1,13 @@
 # TODO LIST
-
+## V1
 - [x] Installer
   - [x] Checking Configuration server
   - [x] Connect to the database
   - [x] Create tables
   - [x] Add one PlexServer and check connection
   - [x] Create Admin account
-- [ ] Registration User
-- [ ] Login User
+- [x] Registration User
+- [x] Login User
 - [ ] Main Interface
   - [ ] List Libraries
   - [ ] List Movies
@@ -41,5 +41,16 @@
   - [ ] Assign to a libraries
   - [ ] Show only, Show and Stream, Manage (Can delete file)
   - [ ] Limit number streaming
+  - [ ] Limit Quality [V2]
+  - [ ] Limit Bandwidth [V2]
+
+## V2
+- [ ] Streaming
+  - [ ] Implement Video Player that stay when we change of page [V2]
+  - [ ] Modify server parameters [V2]
+- [ ] Management User
+  - [ ] Delete Account [V2]
+  - [ ] Limit acces to ip [V2]
+- [ ] Management Permission
   - [ ] Limit Quality [V2]
   - [ ] Limit Bandwidth [V2]
