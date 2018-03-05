@@ -1,4 +1,5 @@
 # TODO LIST
+
 ## V1
 - [x] Installer
   - [x] Checking Configuration server
@@ -22,7 +23,6 @@
 - [ ] Streaming
   - [ ] Basic options (Play, pause, next...)
   - [ ] Implement Video Player
-  - [ ] Implement Video Player that stay when we change of page [V2]
   - [ ] Select Quality
   - [ ] Select Subtitles
 - [ ] Management PlexServer
@@ -31,24 +31,21 @@
   - [ ] Check state and latence
   - [ ] Add permission on libraries
   - [ ] Add permission on Movies and Musics
-  - [ ] Modify server parameters [V2]
 - [ ] Management User
   - [ ] Profil edition
-  - [ ] Delete Account [V2]
-  - [ ] Limit acces to ip [V2]
 - [ ] Management Permission
   - [ ] Create, Edit and Delete permission
   - [ ] Assign to a libraries
   - [ ] Show only, Show and Stream, Manage (Can delete file)
   - [ ] Limit number streaming
-  - [ ] Limit Quality [V2]
-  - [ ] Limit Bandwidth [V2]
 
 ## V2
 - [ ] Streaming
   - [ ] Implement Video Player that stay when we change of page [V2]
   - [ ] Modify server parameters [V2]
 - [ ] Management User
+  - [ ] List of session [V2]
+  - [ ] Ban IP [V2]
   - [ ] Delete Account [V2]
   - [ ] Limit acces to ip [V2]
 - [ ] Management Permission
