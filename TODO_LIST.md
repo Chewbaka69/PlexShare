@@ -9,6 +9,10 @@
   - [x] Create Admin account
 - [x] Registration User
 - [x] Login User
+- [ ] Browse Server
+  - [x] List Libraries
+  - [ ] List Media Movies
+  - [ ] List Media TV Show
 - [ ] Main Interface
   - [ ] List Libraries
   - [ ] List Movies
@@ -39,15 +43,19 @@
   - [ ] Show only, Show and Stream, Manage (Can delete file)
   - [ ] Limit number streaming
 
-## V2
+## OTHER
+- [ ] Cache
+  - [ ] Cache Libraries [OTHER]
+  - [ ] Cache Media MetaData [OTHER]
+  - [ ] Cache SQL request [OTHER]
 - [ ] Streaming
-  - [ ] Implement Video Player that stay when we change of page [V2]
-  - [ ] Modify server parameters [V2]
+  - [ ] Implement Video Player that stay when we change of page [OTHER]
+  - [ ] Modify server parameters [OTHER]
 - [ ] Management User
-  - [ ] List of session [V2]
-  - [ ] Ban IP [V2]
-  - [ ] Delete Account [V2]
-  - [ ] Limit acces to ip [V2]
+  - [ ] List of session [OTHER]
+  - [ ] Ban IP [OTHER]
+  - [ ] Delete Account [OTHER]
+  - [ ] Limit acces to ip [OTHER]
 - [ ] Management Permission
-  - [ ] Limit Quality [V2]
-  - [ ] Limit Bandwidth [V2]
+  - [ ] Limit Quality [OTHER]
+  - [ ] Limit Bandwidth [OTHER]
