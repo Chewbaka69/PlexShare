@@ -11,6 +11,8 @@ With this web application, your friends can create an account directly on your s
 You can manage permission by user or by library like limit of number streaming, quality and other
 You can add the server of your friend, and use only one interface to share with all of your friend.
 
+![Flyer](https://i.imgur.com/n3Xmn6r.png)
+
 # Features
 - Register and Login without plex.tv account
 - Manage some PlexServer to share theirs libraries
