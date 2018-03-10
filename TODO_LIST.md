@@ -11,8 +11,9 @@
 - [x] Login User
 - [ ] Browse Server
   - [x] List Libraries
-  - [ ] List Media Movies
-  - [ ] List Media TV Show
+  - [x] List TV Shows
+  - [x] List TV Show Seasons
+  - [ ] List Movies and TV Shows Movies
 - [ ] Main Interface
   - [ ] List Libraries
   - [ ] List Movies
