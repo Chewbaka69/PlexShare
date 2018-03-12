@@ -9,11 +9,11 @@
   - [x] Create Admin account
 - [x] Registration User
 - [x] Login User
-- [ ] Browse Server
+- [x] Browse Server
   - [x] List Libraries
   - [x] List TV Shows
   - [x] List TV Show Seasons
-  - [ ] List Movies and TV Shows Movies
+  - [x] List Movies and TV Shows Movies
 - [ ] Main Interface
   - [ ] List Libraries
   - [ ] List Movies
