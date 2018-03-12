@@ -44,7 +44,7 @@
   - [ ] Show only, Show and Stream, Manage (Can delete file)
   - [ ] Limit number streaming
 
-## OTHER
+## OTHER Version
 - [ ] Cache
   - [ ] Cache Libraries [OTHER]
   - [ ] Cache Media MetaData [OTHER]
