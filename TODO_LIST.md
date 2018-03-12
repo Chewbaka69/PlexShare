@@ -14,13 +14,18 @@
   - [x] List TV Shows
   - [x] List TV Show Seasons
   - [x] List Movies and TV Shows Movies
-- [ ] Main Interface
-  - [ ] List Libraries
-  - [ ] List Movies
-  - [ ] List Musics
-  - [ ] Filter By Libraries
+- [ ] Main Interface by server
+  - [x] List Libraries
+  - [ ] List last Movies
+  - [ ] List last TvShow
   - [ ] Search
-- [ ] Movies/Musics Page
+- [ ] Movies
+  - [ ] Title
+  - [ ] Description
+  - [ ] Note
+  - [ ] Other information like in Plex
+- [ ] TV Show
+  - [ ] List Season
   - [ ] Title
   - [ ] Description
   - [ ] Note
