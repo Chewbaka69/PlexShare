@@ -16,17 +16,17 @@
   - [x] List Movies and TV Shows Movies
 - [ ] Main Interface by server
   - [x] List Libraries
-  - [ ] List last Movies
-  - [ ] List last TvShow
+  - [x] List last Movies
+  - [x] List last TvShow
   - [ ] Search
 - [ ] Movies
-  - [ ] Title
+  - [x] Title
   - [ ] Description
   - [ ] Note
   - [ ] Other information like in Plex
 - [ ] TV Show
   - [ ] List Season
-  - [ ] Title
+  - [x] Title
   - [ ] Description
   - [ ] Note
   - [ ] Other information like in Plex
