@@ -21,14 +21,14 @@
   - [ ] Search
 - [ ] Movies
   - [x] Title
-  - [ ] Description
-  - [ ] Note
+  - [x] Description
+  - [x] Note
   - [ ] Other information like in Plex
 - [ ] TV Show
   - [ ] List Season
   - [x] Title
-  - [ ] Description
-  - [ ] Note
+  - [x] Description
+  - [x] Note
   - [ ] Other information like in Plex
 - [ ] Streaming
   - [ ] Basic options (Play, pause, next...)
