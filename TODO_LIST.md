@@ -34,6 +34,7 @@
   - [x] Basic options (Play, pause, next...)
   - [x] Implement Video Player
   - [ ] Select Quality
+  - [ ] Select Audio
   - [ ] Select Subtitles
 - [ ] Management PlexServer
   - [ ] Add, Edit and Delete
