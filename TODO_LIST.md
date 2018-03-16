@@ -31,8 +31,8 @@
   - [x] Note
   - [ ] Other information like in Plex
 - [ ] Streaming
-  - [ ] Basic options (Play, pause, next...)
-  - [ ] Implement Video Player
+  - [x] Basic options (Play, pause, next...)
+  - [x] Implement Video Player
   - [ ] Select Quality
   - [ ] Select Subtitles
 - [ ] Management PlexServer
