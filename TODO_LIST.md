@@ -25,7 +25,7 @@
   - [x] Note
   - [ ] Other information like in Plex
 - [ ] TV Show
-  - [ ] List Season
+  - [x] List Season
   - [x] Title
   - [x] Description
   - [x] Note
@@ -46,14 +46,13 @@
   - [ ] Profil edition
 - [ ] Management Permission
   - [ ] Create, Edit and Delete permission
-  - [ ] Assign to a libraries
+  - [ ] Assign to Libraries or User
   - [ ] Show only, Show and Stream, Manage (Can delete file)
-  - [ ] Limit number streaming
 
 ## OTHER Version
 - [ ] Cache
   - [ ] Cache Libraries [OTHER]
-  - [ ] Cache Media MetaData [OTHER]
+  - [x] Cache Media MetaData [OTHER]
   - [ ] Cache SQL request [OTHER]
 - [ ] Streaming
   - [ ] Implement Video Player that stay when we change of page [OTHER]
@@ -65,4 +64,4 @@
   - [ ] Limit acces to ip [OTHER]
 - [ ] Management Permission
   - [ ] Limit Quality [OTHER]
-  - [ ] Limit Bandwidth [OTHER]
+  - [ ] Limit number streaming [OTHER]
