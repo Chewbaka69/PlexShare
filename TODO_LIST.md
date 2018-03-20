@@ -26,6 +26,7 @@
   - [ ] Other information like in Plex
 - [ ] TV Show
   - [x] List Season
+  - [x] List Episode in Season
   - [x] Title
   - [x] Description
   - [x] Note
