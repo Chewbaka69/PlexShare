@@ -28,6 +28,7 @@ With only one interface and without plex.tv registration, everybody can have acc
 - Bootstrap
 - jQuery
 - jQuery widget pwstrength [Github](https://github.com/ablanco/jquery.pwstrength.bootstrap)
+- Video Player [Clappr](https://github.com/clappr/clappr) 
 
 # Preview
 Not at this time
