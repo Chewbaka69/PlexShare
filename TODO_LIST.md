@@ -38,8 +38,11 @@
   - [ ] Select Audio
   - [ ] Select Subtitles
 - [ ] Management PlexServer
-  - [ ] Add, Edit and Delete
+  - [x] List servers
+  - [ ] Add server
+  - [ ] Edit server
   - [ ] Disable Server
+  - [ ] Delete server
   - [ ] Check state and latence
   - [ ] Add permission on libraries
   - [ ] Add permission on Movies and Musics
