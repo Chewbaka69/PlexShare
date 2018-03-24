@@ -1,0 +1,210 @@
+<?php
+
+use Fuel\Core\CacheNotFoundException;
+
+class Model_Tvshow extends Model_Overwrite
+{
+    protected static $_table_name = 'tvshow';
+    protected static $_primary_key = 'id';
+    protected static $_properties = array(
+        'id',
+        'library_id',
+        'plex_key',
+        'studio',
+        'title',
+        'contentRating',
+        'summary',
+        'rating',
+        'year',
+        'thumb',
+        'art',
+        'banner',
+        'theme',
+        'originallyAvailableAt',
+        'leafCount',
+        'addedAt',
+        'updatedAt',
+        'disable'
+    );
+
+    public $metadata = [];
+
+    private $_seasons = null;
+
+    private $_library = null;
+    private $_server = null;
+
+    public function getLibrary()
+    {
+        if(!$this->_library)
+            $this->_library = Model_Library::find_by_pk($this->library_id);
+
+        return $this->_library;
+    }
+
+    public function getServer()
+    {
+        if(!$this->_server) {
+            $library = $this->getLibrary();
+            $this->_server = Model_Server::find_by_pk($library->server_id);
+        }
+
+        return $this->_server;
+    }
+
+    public function getCover($width = null, $height = null)
+    {
+        if(!$this->_server)
+            $this->getServer();
+
+        $path_cache = null;
+        $thumb = null;
+
+        if(!$width && !$height)
+            $path_cache = '.cover';
+        else
+            $path_cache = '.cover_' . $width . '_' . $height;
+
+        try {
+            $thumb = Cache::get($this->id . $path_cache);
+
+            if ($thumb)
+                return $thumb;
+        } catch (CacheNotFoundException $e) {
+            $this->getPicture($this->thumb, $path_cache, $width, $height);
+
+            $thumb = Cache::get($this->id . $path_cache);
+            return $thumb;
+        }
+    }
+
+    private function getPicture($path, $path_cache, $width = null, $height = null)
+    {
+        if(!$this->_server)
+            $this->getServer();
+
+        $curl = null;
+
+        if(!$width && !$height)
+            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $path . '?X-Plex-Token=' . $this->_server->token, 'curl');
+        else
+            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width='.$width.'&height='.$height.'&minSize=1&url='.$path.'&X-Plex-Token='.$this->_server->token, 'curl');
+
+        $curl->execute();
+
+        if ($curl->response()->status !== 200)
+            return false;
+
+        Cache::set($this->id . $path_cache, $curl->response()->body);
+    }
+
+    public function getMetaData()
+    {
+        try {
+            $this->metadata = Cache::get($this->id . '.metadata');
+
+            if ($this->metadata)
+                return $this->metadata;
+        } catch (CacheNotFoundException $e) {
+            if(!$this->_server)
+                $this->getServer();
+
+            $plex_key = preg_split('/\/children/', $this->plex_key)[0];
+
+            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $plex_key . '?X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl->execute();
+
+            $array = Format::forge($curl->response()->body, 'xml')->to_array();
+
+            //GENRE
+            $this->metadata['Genre'] = isset($array['Directory']['Genre']) ? $array['Directory']['Genre'] : null;
+            //ROLES
+            $this->metadata['Role'] = isset($array['Directory']['Role']) ? $array['Directory']['Role'] : null;
+
+            Cache::set($this->id . '.metadata', $this->metadata);
+            return $this->metadata;
+        }
+    }
+
+    /**
+     * @param $server
+     * @param $subsections
+     * @param $library
+     * @return bool | array
+     * @throws Exception
+     * @throws HttpNotFoundException
+     * @throws \FuelException
+     */
+    public static function BrowseTvShow($server, $subsections, $library)
+    {
+
+        $tvshows_id_array = [];
+
+        foreach ($subsections as $subsection) {
+            $subsection = !isset($subsections['@attributes']) ? $subsection : $subsections;
+
+            $library_id = $library->id;
+
+            $tvshow = Model_Tvshow::find(function ($query) use ($subsection, $library_id){
+                /** @var Database_Query_Builder_Select $query */
+                return $query
+                    ->select('*')
+                    ->where('plex_key', $subsection['@attributes']['key'])
+                    ->and_where('library_id', $library_id)
+                    ;
+            })[0] ?: Model_Tvshow::forge();
+
+            $tvshow->set([
+                'library_id'            => $library->id,
+                'plex_key'              => $subsection['@attributes']['key'],
+                'studio'                => isset($subsection['@attributes']['studio']) ? $subsection['@attributes']['studio'] : null,
+                'title'                 => $subsection['@attributes']['title'],
+                'contentRating'         => isset($subsection['@attributes']['contentRating']) ? $subsection['@attributes']['contentRating'] : null,
+                'summary'               => isset($subsection['@attributes']['summary']) ? $subsection['@attributes']['summary'] : null,
+                'rating'                => isset($subsection['@attributes']['rating']) ? $subsection['@attributes']['rating'] : null,
+                'year'                  => isset($subsection['@attributes']['year']) ? $subsection['@attributes']['year'] : null,
+                'thumb'                 => isset($subsection['@attributes']['thumb']) ? $subsection['@attributes']['thumb'] : null,
+                'art'                   => isset($subsection['@attributes']['art']) ? $subsection['@attributes']['art'] : null,
+                'banner'                => isset($subsection['@attributes']['banner']) ? $subsection['@attributes']['banner'] : null,
+                'theme'                 => isset($subsection['@attributes']['theme']) ? $subsection['@attributes']['theme'] : null,
+                'originallyAvailableAt' => isset($subsection['@attributes']['originallyAvailableAt']) ? $subsection['@attributes']['originallyAvailableAt'] : null,
+                'leafCount'             => $subsection['@attributes']['leafCount'],
+                'addedAt'               => $subsection['@attributes']['addedAt'],
+                'updatedAt'             => $subsection['@attributes']['updatedAt']
+            ]);
+
+            $tvshow->save();
+
+            $tvshows_id_array[] = ['id' => $tvshow->id, 'name' => $tvshow->title];
+
+            //self::getTvShowSeasons($server, $tvshow);
+
+            if(isset($subsections['@attributes']))
+                break;
+        }
+
+        return $tvshows_id_array;
+    }
+
+    public static function getTvShowSeasons($server, $tvshow)
+    {
+        $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . $tvshow->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
+        $curl->execute();
+
+        if ($curl->response()->status !== 200)
+            return false;
+
+        $seasons = Format::forge($curl->response()->body, 'xml')->to_array();
+
+        if(isset($seasons['Directory']))
+            return Model_Season::BrowseSeason($server, $seasons['Directory'], $tvshow);
+    }
+
+    public function getSeasons()
+    {
+        if(!$this->_seasons)
+            $this->_seasons = Model_Season::find_by('tv_show_id', $this->id);
+
+        return $this->_seasons;
+    }
+}

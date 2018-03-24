@@ -1,0 +1,23 @@
+#divVideo {
+    z-index: 1001;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#divVideo .video-js {
+    width: 100%;
+    height: 100%;
+}
+.PlayPauseOverlay-playButton-25OfW.PlayButton-playButton-3WX8X.Link-link-2n0yJ.Link-default-2XA2b {
+    background-color: rgba(0,0,0,0);
+    border: none;
+}
+.AudioVideoFullPlayer-topBar-2XUGM{
+    transform: translateY(0);
+}
+.vjs-controls-disabled .vjs-control-bar,
+.vjs-controls-disabled .vjs-modal-dialog,
+.vjs-controls-disabled .vjs-modal-dialog {
+    display: none;
+}

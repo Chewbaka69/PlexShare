@@ -18,4 +18,8 @@
 # dynamically generated files
 /fuel/app/logs/*/*/*
 /fuel/app/cache/*/*
+/fuel/app/config/plex.php
+/fuel/app/config/db.php
 /fuel/app/config/crypt.php
+
+/.idea
