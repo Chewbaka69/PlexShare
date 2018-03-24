@@ -231,13 +231,13 @@
             setTimeout(function () {
                 var tvshow_id = $(element).data('tvshow-id');
                 $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', 'url("/cover/tvshow?tvshow_id=' + tvshow_id + '&width=' + 260 + '&height=' + 390 + '")');
-            }, (index + 1) * Math.random() * (100 - 20) + 20);
+            }, (index + 1) * 100);
         });
         $('.PosterCardImg-imageContainer-1Ar4M[data-season-id]').each(function (index, element) {
             setTimeout(function () {
                 var season_id = $(element).data('season-id');
                 $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id=' + season_id + '&width=' + 126 + '&height=' + 189 + '")');
-            }, (index + 1) * Math.random() * (100 - 20) + 20);
+            }, (index + 1) * 100);
         });
     });
 </script>

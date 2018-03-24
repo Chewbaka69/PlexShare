@@ -46,7 +46,7 @@
                                         <div class="MetadataPosterCardOverlay-unwatchedTag-Fqazx MetadataPosterCardOverlay-unwatchedBadge-Qn1fv MetadataPosterCardOverlay-badge-1FU-p"></div>
                                     </div>
                                     <button data-id="<?php echo $movie->id; ?>" tabindex="-1"
-                                            data-qa-id="metadataPosterPlayButton" role="button"
+                                            role="button"
                                             class="MetadataPosterCardOverlay-playCoverButton-I7oU3 MetadataPosterCardOverlay-playButton-1fjhk PlayButton-playButton-3WX8X MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
                                             type="button">
                                         <div class="MetadataPosterCardOverlay-playCircle-M67q6 PlayButton-playCircle-3Evfd MetadataPosterCardOverlay-centerCircle-1Mg-s">
@@ -61,10 +61,9 @@
                 <div class="PrePlayMetadataContent-content-2ww3j" style="padding-left: 320px;">
                     <div>
                         <div class="PrePlayMetadataInnerContent-innerContent-1BPzw">
-                            <div class="PrePlayPrimaryTitle-primaryTitle-1r9P9" data-qa-id="preplayMainTitle">
-                                <div class="PrePlayLeftTitle-leftTitle-Ev1KG"><a data-qa-id="metadataTitleLink"
-                                                                                 title="Timeless"
-                                                                                 href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336/details?key=%2Flibrary%2Fmetadata%2F28082"
+                            <div class="PrePlayPrimaryTitle-primaryTitle-1r9P9">
+                                <div class="PrePlayLeftTitle-leftTitle-Ev1KG"><a title="<?php echo $movie->title; ?>"
+                                                                                 href="#"
                                                                                  role="link"
                                                                                  class=" Link-link-2XYrU Link-default-32xSO"><?php echo $movie->title; ?></a>
                                 </div>
@@ -257,7 +256,7 @@
             setTimeout(function () {
                 var movie_id = $(element).data('movie-id');
                 $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 260 +'&height='+ 390 +'")');
-            }, (index + 1) * 500);
+            }, (index + 1) * 100);
         });
     });
 </script>

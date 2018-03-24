@@ -208,12 +208,12 @@
         setTimeout(function () {
             var season_id = $(element).data('season-id');
             $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id='+ season_id +'&width='+ 260 +'&height='+ 390 +'")');
-        }, (index + 1) * 500);
+        }, (index + 1) * 100);
     });
     $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
         setTimeout(function () {
             var movie_id = $(element).data('movie-id');
             $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 192 +'&height='+ 108 +'&thumb=true")');
-        }, (index + 1) * 500);
+        }, (index + 1) * 100);
     });
 </script>

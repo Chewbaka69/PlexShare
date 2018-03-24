@@ -238,11 +238,25 @@
 </div>
 <script type="text/javascript">
     $(function () {
+        $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
+            event.stopPropagation();
+            var movie_id = $(this).data('id');
+            $.ajax({
+                url: '/rest/movie/stream',
+                method: 'GET',
+                data: {movie_id: movie_id},
+                dataType: 'html'
+            }).done(function (view) {
+                launchPlayer(view);
+            }).fail(function (data) {
+                console.error(data);
+            });
+        });
         $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
             setTimeout(function () {
                 var movie_id = $(element).data('movie-id');
                 $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 260 + '&height=' + 146 + '&thumb=true")');
-            }, (index + 1) * 500);
+            }, (index + 1) * 100);
         });
     });
 </script>

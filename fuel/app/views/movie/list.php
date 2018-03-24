@@ -346,13 +346,13 @@
             setTimeout(function () {
                 var movie_id = $(element).data('movie-id');
                 $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 126 +'&height='+189+'")');
-            }, (index + 1) * Math.random() * (100 - 20) + 20);
+            }, (index + 1) * Math.random() * (100 - 50) + 50);
         });
         $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]').each(function (index, element) {
             setTimeout(function () {
                 var tvshow_id = $(element).data('tvshow-id');
                 $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', 'url("/cover/tvshow?tvshow_id='+ tvshow_id +'&width='+ 126 +'&height='+189+'")');
-            }, (index + 1) * Math.random() * (100 - 20) + 20);
+            }, (index + 1) * Math.random() * (100 - 50) + 50);
         });
     });
 </script>

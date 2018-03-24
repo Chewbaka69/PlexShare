@@ -222,8 +222,8 @@ class Model_Movie extends Model_Overwrite
         if(!$this->_server)
             $this->getServer();
 
-        $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare].library&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
-        //$curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare].library&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&videoResolution=576x320&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
+        $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
+        //$curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&videoResolution=576x320&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
 
         $curl->execute();
 
