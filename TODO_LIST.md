@@ -44,14 +44,11 @@
   - [ ] Disable Server
   - [ ] Delete server
   - [ ] Check state and latence
-  - [ ] Add permission on libraries
-  - [ ] Add permission on Movies and Musics
 - [ ] Management User
   - [ ] Profil edition
 - [ ] Management Permission
   - [ ] Create, Edit and Delete permission
   - [ ] Assign to Libraries or User
-  - [ ] Show only, Show and Stream, Manage (Can delete file)
 
 ## OTHER Version
 - [ ] Cache
