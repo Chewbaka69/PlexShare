@@ -14,7 +14,7 @@ But the admin can manage permission by user or by library like limit of number s
 
 With only one interface and without plex.tv registration, everybody can have access to the libraries of all the servers you have registered.
 
-![Flyer](https://i.imgur.com/OJbsPlO.png)
+![Flyer](https://i.imgur.com/TxMPjKm.png)
 
 # Features
 - Register and Login without plex.tv account
