@@ -50,7 +50,10 @@
   - [ ] Add permition to library
   - [ ] Add permition to user
 - [ ] Management User
-  - [ ] Profil edition
+  - [ ] Edit profil
+  - [ ] Add sub-account
+  - [ ] Edit sub-account
+  - [ ] Delete sub-account
 
 ## OTHER Version
 - [ ] Cache
@@ -59,7 +62,8 @@
   - [ ] Cache SQL request [OTHER]
 - [ ] Streaming
   - [ ] Implement Video Player that stay when we change of page [OTHER]
-  - [ ] Modify server parameters [OTHER]
+- [ ] Management PlexServer
+  - [ ] Stream directly from PlexServer or use the site like a web-proxy [OTHER]
 - [ ] Management User
   - [ ] List of session [OTHER]
   - [ ] Ban IP [OTHER]
