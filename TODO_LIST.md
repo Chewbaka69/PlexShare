@@ -39,16 +39,18 @@
   - [ ] Select Subtitles
 - [ ] Management PlexServer
   - [x] List servers
-  - [ ] Add server
+  - [X] Add server
   - [ ] Edit server
-  - [ ] Disable Server
-  - [ ] Delete server
+  - [X] Disable Server
+  - [X] Delete server
   - [ ] Check state and latence
+- [ ] Management Libraries
+  - [ ] List libraries
+  - [ ] Disable library
+  - [ ] Add permition to library
+  - [ ] Add permition to user
 - [ ] Management User
   - [ ] Profil edition
-- [ ] Management Permission
-  - [ ] Create, Edit and Delete permission
-  - [ ] Assign to Libraries or User
 
 ## OTHER Version
 - [ ] Cache
