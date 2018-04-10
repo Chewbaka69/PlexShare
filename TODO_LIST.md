@@ -56,6 +56,8 @@
   - [ ] Delete sub-account
 
 ## OTHER Version
+- [ ] Theme
+  - [ ] Netflix
 - [ ] Cache
   - [ ] Cache Libraries [OTHER]
   - [x] Cache Media MetaData [OTHER]
