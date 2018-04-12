@@ -1,6 +1,8 @@
 # TODO LIST
 
 ## V1
+- [ ] Theme
+  - [x] Plex
 - [x] Installer
   - [x] Checking Configuration server
   - [x] Connect to the database
@@ -57,7 +59,7 @@
 
 ## OTHER Version
 - [ ] Theme
-  - [ ] Netflix
+  - [ ] Netflix [OTHER]
 - [ ] Cache
   - [ ] Cache Libraries [OTHER]
   - [x] Cache Media MetaData [OTHER]
