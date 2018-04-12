@@ -1,7 +1,7 @@
 # TODO LIST
 
 ## V1
-- [ ] Theme
+- [x] Theme
   - [x] Plex
 - [x] Installer
   - [x] Checking Configuration server
