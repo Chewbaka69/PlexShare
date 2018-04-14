@@ -4724,7 +4724,7 @@ label.disabled {
 
 .alert > .alert-icon {
     position: absolute;
-    top: 50%;
+    top: 40%;
     left: 35px;
     margin-top: -24px;
     font-size: 48px;
@@ -9924,16 +9924,28 @@ a.card:focus, a.card:hover {
     font-size: 16px
 }
 
-.card-action-btn.btn-danger, .card-action-btn.btn-success {
-    color: #ac3323
-}
-
-.card-action-btn.btn-danger:active, .card-action-btn.btn-danger:focus, .card-action-btn.btn-danger:hover, .card-action-btn.btn-success:active, .card-action-btn.btn-success:focus, .card-action-btn.btn-success:hover {
+.card-action-btn.btn-danger:active,
+.card-action-btn.btn-danger:focus,
+.card-action-btn.btn-danger:hover,
+.card-action-btn.btn-success:active,
+.card-action-btn.btn-success:focus,
+.card-action-btn.btn-success:hover,
+.card-action-btn.btn-info:active,
+.card-action-btn.btn-info:focus,
+.card-action-btn.btn-info:hover {
     background: none;
     border: 0;
     outline: 0;
     -webkit-box-shadow: none;
     box-shadow: none
+}
+
+.card-action-btn.btn-info {
+    color: #2d6ca2;
+}
+
+.card-action-btn.btn-danger {
+    color: #ac3323
 }
 
 .card-action-btn.btn-success {
@@ -9954,13 +9966,17 @@ a.card:focus, a.card:hover {
     cursor: default
 }
 
-.card-action-btn.btn-danger, .card-action-btn.btn-success {
+.card-action-btn.btn-danger, .card-action-btn.btn-info.disabled, .card-action-btn.btn-success {
     background: none
 }
 
-.card-action-btn.btn-danger.disabled, .card-action-btn.btn-success.disabled {
+.card-action-btn.btn-danger.disabled, .card-action-btn.btn-info.disabled, .card-action-btn.btn-success.disabled {
     opacity: .2;
     filter: alpha(opacity=20)
+}
+
+.card-action-btn.btn-info.disabled {
+    color: #2d6ca2;
 }
 
 .card-action-btn.btn-success.disabled {

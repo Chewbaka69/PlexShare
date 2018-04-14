@@ -1,28 +1,28 @@
 <div class="PageContent-pageContent-16mK6 Scroller-scroller-d5-b- Scroller-vertical-1bgGS ">
     <div class="DashboardPage-dashboardPageContent-2rN8X PageContent-innerPageContent-3ktLT">
         <div style="opacity: 1; pointer-events: auto;">
-            <div class="HubCell-hubCell-3Ys17" data-qa-id="hub--home.television.recent"
+            <div class="HubCell-hubCell-3Ys17" data-qa-id="tv_show"
                  style="visibility: visible;">
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
                     <div class="HubCellTitle-hubCellTitle-2abIn"><a
                                 href="#" role="link" class="Link-link-2XYrU Link-default-32xSO">RECENTLY ADDED TV</a></div>
-                    <div class="HubCell-hubActions-28w1-">
-                        <button data-qa-id="hubPreviousButton" role="button"
+                    <div class="HubCell-hubActions-28w1- tv-shows-hubcell">
+                        <button role="button" data-hubcell-action="previous"
                                 class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO isDisabled"
-                                type="button" disabled="">
-                            <i class="plex-icon-hub-prev-560" aria-hidden="false" aria-label="Previous Page"></i>
+                                type="button">
+                            <i class="plex-icon-hub-prev-560"></i>
                         </button>
-                        <button data-qa-id="hubNextButton" role="button"
+                        <button role="button" data-hubcell-action="next"
                                 class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO"
                                 type="button">
-                            <i class="plex-icon-hub-next-560" aria-hidden="false" aria-label="Next Page"></i>
+                            <i class="plex-icon-hub-next-560"></i>
                         </button>
                     </div>
                 </div>
                 <div style="height: 275px; overflow: hidden;">
                     <div class="Measure-container-2XznZ">
-                        <div class="VirtualListScroller-scroller-37EU_ Scroller-scroller-d5-b- Scroller-horizontal-1k8ET ">
-                            <div class=" " style="width: 3019px; height: 275px;">
+                        <div id="tv_show_list" class="VirtualListScroller-scroller-37EU_ Scroller-scroller-d5-b- Scroller-horizontal-1k8ET ">
+                            <div class=" " style="width: 4540px; height: 275px;">
                                 <?php if($episodes) : ?>
                                 <?php
                                 $translate = -150;
@@ -115,29 +115,28 @@
                     </div>
                 </div>
             </div>
-            <div class="HubCell-hubCell-3Ys17" data-qa-id="hub--home.movies.recent"
+            <div class="HubCell-hubCell-3Ys17" data-qa-id="movies"
                  style="visibility: visible;">
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
                     <div class="HubCellTitle-hubCellTitle-2abIn"><a
                                 href="#"
                                 role="link" class="Link-link-2XYrU Link-default-32xSO">RECENTLY ADDED MOVIES</a></div>
-                    <div class="HubCell-hubActions-28w1-">
-                        <button data-qa-id="hubPreviousButton" role="button"
+                    <div class="HubCell-hubActions-28w1- movies-hubcell">
+                        <button role="button" data-hubcell-action="previous"
                                 class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO isDisabled"
-                                type="button" disabled=""><i class="plex-icon-hub-prev-560"
-                                                             aria-hidden="false"
-                                                             aria-label="Previous Page"></i>
+                                type="button">
+                            <i class="plex-icon-hub-prev-560"></i>
                         </button>
-                        <button data-qa-id="hubNextButton" role="button"
+                        <button role="button" data-hubcell-action="next"
                                 class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO"
-                                type="button"><i class="plex-icon-hub-next-560" aria-hidden="false"
-                                                 aria-label="Next Page"></i></button>
+                                type="button">
+                            <i class="plex-icon-hub-next-560"></i>
                     </div>
                 </div>
                 <div style="height: 255px; overflow: hidden;">
                     <div class="Measure-container-2XznZ">
-                        <div class="VirtualListScroller-scroller-37EU_ Scroller-scroller-d5-b- Scroller-horizontal-1k8ET ">
-                            <div class=" " style="width: 3019px; height: 255px;">
+                        <div id="movies_list" class="VirtualListScroller-scroller-37EU_ Scroller-scroller-d5-b- Scroller-horizontal-1k8ET ">
+                            <div class=" " style="width: 4540px; height: 255px;">
                                 <?php if($movies) : ?>
                                 <?php
                                 $translate = -150;
@@ -236,6 +235,39 @@ $(function () {
             var movie_id = $(element).data('movie-id');
             $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 126 +'&height='+189+'")');
         }, (index + 1) * 100);
+    });
+    $('.HubCell-hubActions-28w1- button').on('click', function(){
+        var parent = $(this).closest('div[data-qa-id]');
+        var select = $(parent).data('qa-id');
+        var previous = $(parent).find('button[data-hubcell-action="previous"]');
+        var next = $(parent).find('button[data-hubcell-action="next"]');
+
+        if($(this).data('hubcell-action') === 'previous') {
+            $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() - 152 * 2}, 500);
+            setTimeout(function(){
+                if($('#' + select + '_list').scrollLeft() <= (150 * 19)) {
+                    $(next).removeClass('isDisabled');
+                }
+
+                if($('#' + select + '_list').scrollLeft() === 0) {
+                    $(previous).addClass('isDisabled');
+                }
+            }, 500);
+        }
+        if($(this).data('hubcell-action') === 'next') {
+            $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() + 152 * 2}, 500);
+            setTimeout(function(){
+                if($('#' + select + '_list').scrollLeft() > 0) {
+                    $(previous).removeClass('isDisabled');
+                }
+
+                console.log($('#' + select + '_list').scrollLeft());
+
+                if($('#' + select + '_list').scrollLeft() >= (150 * 19)) {
+                    $(next).addClass('isDisabled');
+                }
+            }, 500);
+        }
     });
 });
 </script>

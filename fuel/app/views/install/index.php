@@ -36,8 +36,8 @@
                                     <li><a class="card btn-gray selected" href="#checking">Configuration</a></li>
                                     <li><a class="card btn-gray" href="#SQL">Configuration SQL</a></li>
                                     <li><a class="card btn-gray" href="#create-table">Create Tables</a></li>
-                                    <li><a class="card btn-gray" href="#config-plex">Add plex server</a></li>
                                     <li><a class="card btn-gray" href="#admin">Create Admin Account</a></li>
+                                    <li><a class="card btn-gray" href="#config-plex">Add plex server</a></li>
                                 </ul>
                             </div>
                             <div class="col-sm-8 col-md-9">
@@ -283,51 +283,6 @@
                                         <span class="btn-label">Next ></span>
                                     </button>
                                 </div>
-                                <div id="config-plex" class="card-content hidden">
-                                    <div class="FormGroup-group-15o1H">
-                                        <form class="Page-page-aq7i_">
-                                            <div class="PageHeader-pageHeader-18RSw">
-                                                Plex information:
-                                            </div>
-                                            <div>
-                                                <label class="FormLabel-label-1sr1f " for="url">
-                                                    Plex URL:
-                                                </label>
-                                                <input id="url" name="url" placeholder="127.0.0.1"
-                                                       value="<?php echo isset($plex_url) ? $plex_url : ''; ?>"
-                                                       class="TextInput-input-34u_B input-input-2ol6B TextInput-large-3XjFh input-large-1cY_k"
-                                                       type="text">
-                                            </div>
-                                            <div>
-                                                <label class="FormLabel-label-1sr1f " for="port">
-                                                    Plex Port:
-                                                </label>
-                                                <input id="port" name="port" placeholder="3306"
-                                                       value="<?php echo isset($plex_port) ? $plex_port : ''; ?>"
-                                                       class="TextInput-input-34u_B input-input-2ol6B TextInput-large-3XjFh input-large-1cY_k"
-                                                       type="text">
-                                            </div>
-                                            <div>
-                                                <label class="FormLabel-label-1sr1f " for="token">
-                                                    Plex Token:
-                                                </label>
-                                                <input id="token" name="token" placeholder="YOURTOKEN"
-                                                       value="<?php echo isset($plex_token) ? $plex_token : ''; ?>"
-                                                       class="TextInput-input-34u_B input-input-2ol6B TextInput-large-3XjFh input-large-1cY_k"
-                                                       type="text">
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <button class="btn btn-lg btn-primary btn-loading col-sm-4"
-                                            onclick="check_plex()">
-                                        <span class="btn-label">Save it!</span>
-                                    </button>
-                                    <button class="btn btn-lg btn-link btn-loading col-sm-offset-8 col-sm-4 hidden"
-                                            type="button"
-                                            onclick="next()">
-                                        <span class="btn-label">Next ></span>
-                                    </button>
-                                </div>
                                 <div id="admin" class="card-content hidden">
                                     <div class="FormGroup-group-15o1H">
                                         <form class="Page-page-aq7i_">
@@ -376,6 +331,51 @@
                                             type="button"
                                             onclick="window.location.replace('/login');">
                                         <span class="btn-label">Finish!</span>
+                                    </button>
+                                </div>
+                                <div id="config-plex" class="card-content hidden">
+                                    <div class="FormGroup-group-15o1H">
+                                        <form class="Page-page-aq7i_">
+                                            <div class="PageHeader-pageHeader-18RSw">
+                                                Plex information:
+                                            </div>
+                                            <div>
+                                                <label class="FormLabel-label-1sr1f " for="url">
+                                                    Plex URL:
+                                                </label>
+                                                <input id="url" name="url" placeholder="127.0.0.1"
+                                                       value="<?php echo isset($plex_url) ? $plex_url : ''; ?>"
+                                                       class="TextInput-input-34u_B input-input-2ol6B TextInput-large-3XjFh input-large-1cY_k"
+                                                       type="text">
+                                            </div>
+                                            <div>
+                                                <label class="FormLabel-label-1sr1f " for="port">
+                                                    Plex Port:
+                                                </label>
+                                                <input id="port" name="port" placeholder="3306"
+                                                       value="<?php echo isset($plex_port) ? $plex_port : ''; ?>"
+                                                       class="TextInput-input-34u_B input-input-2ol6B TextInput-large-3XjFh input-large-1cY_k"
+                                                       type="text">
+                                            </div>
+                                            <div>
+                                                <label class="FormLabel-label-1sr1f " for="token">
+                                                    Plex Token:
+                                                </label>
+                                                <input id="token" name="token" placeholder="YOURTOKEN"
+                                                       value="<?php echo isset($plex_token) ? $plex_token : ''; ?>"
+                                                       class="TextInput-input-34u_B input-input-2ol6B TextInput-large-3XjFh input-large-1cY_k"
+                                                       type="text">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <button class="btn btn-lg btn-primary btn-loading col-sm-4"
+                                            onclick="check_plex()">
+                                        <span class="btn-label">Save it!</span>
+                                    </button>
+                                    <button class="btn btn-lg btn-link btn-loading col-sm-offset-8 col-sm-4 hidden"
+                                            type="button"
+                                            onclick="next()">
+                                        <span class="btn-label">Next ></span>
                                     </button>
                                 </div>
                             </div>
@@ -637,30 +637,6 @@
         document.getElementById('table').value = 'Please wait we are creating your tables!';
     }
 
-    function check_plex() {
-        var button = document.querySelector('#config-plex button');
-        var next = document.querySelector('#config-plex button.hidden');
-
-        var data = new FormData(document.querySelector('#config-plex form'));
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/rest/install/plex.json');
-
-        xhr.addEventListener('readystatechange', function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                var result = JSON.parse(xhr.responseText);
-                if(result.error === true) {
-                    show_alert('error', result.message);
-                } else {
-                    button.classList.add('hidden');
-                    next.classList.remove('hidden');
-                }
-            }
-        });
-
-        xhr.send(data);
-    }
-
     function create_admin() {
         var button = document.querySelector('#admin button');
         var next = document.querySelector('#admin button.hidden');
@@ -675,6 +651,30 @@
                 if(xhr.status === 500)
                     return show_alert('error', xhr.responseText);
 
+                var result = JSON.parse(xhr.responseText);
+                if(result.error === true) {
+                    show_alert('error', result.message);
+                } else {
+                    button.classList.add('hidden');
+                    next.classList.remove('hidden');
+                }
+            }
+        });
+
+        xhr.send(data);
+    }
+
+    function check_plex() {
+        var button = document.querySelector('#config-plex button');
+        var next = document.querySelector('#config-plex button.hidden');
+
+        var data = new FormData(document.querySelector('#config-plex form'));
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/rest/install/plex.json');
+
+        xhr.addEventListener('readystatechange', function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
                 var result = JSON.parse(xhr.responseText);
                 if(result.error === true) {
                     show_alert('error', result.message);

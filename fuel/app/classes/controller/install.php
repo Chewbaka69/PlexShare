@@ -2,6 +2,7 @@
 
 use Fuel\Core\Controller;
 use Fuel\Core\FuelException;
+use Fuel\Core\Response;
 use Fuel\Core\View;
 use Fuel\Core\Asset;
 
@@ -9,6 +10,11 @@ class Controller_Install extends Controller
 {
     public function action_index()
     {
+        $lock = Config::load('lock', true);
+
+        if($lock)
+            Response::redirect('/login');
+
         $view = View::forge('install/index');
 
         $js = Asset::js('plex_alert.js');

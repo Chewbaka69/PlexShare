@@ -397,37 +397,6 @@ class Controller_Rest_Install extends Controller_Rest
         }
     }
 
-    public function post_plex()
-    {
-        try {
-            $url = Input::post('url');
-
-            //@TODO CHECK AND REMOVE HTTP AND HTTPS
-
-            $port = Input::post('port');
-            $token = Input::post('token');
-
-            $curl = Request::forge('http://' . $url . ($port ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
-            $result = $curl->execute();
-
-            if(!$result)
-                throw new FuelException('Can not connect to your server!');
-
-            $server = Model_Server::forge();
-            $server->set([
-                'url'       => $url,
-                'port'      => $port,
-                'token'     => $token,
-                'lastcheck' => time()
-            ]);
-            $server->save();
-
-            return $this->response(array('error' => false));
-        } catch (FuelException $e) {
-            return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);
-        }
-    }
-
     public function post_admin()
     {
         try {
@@ -458,6 +427,39 @@ class Controller_Rest_Install extends Controller_Rest
             return $this->response(array('error' => false));
         } catch (Exception $e) {
             return $this->response(array('error' => true, 'message' => $e->getMessage()), 404);
+        }
+    }
+
+    public function post_plex()
+    {
+        try {
+            $url = Input::post('url');
+
+            //@TODO CHECK AND REMOVE HTTP AND HTTPS
+
+            $port = Input::post('port');
+            $token = Input::post('token');
+
+            $curl = Request::forge('http://' . $url . ($port ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
+            $result = $curl->execute();
+
+            if(!$result)
+                throw new FuelException('Can not connect to your server!');
+
+            $server = Model_Server::forge();
+            $server->set([
+                'url'       => $url,
+                'port'      => $port,
+                'token'     => $token,
+                'lastcheck' => time()
+            ]);
+            $server->save();
+
+            Config::save('lock', array('FUCK OFF!'));
+
+            return $this->response(array('error' => false));
+        } catch (FuelException $e) {
+            return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);
         }
     }
 }

@@ -44,13 +44,6 @@ class Model_Server extends Model_Overwrite
 
     //$curl = Request::forge('http://' . $config['main']['server'] . ':' . $config['main']['port'] . '/:/prefs?X-Plex-Token=' . $config['main']['token'], 'curl');
 
-    public function initialise()
-    {
-        $servers = Model_Server::find();
-
-        self::BrowseServeur($servers);
-    }
-
     /**
      * Browse the list of server registered
      * @param null $_servers

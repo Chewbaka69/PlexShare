@@ -1,27 +1,42 @@
 <div class="settings-container">
     <div class="filter-bar">
-        <button class="toggle-advanced-btn btn btn-sm Button-primary-2LQVw pull-left add"><i class="glyphicon circle-plus"></i></button>
+        <button class="toggle-advanced-btn btn btn-sm Button-primary-2LQVw pull-left add"
+                data-placement="top" data-toggle="tooltip" data-original-title="Add server"><i class="glyphicon circle-plus"></i></button>
         <button class="toggle-advanced-btn btn btn-sm btn-default pull-right refresh">Refresh Servers &nbsp;<i class="glyphicon refresh"></i></button>
     </div>
     <div class="devices-container row">
         <div class="device-list-container col-sm-12 col-md-12">
             <ul class="list card-tile-list">
+                <?php if($servers) : ?>
                 <?php foreach ($servers as $server) : ?>
                 <li class="card-tile-list-item card-2-col-item">
                     <div class="card card-device">
                         <img class="card-poster device-icon" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTEwIDExMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiNlNWEwMGQiIGQ9Im0wIDBoMTEwdjExMGgtMTEweiIvPjxwYXRoIGQ9Im0zMCA2MGMxNi41NjkgMCAzMC0xMy40MzEgMzAtMzAgMC0xNi41NjktMTMuNDMxLTMwLTMwLTMwLTE2LjU2OSAwLTMwIDEzLjQzMS0zMCAzMCAwIDE2LjU2OSAxMy40MzEgMzAgMzAgMzBtLS41NzEtNDguNzJsMTIuMTQ5IDE4Ljc0OS0xMi4xNSAxOC43NWgtNS41MDQtNS41MDR2LS4wMDRsMTIuMTQ3LTE4Ljc0Ni0xMi4xNDctMTguNzQ2di0uMDAyaDExLjAxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNSAyNSkiIGZpbGw9IiMxZjFmMWYiLz48L2c+PC9zdmc+">
                         <div class="card-actions">
-                            <button class="remove-device-btn card-action-btn btn-danger">
+                            <button class="edit-device-btn card-action-btn btn-info"
+                                    data-placement="top" data-toggle="tooltip" data-original-title="Refresh">
+                                <i class="glyphicon refresh"></i>
+                            </button>
+                            <button class="edit-device-btn card-action-btn"
+                                    data-placement="top" data-toggle="tooltip" data-original-title="Edit">
+                                <i class="glyphicon pencil"></i>
+                            </button>
+                            <button class="edit-device-btn card-action-btn btn-danger"
+                                    data-placement="top" data-toggle="tooltip" data-original-title="Disable">
+                                <i class="glyphicon ban"></i>
+                            </button>
+                            <button class="remove-libraries-btn card-action-btn btn-danger" data-server-id="<?php echo $server->id; ?>"
+                                    data-placement="top" data-toggle="tooltip" data-original-title="Delete">
                                 <i class="glyphicon remove-2"></i>
                             </button>
                         </div>
                         <h4 class="name"><?php echo $server->name; ?> <span data-placement="top" data-toggle="tooltip" data-original-title="<?php echo $server->online ? 'online' : 'offline' ; ?>" class="glyphicon <?php echo $server->online ? 'server text-success' : 'server-ban text-danger' ; ?>"></span></h4>
                         <div class="card-details">
                             <div class="pull-right">
-                                <div class="last-seen text-muted"><?php echo $server->getLastCheck(); ?></div>
+                                <div class="last-seen text-muted"><i class="plex-icon-watch-later-560"></i> <?php echo $server->getLastCheck(); ?></div>
                                 <span class="sync-info hidden">
                                     <span class="glyphicon circle-arrow-down sync-icon"></span>
-                                    <span class="sync-count">123</span> <span class="sync-size">123</span>
+                                    <span class="sync-count">123</span> / <span class="sync-size">456</span>
                                 </span>
                             </div>
                             <span class="version text-muted"><?php echo $server->version; ?></span>
@@ -37,6 +52,7 @@
                     </div>
                 </li>
                 <?php endforeach; ?>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
@@ -48,14 +64,45 @@
                 method: 'get',
                 url: '/rest/settings/add_server.json'
             }).done(function (data) {
-                $('body').append(data);
-                setTimeout(function() {
+                $('body').append(data).delay(100).queue(function() {
                     $('.media-server-modal').removeClass('out').addClass('in');
-                }, 100);
+                });
             });
         });
         $(document).on('click', '.media-server-modal button.close', function () {
-            $('.media-server-modal').remove();
+            $('.media-server-modal').removeClass('in').addClass('out').delay(500).queue(function(){ $(this).remove()});
+        });
+        $(document).on('click', '#add-plex button', function () {
+            var url = $('#add-plex #url').val();
+            var port = $('#add-plex #port').val();
+            var token = $('#add-plex #token').val();
+            $.ajax({
+                method: 'post',
+                url: '/rest/settings/server.json',
+                data: {url: url, port: port, token: token}
+            }).done(function (data) {
+                show_alert('success', 'Server save succesfully!');
+                $('.media-server-modal button.close').click();
+            }).fail(function (data) {
+                data = JSON.parse(data.responseText);
+                show_alert('error', data.message);
+                setTimeout(function(){location.reload()}, 200);
+            });
+        });
+        $(document).on('click', 'button.remove-device-btn', function () {
+            var button = this;
+            var server_id = $(this).data('server-id');
+            $.ajax({
+                method: 'delete',
+                url: '/rest/settings/server.json',
+                data: {server_id: server_id}
+            }).done(function (data) {
+                show_alert('success', 'Server delete succesfully!');
+                $(button).closest('li').get(0).remove();
+            }).fail(function (data) {
+                data = JSON.parse(data.responseText);
+                show_alert('error', data.message);
+            });
         });
     });
     // UPDATE DATA SERVER AND BROWSING

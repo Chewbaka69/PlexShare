@@ -11,6 +11,14 @@ use Fuel\Core\FuelException;
 
 class Controller_Login extends Controller
 {
+    public function before()
+    {
+        parent::before();
+        $user = Session::get('user');
+
+        if($user)
+            Response::redirect('/home');
+    }
 
     public function action_index()
     {

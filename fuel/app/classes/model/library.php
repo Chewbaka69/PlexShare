@@ -17,6 +17,34 @@ class Model_Library extends Model_Overwrite
         'disable'
     );
 
+    private $_server = null;
+
+    public function getServer()
+    {
+        if(!$this->_server)
+            $this->_server = Model_Server::find_by_pk($this->server_id);
+
+        return $this->_server;
+    }
+
+    public function getLastUpdate()
+    {
+        $dateString = date('Y/m/d H:i:s', time());
+        $now = new DateTime($dateString);
+
+        $dateString = date('Y-m-d H:i:s', $this->updatedAt);
+        $time = new DateTime($dateString);
+
+        $diff = date_diff($now, $time);
+
+        $days = $diff->days . 'd ';
+        $hours = $diff->h . 'h ';
+        $minutes = $diff->i . 'min ';
+        $seconds = $diff->s . 's';
+
+        return $days.$hours.$minutes.$seconds;
+    }
+
     /**
      * List all libraries and register it in database
      * @param $server

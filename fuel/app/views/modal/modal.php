@@ -5,11 +5,11 @@
                 <button type="button" class="close" data-dismiss="modal"><i class="glyphicon remove-2"></i></button>
                 <h4 class="modal-title"><i class="modal-icon glyphicon server-plus"></i> Add a new server</h4></div>
             <div class="modal-body modal-body-scroll dark-scrollbar">
-                <div id="config-plex" class="card-content">
+                <div id="add-plex" class="card-content">
                     <div class="FormGroup-group-15o1H">
                         <form class="Page-page-aq7i_" style="height: auto">
                             <div class="PageHeader-pageHeader-18RSw">
-                                Plex information:
+                                Plex server information:
                             </div>
                             <div>
                                 <label class="FormLabel-label-1sr1f " for="url">
@@ -40,14 +40,8 @@
                             </div>
                         </form>
                     </div>
-                    <button class="btn btn-lg btn-primary btn-loading col-sm-4"
-                            onclick="check_plex()">
+                    <button class="btn btn-lg btn-primary col-sm-4">
                         <span class="btn-label">Save it!</span>
-                    </button>
-                    <button class="btn btn-lg btn-link btn-loading col-sm-offset-8 col-sm-4 hidden"
-                            type="button"
-                            onclick="next()">
-                        <span class="btn-label">Next ></span>
                     </button>
                 </div>
             </div>

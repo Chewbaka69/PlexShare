@@ -4,8 +4,8 @@
         <div class="row">
             <div class="col-sm-4 col-md-3">
                 <ul class="settings-nav nav nav-cards">
-                    <li><a class="card btn-gray selected" href="#general-web-group">Général</a></li>
-                    <li><a class="card btn-gray" href="#quality-web-group">Qualité</a></li>
+                    <li><a class="card btn-gray selected" href="#general-web-group">General</a></li>
+                    <li><a class="card btn-gray" href="#quality-web-group">Sub Account</a></li>
                     <li class="advanced-setting"><a class="card btn-gray" href="#debug-web-group">Débogage</a></li>
                     <li><a class="card btn-gray" href="#player-web-group">Lecteur</a></li>
                 </ul>
@@ -14,50 +14,11 @@
                 <form id="web-settings-form">
                     <div id="general-web-group" class="settings-group active"><h4 class="version-title"> Version
                             3.41.1 </h4>
-                        <div class="form-group"><label for="language">Langue</label> <select id="language">
+                        <div class="form-group">
+                            <label for="language">Langue</label>
+                            <select id="language">
                                 <option value="en"> English</option>
-                                <option value="en-GB"> English (UK)</option>
-                                <option value="af"> Afrikaans</option>
-                                <option value="my"> Burmese</option>
-                                <option value="ca"> Català</option>
-                                <option value="cs"> čeština</option>
-                                <option value="sr"> српски језик</option>
-                                <option value="da"> Dansk</option>
-                                <option value="de"> Deutsch</option>
-                                <option value="et"> eesti</option>
-                                <option value="es"> Español</option>
-                                <option value="es-419"> Español (Latinoamérica)</option>
-                                <option value="el"> Ελληνικά</option>
                                 <option value="fr" selected=""> Français</option>
-                                <option value="fr-CA"> Français Canadien</option>
-                                <option value="hr"> hrvatski</option>
-                                <option value="is"> Íslenska</option>
-                                <option value="it"> Italiano</option>
-                                <option value="lt"> lietuvių kalba</option>
-                                <option value="hu"> Magyar</option>
-                                <option value="nl"> Nederlands</option>
-                                <option value="no"> Norsk</option>
-                                <option value="pl"> Polski</option>
-                                <option value="pt"> Português</option>
-                                <option value="pt-BR"> Português Brasileiro</option>
-                                <option value="ru"> русский язык</option>
-                                <option value="ro"> română</option>
-                                <option value="sk"> slovenčina</option>
-                                <option value="sl"> Slovenščina</option>
-                                <option value="fi"> Suomeksi</option>
-                                <option value="sv"> Svenska</option>
-                                <option value="vi"> Tiếng Việt</option>
-                                <option value="tr"> Türkçe</option>
-                                <option value="uk"> українська</option>
-                                <option value="bg"> български език</option>
-                                <option value="zh"> 中文</option>
-                                <option value="zh-TW"> 臺語</option>
-                                <option value="ja"> 日本語</option>
-                                <option value="ko"> 한국어</option>
-                                <option value="th"> ไทย</option>
-                                <option value="fa"> فارسی</option>
-                                <option value="ar"> العربية</option>
-                                <option value="he"> עברית</option>
                             </select>
                             <p class="help-block">Aidez-nous à traduire cette application dans votre langue <a
                                         href="https://transifex.com/plex-1/plex-web" target="_blank">ici</a>.</p>
