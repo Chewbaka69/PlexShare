@@ -45,6 +45,7 @@ class Controller_Settings extends Controller_Template
         });
 
         $body->set('servers', $servers);
+        $body->set('user', Session::get('user'));
 
         $this->template->body = $body;
     }
