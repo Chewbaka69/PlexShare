@@ -42,12 +42,12 @@
 - [ ] Management PlexServer
   - [x] List servers
   - [X] Add server
-  - [ ] Edit server
+  - [X] Edit server
   - [X] Disable Server
   - [X] Delete server
   - [ ] Check state and latence
 - [ ] Management Libraries
-  - [ ] List libraries
+  - [x] List libraries
   - [ ] Disable library
   - [ ] Add permition to library
   - [ ] Add permition to user
