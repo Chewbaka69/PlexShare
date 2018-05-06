@@ -41,7 +41,6 @@ class Controller_Settings extends Controller_Template
         $servers = Model_Server::find(function($query) use($user_id) {
             $query
                 ->where('user_id', $user_id)
-                ->and_where('disable', 0)
             ;
         });
 

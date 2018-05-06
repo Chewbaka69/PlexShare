@@ -27,9 +27,13 @@
         <div class="container">
             <ul class="nav nav-header pull-right">
                 <li class="web-nav-item"><a class="web-btn btn-gray" href="/settings">General</a></li>
-                <li class="server-nav-item "><a class="server-btn btn-gray" href="/settings/servers">Servers</a></li>
-                <li class="users-nav-item "><a class="users-btn btn-gray" href="/settings/libraries">Libraries<span class="badge hidden">0</span></a></li>
-                <li class="devices-nav-item "><a class="devices-btn btn-gray" href="/settings/users">Users</a></li>
+                <li class="server-nav-item "><a class="server-btn btn-gray" href="/settings/servers">My Servers<span class="badge">0</span></a></li>
+                <li class="users-nav-item "><a class="users-btn btn-gray" href="/settings/libraries">My Libraries<span class="badge">0</span></a></li>
+                <?php if($user->admin) : ?>
+                    <li class="server-nav-item "><a class="server-btn btn-gray" href="/admin/servers">All Servers<span class="badge">0</span></a></li>
+                    <li class="users-nav-item "><a class="users-btn btn-gray" href="/admin/libraries">All Libraries<span class="badge">0</span></a></li>
+                    <li class="devices-nav-item "><a class="devices-btn btn-gray" href="/admin/users">Users</a></li>
+                <?php endif; ?>
             </ul>
             <h2>Settings</h2>
             <?php echo $body; ?>

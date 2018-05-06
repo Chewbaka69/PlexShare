@@ -6,7 +6,19 @@ use Fuel\Core\Session;
 
 class Controller_Rest_Browse extends Controller_Rest
 {
-        public function get_servers()
+    public function get_server()
+    {
+        $servers = Model_Server::find(array(
+            'select' => array('id','name', 'url', 'port', 'token'),
+            'where' => array(
+                'id' => Input::get('server_id'),
+            )
+        ));
+
+        $this->response($servers);
+    }
+
+    public function get_servers()
     {
         $servers = Model_Server::find(array(
             'select' => array('id','name'),

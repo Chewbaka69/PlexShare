@@ -13,22 +13,24 @@
                     <div class="card card-device">
                         <img class="card-poster device-icon" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTEwIDExMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiNlNWEwMGQiIGQ9Im0wIDBoMTEwdjExMGgtMTEweiIvPjxwYXRoIGQ9Im0zMCA2MGMxNi41NjkgMCAzMC0xMy40MzEgMzAtMzAgMC0xNi41NjktMTMuNDMxLTMwLTMwLTMwLTE2LjU2OSAwLTMwIDEzLjQzMS0zMCAzMCAwIDE2LjU2OSAxMy40MzEgMzAgMzAgMzBtLS41NzEtNDguNzJsMTIuMTQ5IDE4Ljc0OS0xMi4xNSAxOC43NWgtNS41MDQtNS41MDR2LS4wMDRsMTIuMTQ3LTE4Ljc0Ni0xMi4xNDctMTguNzQ2di0uMDAyaDExLjAxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNSAyNSkiIGZpbGw9IiMxZjFmMWYiLz48L2c+PC9zdmc+">
                         <div class="card-actions">
-                            <button class="edit-device-btn card-action-btn btn-info"
+                            <button class="refresh-server-btn card-action-btn btn-info" data-server-id="<?php echo $server->id; ?>"
                                     data-placement="top" data-toggle="tooltip" data-original-title="Refresh">
                                 <i class="glyphicon refresh"></i>
                             </button>
-                            <button class="edit-device-btn card-action-btn"
+                            <button class="edit-server-btn card-action-btn" data-server-id="<?php echo $server->id; ?>"
                                     data-placement="top" data-toggle="tooltip" data-original-title="Edit">
                                 <i class="glyphicon pencil"></i>
                             </button>
-                            <button class="edit-device-btn card-action-btn btn-danger"
+                            <button class="disable-server-btn card-action-btn btn-danger" data-server-id="<?php echo $server->id; ?>"
                                     data-placement="top" data-toggle="tooltip" data-original-title="Disable">
                                 <i class="glyphicon ban"></i>
                             </button>
-                            <button class="remove-libraries-btn card-action-btn btn-danger" data-server-id="<?php echo $server->id; ?>"
+                            <?php if($user->admin) : ?>
+                            <button class="remove-server-btn card-action-btn btn-danger" data-server-id="<?php echo $server->id; ?>"
                                     data-placement="top" data-toggle="tooltip" data-original-title="Delete">
                                 <i class="glyphicon remove-2"></i>
                             </button>
+                            <?php endif; ?>
                         </div>
                         <h4 class="name"><?php echo $server->name; ?> <span data-placement="top" data-toggle="tooltip" data-original-title="<?php echo $server->online ? 'online' : 'offline' ; ?>" class="glyphicon <?php echo $server->online ? 'server text-success' : 'server-ban text-danger' ; ?>"></span></h4>
                         <div class="card-details">
@@ -64,9 +66,10 @@
                 method: 'get',
                 url: '/rest/settings/add_server.json'
             }).done(function (data) {
-                $('body').append(data).delay(100).queue(function() {
+                $('body').append(data);
+                setTimeout(function(){
                     $('.media-server-modal').removeClass('out').addClass('in');
-                });
+                },100);
             });
         });
         $(document).on('click', '.media-server-modal button.close', function () {
@@ -89,7 +92,44 @@
                 setTimeout(function(){location.reload()}, 200);
             });
         });
-        $(document).on('click', 'button.remove-device-btn', function () {
+        $('button.refresh-server-btn').on('click', function () {
+            var server_id = $(this).data('server-id');
+            ajax += 1;
+            checkAjax();
+            $.ajax({
+                method: 'get',
+                url: '/rest/browse/server.json',
+                data: {server_id: server_id}
+            }).done(function (data) {
+                updateServers(data);
+                ajax -= 1;
+                alert.toggleClass('transition-out');
+                alert_status.html('Browse all your server is GOOD!');
+            });
+        });
+        $('button.edit-server-btn').on('click', function () {
+            var server_id = $(this).data('server-id');
+            $.ajax({
+                method: 'get',
+                url: '/rest/settings/add_server.json'
+            }).done(function (modal) {
+                $.ajax({
+                    method: 'get',
+                    url: '/rest/browse/server.json',
+                    data: {server_id: server_id}
+                }).done(function (server) {
+                    $('body').append(modal);
+                    setTimeout(function(){
+                        $('#add-plex #server_id').val(server[0].id);
+                        $('#add-plex #url').val(server[0].url);
+                        $('#add-plex #port').val(server[0].port);
+                        $('#add-plex #token').val(server[0].token);
+                        $('.media-server-modal').removeClass('out').addClass('in');
+                    },100);
+                });
+            });
+        });
+        $(document).on('click', 'button.disable-server-btn', function () {
             var button = this;
             var server_id = $(this).data('server-id');
             $.ajax({
@@ -97,7 +137,7 @@
                 url: '/rest/settings/server.json',
                 data: {server_id: server_id}
             }).done(function (data) {
-                show_alert('success', 'Server delete succesfully!');
+                show_alert('success', 'Server disable succesfully!');
                 $(button).closest('li').get(0).remove();
             }).fail(function (data) {
                 data = JSON.parse(data.responseText);
@@ -105,7 +145,7 @@
             });
         });
     });
-    // UPDATE DATA SERVER AND BROWSING
+    // UPDATE ALL DATA SERVER AND BROWSING IT
     var ajax = 0;
     var alert = $('.alert.alert-status');
     var alert_status = $('.alert.alert-status .status');

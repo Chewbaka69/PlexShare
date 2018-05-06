@@ -18,12 +18,12 @@ class Controller_Rest_Settings extends Controller_Rest
     public function post_server()
     {
         try {
+            $server_id = Input::post('server_id');
             $url = Input::post('url');
-
-            //@TODO CHECK AND REMOVE HTTP AND HTTPS
-
             $port = Input::post('port');
             $token = Input::post('token');
+
+            //@TODO CHECK AND REMOVE HTTP AND HTTPS
 
             $curl = Request::forge('http://' . $url . ($port ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
             $result = $curl->execute();
@@ -31,7 +31,7 @@ class Controller_Rest_Settings extends Controller_Rest
             if(!$result)
                 throw new FuelException('Can not connect to your server!');
 
-            $server = Model_Server::forge();
+            $server = $server_id === null ? Model_Server::forge() : Model_Server::find_by_pk($server_id);
             $server->set([
                 'user_id'   => Session::get('user')->id,
                 'url'       => $url,

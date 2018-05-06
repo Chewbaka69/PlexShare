@@ -8,6 +8,7 @@
                 <div id="add-plex" class="card-content">
                     <div class="FormGroup-group-15o1H">
                         <form class="Page-page-aq7i_" style="height: auto">
+                            <input id="server_id" name="server_id" type="hidden">
                             <div class="PageHeader-pageHeader-18RSw">
                                 Plex server information:
                             </div>
