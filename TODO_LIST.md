@@ -45,7 +45,7 @@
   - [X] Edit server
   - [X] Disable Server
   - [X] Delete server
-  - [ ] Check state and latence
+  - [ ] Check state and latence (cron)
 - [ ] Management Libraries
   - [x] List libraries
   - [ ] Disable library
@@ -53,9 +53,6 @@
   - [ ] Add permition to user
 - [ ] Management User
   - [ ] Edit profil
-  - [ ] Add sub-account
-  - [ ] Edit sub-account
-  - [ ] Delete sub-account
 
 ## OTHER Version
 - [ ] Theme
@@ -69,6 +66,9 @@
 - [ ] Management PlexServer
   - [ ] Stream directly from PlexServer or use the site like a web-proxy [OTHER]
 - [ ] Management User
+  - [ ] Add sub-account [OTHER]
+  - [ ] Edit sub-account [OTHER]
+  - [ ] Delete sub-account [OTHER]
   - [ ] List of session [OTHER]
   - [ ] Ban IP [OTHER]
   - [ ] Delete Account [OTHER]
