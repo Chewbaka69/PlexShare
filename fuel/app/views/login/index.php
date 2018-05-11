@@ -9,7 +9,7 @@
     <link rel="shortcut icon"
           href="//assets.plex.tv/deploys/desktop/env-eb2798cc3c7d9533df5b563963d5c394/3.34.1-b51c37a/favicon.ico">
     <?php
-    echo \Fuel\Core\Asset::css(['normalize_login.css', 'plex_login.css']);
+    echo \Asset::css(['normalize_login.css', 'plex_login.css']);
     ?>
     <style type="text/css">
         body {

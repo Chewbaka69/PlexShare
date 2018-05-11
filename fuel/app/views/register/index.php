@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <?php
-        echo \Asset::css(['normalize.css', 'plex.css', 'plex.css']);
+        echo \Asset::css(['normalize_login.css', 'plex_login.css']);
     ?>
     <style type="text/css">
         .progress {
