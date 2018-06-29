@@ -48,7 +48,7 @@
   - [ ] Check state and latence (cron)
 - [ ] Management Libraries
   - [x] List libraries
-  - [ ] Disable library
+  - [x] Disable library
   - [ ] Add permition to library
   - [ ] Add permition to user
 - [ ] Management User
