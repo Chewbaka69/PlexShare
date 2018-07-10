@@ -31,7 +31,7 @@ With only one interface and without plex.tv registration, everybody can have acc
 - Video Player [Clappr](https://github.com/clappr/clappr) 
 
 # Preview
-Not at this time
+[SCREENSHOT](https://github.com/Chewbaka69/PlexShare/tree/master/screenshots)
 
 # Installation And Support
 Not at this time
