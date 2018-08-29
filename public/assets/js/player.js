@@ -55,32 +55,36 @@ function launchPlayer(view) {
                 $('.media-time').html(toHHMMSS(timeplay));
 
                 $('.SeekBar-seekBarFill-1Lcu0').css('transform', 'scaleX('+ percent +')');
-                $('.Slider-thumbTrack-21hGV').css('transform', 'translateX(-'+ (100.000000000 - (percent*100)) +'%)');
             }
         }
     });
 
+    /** EVENT PLAYER WHEN LOADED GET TOTATL TIME **/
     player.core.getCurrentContainer().on(Clappr.Events.CONTAINER_LOADEDMETADATA, function(metadata) {
         totaltime = metadata.duration;
     });
 
+    /** EVENT PLAYER TO GET CURRENT TIME **/
     player.core.getCurrentContainer().on(Clappr.Events.CONTAINER_PROGRESS, function(progress) {
         var buffer = progress.current / progress.total;
         $('.SeekBar-seekBarBuffer-3bUz9').css('transform', 'scaleX('+ buffer +')');
     });
 
+    /** PLAY CENTER **/
     $(document).on('click', 'button[role="playCenter"]', function () {
-        console.log('button');
         $('button[role="playCenter"]').hide();
         $(document).find('button[data-qa-id="resumeButton"] > i').toggleClass('plex-icon-player-play-560 plex-icon-player-pause-560');
         player.play();
     });
+    /** RESUME **/
     $(document).on('click', 'button[data-qa-id="resumeButton"]', function () {
+        console.log(player.isPlaying());
         if(!player.isPlaying())
-            $('#movie_id').click();
-        else
             $('button[role="playCenter"]').click();
+        else
+            player.pause();
     });
+    /** CLOSE **/
     $(document).on('click', '.AudioVideoPlayerControls-closeButton-2ULmA', function () {
         $('#divVideo').hide();
         player.destroy();
@@ -88,21 +92,25 @@ function launchPlayer(view) {
         clearTimeout(timeout);
         clearTimeout(buffered);
     });
+    /** FULLSCREEN **/
     $(document).on('click', '.FullPlayerTopControls-topButton-2iGrJ[data-qa-id="fullscreenButton"]', function () {
         if(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)
             exitFullScreen();
         else
             fullScreen();
     });
+    /** HOVER PLAYER, BUTTON CENTER AND NAVBAR SHOW NAVBAR **/
     $(document).on('mouseover', '#movie_id , button[role="playCenter"], .AudioVideoFullPlayer-topBar-2XUGM, .AudioVideoFullPlayer-bottomBar-2yixi', function (event) {
         clearTimeout(timeout);
         $('.AudioVideoFullPlayer-topBar-2XUGM').css('transform', 'translateY(60px)');
         $('.AudioVideoFullPlayer-bottomBar-2yixi').css('transform', 'translateY(-86px)');
     });
+    /** BUTTON CENTER AND NAVBAR HIDE NAVBAR **/
     $(document).on('mouseout', 'button[role="playCenter"], .AudioVideoFullPlayer-topBar-2XUGM, .AudioVideoFullPlayer-bottomBar-2yixi', function (event) {
         $('.AudioVideoFullPlayer-topBar-2XUGM').css('transform', '');
         $('.AudioVideoFullPlayer-bottomBar-2yixi').css('transform', '');
     });
+    /** MOUSE MOVE ON PLAYER KEEP VISIBLE NAVBAR **/
     $(document).on('mousemove', '#movie_id, button[role="playCenter"]', function () {
         $('button[role="playCenter"], #movie_id').css('cursor', 'pointer');
         $('button[role="playCenter"], .AudioVideoFullPlayer-topBar-2XUGM, .AudioVideoFullPlayer-bottomBar-2yixi').mouseover();
@@ -118,6 +126,7 @@ function launchPlayer(view) {
     });
 }
 
+// Enter full screen
 function fullScreen()
 {
     // check if user allows full screen of elements. This can be enabled or disabled in browser config. By default its enabled.
@@ -153,6 +162,7 @@ function fullScreen()
         console.log("User doesn't allow full screen");
     }
 }
+// Exit full screen
 function exitFullScreen() {
     $('button[data-qa-id="fullscreenButton"] i').get(0).setAttribute('class', 'plex-icon-player-fullscreen-560');
     if ("exitFullscreen" in document)
