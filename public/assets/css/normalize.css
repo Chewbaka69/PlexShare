@@ -10307,6 +10307,12 @@ a.card:focus, a.card:hover {
     font-size: 14px
 }
 
+.card.card-device.disabled {
+    background: rgba(255, 86, 86, 0.14);
+    opacity: 0.9;
+
+}
+
 .card-device .product {
     color: #bbb
 }
