@@ -73,9 +73,12 @@ class Model_Library extends Model_Overwrite
         foreach ($list_libraries as $index => $library) {
             $library = !isset($list_libraries['@attributes']) ? $library : $list_libraries;
 
-            $libraries_id_array[] = ['id' => $library['@attributes']['uuid'], 'name' => $library['@attributes']['title']];
-
             $new_library = Model_Library::find_by_pk($library['@attributes']['uuid']) ?: Model_Library::forge();
+
+            if(isset($new_library->disable) && $new_library->disable)
+                continue;
+
+            $libraries_id_array[] = ['id' => $library['@attributes']['uuid'], 'name' => $library['@attributes']['title']];
 
             $new_library->set(array(
                 'id'        => $library['@attributes']['uuid'],

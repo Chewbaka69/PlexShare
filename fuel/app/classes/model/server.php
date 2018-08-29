@@ -57,6 +57,9 @@ class Model_Server extends Model_Overwrite
 
         foreach ($servers as $server) {
 
+            if($server->disable)
+                continue;
+
                 $curl = Request::forge('http://' . $server->url . ($server->port? ':' . $server->port : '') . '/?X-Plex-Token=' . $server->token, 'curl');
             $curl->execute();
 

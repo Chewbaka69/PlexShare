@@ -1,5 +1,7 @@
 <?php
 
+use Fuel\Core\Config;
+use Fuel\Core\DB;
 use Fuel\Core\Request;
 use Fuel\Core\Cache;
 use Fuel\Core\CacheNotFoundException;
@@ -219,30 +221,33 @@ class Model_Movie extends Model_Overwrite
 
     public function getStreamUrl()
     {
-        if(!$this->_server)
-            $this->getServer();
+        try {
+            if (!$this->_server)
+                $this->getServer();
 
-        $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
-        //$curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&videoResolution=576x320&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
+            //$curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&videoResolution=576x320&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl->execute();
 
-        $curl->execute();
+            if ($curl->response()->status !== 200)
+                throw new FuelException('No session found!');
 
-        if ($curl->response()->status !== 200)
-            throw new FuelException('No session found!');
+            preg_match('/session\/[a-z0-9\-]+\/base\/index\.m3u8/', $curl->response()->body, $matches);
 
-        preg_match('/session\/[a-z0-9\-]+\/base\/index\.m3u8/', $curl->response()->body,$matches);
+            if (count($matches) <= 0)
+                throw new FuelException('No session found!');
 
-        if(count($matches) <= 0)
-            throw new FuelException('No session found!');
+            $split = preg_split('/\//', $matches[0]);
 
-        $split = preg_split('/\//', $matches[0]);
+            if (count($split) <= 0)
+                throw new FuelException('No session found!');
 
-        if(count($split) <= 0)
-            throw new FuelException('No session found!');
+            $this->_session = $split[1];
 
-        $this->_session = $split[1];
-
-        return 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
+            return 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
+        }catch (Exception $exception) {
+            throw new FuelException('TOKEN MAYBE OUTDATED',$exception->getCode());
+        }
     }
 
     /**
@@ -328,10 +333,12 @@ class Model_Movie extends Model_Overwrite
 
     public static function getThirtyLastedTvShows($server)
     {
-        return self::find(function ($query) use ($server) {
+        $conf = Config::get('db');
+
+        return self::find(function ($query) use ($server, $conf) {
             /** @var Database_Query_Builder_Select $query */
             return $query
-                ->select('movie.*')
+                ->select('movie.*', DB::expr('COUNT(' . $conf['default']['table_prefix'] . 'movie.type) AS count'))
                 ->join('season', 'LEFT')
                 ->on('movie.season_id', '=', 'season.id')
                 ->join('tvshow', 'LEFT')
@@ -343,6 +350,8 @@ class Model_Movie extends Model_Overwrite
                 ->where('server.id', $server->id)
                 ->and_where('movie.type', 'episode')
                 ->order_by('movie.addedAt', 'DESC')
+                ->order_by(DB::expr('MAX(' . $conf['default']['table_prefix'] .'movie.addedAt)'), 'DESC')//'movie.addedAt', 'DESC')
+                ->group_by('movie.season_id')
                 ->limit(30)
             ;
         });
