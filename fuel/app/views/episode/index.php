@@ -237,7 +237,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {
+    $(window).on('load', function() {
         $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
             event.stopPropagation();
             var movie_id = $(this).data('id');
@@ -253,10 +253,14 @@
             });
         });
         $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
-            setTimeout(function () {
-                var movie_id = $(element).data('movie-id');
-                $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 260 + '&height=' + 146 + '&thumb=true")');
-            }, (index + 1) * 100);
+            var movie_id = $(element).data('movie-id');
+            $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 325 + '&height=' + 183 + '&thumb=true")');
+
+            /** CHANGE BACKGROUND **/
+            var background = $('.background-container .FullPage-container-3qanw > div > div > div');
+            $(background).css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 325 +'&height='+ 488 +'&thumb=true")');
+            $(background).css('filter', 'blur(100px)');
+            $(background).css('opacity', '0.3');
         });
     });
 </script>

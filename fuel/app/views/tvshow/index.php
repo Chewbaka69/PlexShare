@@ -91,16 +91,18 @@
                                 </div>
                                 <div class="PrePlayRightTitle-rightTitle-VxiwU">
                                     <span>
-                                        <?php foreach ($tvshow->metadata['Genre'] as $genre) : ?>
-                                            <?php $genre = isset($tvshow->metadata['Genre']['@attributes']) ? $tvshow->metadata['Genre'] : $genre; ?>
-                                            <span>
-                                                <a href="#" role="link"
-                                                   class="PrePlayTagList-tagsListLink-Z6lfX Link-link-2XYrU Link-link-2XYrU Link-default-32xSO"><?php echo $genre['@attributes']['tag']; ?></a>,
-                                            </span>
-                                            <?php if (isset($tvshow->metadata['Genre']['@attributes'])) {
-                                                break;
-                                            } ?>
-                                        <?php endforeach; ?>
+                                        <?php if(isset($tvshow->metadata['Genre'])) :?>
+                                            <?php foreach ($tvshow->metadata['Genre'] as $genre) : ?>
+                                                <?php $genre = isset($tvshow->metadata['Genre']['@attributes']) ? $tvshow->metadata['Genre'] : $genre; ?>
+                                                <span>
+                                                    <a href="#" role="link"
+                                                       class="PrePlayTagList-tagsListLink-Z6lfX Link-link-2XYrU Link-link-2XYrU Link-default-32xSO"><?php echo $genre['@attributes']['tag']; ?></a>,
+                                                </span>
+                                                <?php if (isset($tvshow->metadata['Genre']['@attributes'])) {
+                                                    break;
+                                                } ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </span>
                                 </div>
                             </div>
@@ -159,7 +161,7 @@
                                         <div class="MetadataPosterCard-cardContainer-2gRcQ"
                                              data-qa-id="metadataPosterCard--/library/metadata/28083">
                                             <div class="MetadataPosterCard-card-3bztR "
-                                                 style="width: 122px; height: 183px;">
+                                                 style="width: 137px; height: 206px;">
                                                 <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
                                                     <div class="PosterCardImg-imageContainer-1Ar4M" data-season-id="<?php echo $season->id; ?>">
                                                         <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
@@ -226,18 +228,20 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {
+    $(window).on('load', function() {
         $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]').each(function (index, element) {
-            setTimeout(function () {
-                var tvshow_id = $(element).data('tvshow-id');
-                $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', 'url("/cover/tvshow?tvshow_id=' + tvshow_id + '&width=' + 260 + '&height=' + 390 + '")');
-            }, (index + 1) * 100);
+            var tvshow_id = $(element).data('tvshow-id');
+            $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', 'url("/cover/tvshow?tvshow_id=' + tvshow_id + '&width=' + 325 + '&height=' + 488 + '")');
+
+            /** CHANGE BACKGROUND **/
+            var background = $('.background-container .FullPage-container-3qanw > div > div > div');
+            $(background).css('background-image', 'url("/cover/tvshow?tvshow_id='+ tvshow_id +'&width='+ 325 +'&height='+ 488 +'")');
+            $(background).css('filter', 'blur(100px)');
+            $(background).css('opacity', '0.3');
         });
         $('.PosterCardImg-imageContainer-1Ar4M[data-season-id]').each(function (index, element) {
-            setTimeout(function () {
-                var season_id = $(element).data('season-id');
-                $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id=' + season_id + '&width=' + 126 + '&height=' + 189 + '")');
-            }, (index + 1) * 100);
+            var season_id = $(element).data('season-id');
+            $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id=' + season_id + '&width=' + 179 + '&height=' + 258 + '")');
         });
     });
 </script>

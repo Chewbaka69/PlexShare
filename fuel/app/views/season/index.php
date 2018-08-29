@@ -126,7 +126,7 @@
                                                     </div>
                                                     <div class=" MetadataPosterCardOverlay-overlay-1uMpL">
                                                         <div class="MetadataPosterCardOverlay-background-2EwyB"></div>
-                                                        <a href="/movie/<?php echo $episode->id; ?>"
+                                                        <a href="/episode/<?php echo $episode->id; ?>"
                                                            role="link"
                                                            class="MetadataPosterCardOverlay-link-1Swhl Link-link-2XYrU Link-default-32xSO      "></a>
                                                         <button tabindex="-1" role="button" data-id="<?php echo $episode->id; ?>"
@@ -158,7 +158,7 @@
                                         </div>
                                         <div data-qa-id="metadataTitleContainer"
                                              class="MetadataPosterCell-titleContainer-24DI6">
-                                            <a title="<?php echo $episode->title; ?>" href="/movie/<?php echo $episode->id; ?>"
+                                            <a title="<?php echo $episode->title; ?>" href="/tvshow/<?php echo $episode->id; ?>"
                                                     role="link" style="width: 192px;"
                                                     class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
                                                 <?php echo $episode->title; ?>
@@ -188,7 +188,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {
+    $(window).on('load', function() {
         $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
             event.stopPropagation();
             var movie_id = $(this).data('id');
@@ -205,15 +205,17 @@
         });
     });
     $('.PosterCardImg-imageContainer-1Ar4M[data-season-id]').each(function (index, element) {
-        setTimeout(function () {
-            var season_id = $(element).data('season-id');
-            $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id='+ season_id +'&width='+ 260 +'&height='+ 390 +'")');
-        }, (index + 1) * 100);
+        var season_id = $(element).data('season-id');
+        $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id='+ season_id +'&width='+ 338 +'&height='+ 488 +'")');
+
+        /** CHANGE BACKGROUND **/
+        var background = $('.background-container .FullPage-container-3qanw > div > div > div');
+        $(background).css('background-image', 'url("/cover/season?season_id='+ season_id +'&width='+ 325 +'&height='+ 488 +'")');
+        $(background).css('filter', 'blur(100px)');
+        $(background).css('opacity', '0.3');
     });
     $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
-        setTimeout(function () {
-            var movie_id = $(element).data('movie-id');
-            $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 192 +'&height='+ 108 +'&thumb=true")');
-        }, (index + 1) * 100);
+        var movie_id = $(element).data('movie-id');
+        $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 240 +'&height='+ 135 +'&thumb=true")');
     });
 </script>
