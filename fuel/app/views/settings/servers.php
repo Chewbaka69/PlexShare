@@ -64,7 +64,7 @@
         $('.filter-bar .add').on('click', function () {
             $.ajax({
                 method: 'get',
-                url: '/rest/settings/add_server.json'
+                url: '/rest/settings/modal_server.json'
             }).done(function (data) {
                 $('body').append(data);
                 setTimeout(function(){
@@ -75,14 +75,16 @@
         $(document).on('click', '.media-server-modal button.close', function () {
             $('.media-server-modal').removeClass('in').addClass('out').delay(500).queue(function(){ $(this).remove()});
         });
+        // ADD OR EDIT SERVER
         $(document).on('click', '#add-plex button', function () {
+            var server_id = $('#add-plex #server_id').val();
             var url = $('#add-plex #url').val();
             var port = $('#add-plex #port').val();
             var token = $('#add-plex #token').val();
             $.ajax({
                 method: 'post',
                 url: '/rest/settings/server.json',
-                data: {url: url, port: port, token: token}
+                data: {server_id: server_id, url: url, port: port, token: token}
             }).done(function (data) {
                 show_alert('success', 'Server save succesfully!');
                 $('.media-server-modal button.close').click();
@@ -92,6 +94,7 @@
                 setTimeout(function(){location.reload()}, 200);
             });
         });
+        // SERVER BUTTON ACTION
         $('button.refresh-server-btn').on('click', function () {
             var server_id = $(this).data('server-id');
             ajax += 1;
@@ -111,7 +114,7 @@
             var server_id = $(this).data('server-id');
             $.ajax({
                 method: 'get',
-                url: '/rest/settings/add_server.json'
+                url: '/rest/settings/modal_server.json'
             }).done(function (modal) {
                 $.ajax({
                     method: 'get',
@@ -129,7 +132,7 @@
                 });
             });
         });
-        $(document).on('click', 'button.disable-server-btn', function () {
+        $('button.disable-server-btn').on('click', function () {
             var button = this;
             var server_id = $(this).data('server-id');
             $.ajax({
@@ -144,18 +147,14 @@
                 show_alert('error', data.message);
             });
         });
-    });
-    // UPDATE ALL DATA SERVER AND BROWSING IT
-    var ajax = 0;
-    var alert = $('.alert.alert-status');
-    var alert_status = $('.alert.alert-status .status');
-    $(function() {
+
+        // REFRESH ALL SERVER
         $('.filter-bar .refresh').on('click', function () {
             ajax += 1;
             checkAjax();
             $.ajax({
                 method: 'get',
-                url: '/rest/browse/servers.json'
+                url: '/rest/browse/my_servers.json'
             }).done(function (data) {
                 updateServers(data);
                 ajax -= 1;
@@ -164,109 +163,4 @@
             });
         });
     });
-    function updateServers(servers) {
-        $(servers).each(function (index,server) {
-            ajax += 1;
-            setTimeout(function () {
-                alert_status.html('Browsing server ' + server.name);
-                $.ajax({
-                    method: 'put',
-                    url: '/rest/browse/server.json',
-                    data: {server_id: server.id}
-                }).done(function (data) {
-                    updateLibraries(server);
-                    ajax -= 1;
-                });
-            }, (index + 1) * 1000);
-        });
-    }
-    function updateLibraries(server) {
-        ajax += 1;
-        alert_status.html('Getting all libraries on server ' + server.name);
-        $.ajax({
-            method: 'get',
-            url: '/rest/browse/libraries.json',
-            data: {server_id: server.id}
-        }).done(function (data) {
-            updateContentLibraries(server, data.libraries);
-            ajax -= 1;
-        });
-    }
-    function updateContentLibraries(server, libaries) {
-        $(libaries).each(function (index,library) {
-            ajax += 1;
-            setTimeout(function () {
-                alert_status.html('Browsing library ' + library.name + ' on server ' + server.name);
-                $.ajax({
-                    method: 'get',
-                    url: '/rest/browse/subcontent.json',
-                    data: {server_id: server.id, library_id: library.id}
-                }).done(function (data) {
-                    if(data.movies !== undefined) {
-                        updateMovies(server, data.movies, library, null);
-                    }
-                    if(data.tvshows !== undefined) {
-                        updateTvShows(server, data.tvshows);
-                    }
-                    ajax -= 1;
-                });
-            }, (index + 1) * 1000);
-        });
-    }
-    function updateTvShows(server, tvshows) {
-        $(tvshows).each(function (index,tvshow) {
-            ajax += 1;
-            setTimeout(function () {
-                alert_status.html('Browsing TV Show ' + tvshow.name + ' on server ' + server.name);
-                $.ajax({
-                    method: 'get',
-                    url: '/rest/browse/seasons.json',
-                    data: {server_id: server.id, tvshow_id: tvshow.id}
-                }).done(function (data) {
-                    updateSeasons(server, tvshow, data.seasons);
-                    ajax -= 1;
-                });
-            }, (index + 1) * 1000);
-        });
-    }
-    function updateSeasons(server, tvshow, seasons) {
-        $(seasons).each(function (index,season) {
-            ajax += 1;
-            setTimeout(function () {
-                alert_status.html('Browsing ' + season.name + ' ' + tvshow.name + ' on server ' + server.name);
-                $.ajax({
-                    method: 'get',
-                    url: '/rest/browse/movies.json',
-                    data: {server_id: server.id, season_id: season.id}
-                }).done(function (data) {
-                    updateMovies(server, data.movies, null, season);
-                    ajax -= 1;
-                });
-            }, (index + 1) * 1000);
-        });
-    }
-    function updateMovies(server, movies, library, season) {
-        /*$(movies).each(function (index,movie) {
-            setTimeout(function () {
-                alert_status.html('Browsing movie ' + movie.name + ' on server ' + server.name);
-                $.ajax({
-                    method: 'get',
-                    url: '/rest/browse/movies.json',
-                    data: {server_id: server.id, season_id: season.id}
-                }).done(function (data) {
-                    updateMovies(server, data.movies, null, season);
-                    ajax -= 1;
-                });
-            }, (index + 1) * 1000);
-        });*/
-    }
-    function checkAjax() {
-        var interval = setInterval(function () {
-            if(ajax === 0) {
-                clearInterval(interval);
-                alert_status.html('Browsing servers is finished!');
-                alert.delay(1000).toggleClass('transition-out');
-            }
-        }, 1000);
-    }
 </script>

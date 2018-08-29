@@ -50,6 +50,11 @@ class Controller_Register extends Controller
                     'admin'     => 0,
                     'lastlogin' => time()
                 ));
+
+                $user->save();
+
+                Session::set('user', $user);
+                Response::redirect('/home');
             }
         } catch (FuelException $e) {
             $view->set('error', $e->getMessage());

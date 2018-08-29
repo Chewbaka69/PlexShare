@@ -1,7 +1,6 @@
 <?php
 
 use Fuel\Core\Controller_Rest;
-use Fuel\Core\Response;
 use Fuel\Core\View;
 use Fuel\Core\FuelException;
 
@@ -23,6 +22,6 @@ class Controller_Rest_Movie extends Controller_Rest
 
         $view->set('movie', $movie);
 
-        return new Response($view);
+        return $this->response($view->render());
     }
 }

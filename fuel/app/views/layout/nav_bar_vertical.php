@@ -31,7 +31,7 @@
                                 <div class="SidebarLink-icon-3AlP8">
                                     <i class="plex-icon-movies-560"
                                        aria-hidden="true"></i></div>
-                                <div class="SidebarLink-title-7WfGt">List movies</div>
+                                <div class="SidebarLink-title-7WfGt">All movies</div>
                             </div>
                         </a>
                     </div>

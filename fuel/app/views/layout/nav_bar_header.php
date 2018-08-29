@@ -42,7 +42,7 @@
                     <li class="divider"></li>
                     <li class="signed-in-item switch-user-item"><a class="switch-user-btn" href="#">Switch User...</a></li>
                 <?php endif; ?>
-                <li class="signed-in-item full-user-item"><a class="sign-out-btn" href="#">Sign Out</a></li>
+                <li class="signed-in-item full-user-item"><a class="sign-out-btn" href="/logout">Sign Out</a></li>
             </ul>
         </li>
     </ul>

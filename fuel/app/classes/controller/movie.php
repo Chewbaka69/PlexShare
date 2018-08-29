@@ -19,13 +19,7 @@ class Controller_Movie extends Controller_Home
 
         $movie->getMetaData();
 
-        $body = null;
-
-        if($movie->type === 'movie')
-            $body = View::forge('movie/movie');
-        else if($movie->type === 'episode')
-            $body = View::forge('movie/episode');
-
+        $body = View::forge('movie/index');
         $body->set('movie', $movie);
 
         $this->template->body = $body;

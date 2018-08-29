@@ -17,14 +17,13 @@ class Controller_Library extends Controller_Home
         if(!$library)
             Response::redirect('/home');
 
-        $body = null;
+        $body = View::forge('libraries/list');
+
         $content = null;
 
         if($library->type === 'movie') {
-            $body = View::forge('movie/list');
             $content = Model_Movie::find_by('library_id', $library->id);
         } else if($library->type === 'show') {
-            $body = View::forge('movie/list');
             $content = Model_Tvshow::find_by('library_id', $library->id);
         }
 

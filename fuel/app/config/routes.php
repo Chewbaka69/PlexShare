@@ -8,5 +8,7 @@ return array(
     'library/:library_id' => 'library/index',
     'tvshow/:tvshow_id' => 'tvshow/index',
     'season/:season_id' => 'season/index',
-    'movie/:movie_id'   => 'movie/index'
+    'episode/:episode_id' => 'episode/index',
+    'movie/:movie_id'   => 'movie/index',
+    'settings/libraries/premissions/:library_id'   => 'settings/libraries/permissions'
 );

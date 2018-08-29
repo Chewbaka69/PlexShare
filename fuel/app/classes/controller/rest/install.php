@@ -259,6 +259,23 @@ class Controller_Rest_Install extends Controller_Rest
             );
             $logs .= 'Permission table create!'."\r\n";
 
+            $logs .= 'Creation table libraries permission'."\r\n";
+            /**
+             * CREATE TABLE USER'S PERMISSION
+             */
+            DBUtil::create_table(
+                'libraries_permission',
+                array(
+                    'id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'permission_id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'library_id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'value' => array('constraint' => 36, 'type' => 'varchar'),
+                    'disable' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
+                ),
+                array('id'), false, 'InnoDB', 'utf8_unicode_ci'
+            );
+            $logs .= 'Libraries Permission table create!'."\r\n";
+
             $logs .= 'Creation table user permission'."\r\n";
             /**
              * CREATE TABLE USER'S PERMISSION
@@ -269,7 +286,8 @@ class Controller_Rest_Install extends Controller_Rest
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
                     'permission_id' => array('constraint' => 36, 'type' => 'varchar'),
                     'user_id' => array('constraint' => 36, 'type' => 'varchar'),
-                    'library_id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'library_id' => array('constraint' => 36, 'type' => 'varchar', 'null' => true),
+                    'value' => array('constraint' => 36, 'type' => 'varchar'),
                     'disable' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
@@ -336,8 +354,48 @@ class Controller_Rest_Install extends Controller_Rest
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
             ));
+            DBUtil::add_foreign_key('libraries_permission', array(
+                'constraint' => 'constraintPermissionLibrariesPermission',
+                'key' => 'permission_id',
+                'reference' => array(
+                    'table' => 'permission',
+                    'column' => 'id',
+                ),
+                'on_update' => 'NO ACTION',
+                'on_delete' => 'NO ACTION',
+            ));
+            DBUtil::add_foreign_key('libraries_permission', array(
+                'constraint' => 'constraintLibraryLibrariesPermission',
+                'key' => 'library_id',
+                'reference' => array(
+                    'table' => 'permission',
+                    'column' => 'id',
+                ),
+                'on_update' => 'NO ACTION',
+                'on_delete' => 'NO ACTION',
+            ));
             DBUtil::add_foreign_key('user_permission', array(
-                'constraint' => 'constraintLibraryPermission',
+                'constraint' => 'constraintPermissionUserPermission',
+                'key' => 'permission_id',
+                'reference' => array(
+                    'table' => 'permission',
+                    'column' => 'id',
+                ),
+                'on_update' => 'NO ACTION',
+                'on_delete' => 'NO ACTION',
+            ));
+            DBUtil::add_foreign_key('user_permission', array(
+                'constraint' => 'constraintUserUserPermission',
+                'key' => 'user_id',
+                'reference' => array(
+                    'table' => 'user',
+                    'column' => 'id',
+                ),
+                'on_update' => 'NO ACTION',
+                'on_delete' => 'NO ACTION',
+            ));
+            DBUtil::add_foreign_key('user_permission', array(
+                'constraint' => 'constraintLibraryUserPermission',
                 'key' => 'library_id',
                 'reference' => array(
                     'table' => 'library',
@@ -387,6 +445,7 @@ class Controller_Rest_Install extends Controller_Rest
         }catch (FuelException $e) {
             DBUtil::drop_table('user_watching');
             DBUtil::drop_table('user_permission');
+            DBUtil::drop_table('libraries_permission');
             DBUtil::drop_table('permission');
             DBUtil::drop_table('library');
             DBUtil::drop_table('server');

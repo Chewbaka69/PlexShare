@@ -8,17 +8,48 @@ class Controller_Rest_Browse extends Controller_Rest
 {
     public function get_server()
     {
-        $servers = Model_Server::find(array(
-            'select' => array('id','name', 'url', 'port', 'token'),
-            'where' => array(
-                'id' => Input::get('server_id'),
-            )
-        ));
+        if(!Session::get('user')->admin) {
+            $server = Model_Server::find(array(
+                'select' => array('id', 'name', 'url', 'port', 'token'),
+                'where' => array(
+                    'id' => Input::get('server_id'),
+                    'user_id' => Session::get('user')->id
+                )
+            ));
+        } else {
+            $server = Model_Server::find(array(
+                'select' => array('id', 'name', 'url', 'port', 'token'),
+                'where' => array(
+                    'id' => Input::get('server_id')
+                )
+            ));
+        }
 
-        $this->response($servers);
+        if(!$server)
+            $this->response(array('error' => true, 'message' => 'No server found!'));
+
+        $this->response($server);
     }
 
-    public function get_servers()
+    public function get_library()
+    {
+        $library = Model_Library::find_one_by(function($query) {
+            $query
+                ->select('library.*', 'server.id as server_id', 'server.name as server_name')
+                ->join('server', 'LEFT')
+                ->on('server.id', '=','library.server_id' )
+                ->where('server.user_id', Session::get('user')->id)
+                ->and_where('server.disable', 0)
+            ;
+        });
+
+        if(!$library)
+            $this->response(array('error' => true, 'message' => 'No server found!'));
+
+        $this->response($library);
+    }
+
+    public function get_my_servers()
     {
         $servers = Model_Server::find(array(
             'select' => array('id','name'),

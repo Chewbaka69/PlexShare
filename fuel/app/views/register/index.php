@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <?php
-        echo \Asset::css(['normalize_login.css', 'plex_login.css']);
+        echo \Asset::css(['normalize_login.css', 'normalize.css', 'plex_login.css']);
     ?>
     <style type="text/css">
         .progress {
@@ -57,8 +57,8 @@
     <?php echo $start_js; ?>
 </head>
 <body>
-<div id="plex" class="application">
-    <div data-reactroot="" class="hcfliu">
+<div id="plex">
+    <div>
         <div class="_1uBGxd">
             <div class="_1uBGxd"
                  style="background-image: url('//assets.plex.tv/deploys/service-auth/env-648be0c1b2073a057d6c7eec3633dee2/3.34.0-9beaaa2/common/img/backgrounds/preset-dark.64cc1c942221cd2c153244bd8ecfb67a.png'); background-size: 100% 100%;"></div>
@@ -74,29 +74,29 @@
                     </div>
                     <div class="_2zl_7T">
                         <form method="post" action="" class="_19Nqmf">
-                            <div class="_192KBC _15o1H4"><label class="_3XRky5 _1sr1fk " for="email">
+                            <div class="_192KBC Gtcqpe"><label class="_3XRky5 _2aLJ9b" for="email">
                                     Email address</label><input
                                         autocomplete="email" id="email" name="email" value=""
-                                        class="_3fC-K0 _34u_B5 _2ol6Bk _3XjFhj _1cY_kb  " type="text"></div>
-                            <div class="_192KBC _15o1H4"><label class="_3XRky5 _1sr1fk " for="username">
+                                        class="_3fC-K0 _1VMuma _1P2Vi4 _2sz70T _3wNGTy" type="text"></div>
+                            <div class="_192KBC Gtcqpe"><label class="_3XRky5 _1sr1fk " for="username">
                                     Username </label><input
                                         autocomplete="username" id="username" name="username" value=""
-                                        class="_3fC-K0 _34u_B5 _2ol6Bk _3XjFhj _1cY_kb  " type="text"></div>
-                            <div class="_1jIT2S _192KBC _15o1H4" style="display: block"><label class="_2EAOvR _3XRky5 _1sr1fk " for="password">
+                                        class="_3fC-K0 _1VMuma _1P2Vi4 _2sz70T _3wNGTy" type="text"></div>
+                            <div class="_1jIT2S Gtcqpe" style="display: block"><label class="_2EAOvR _3XRky5 _2aLJ9b " for="password">
                                     Create password</label><input
                                         autocomplete="new-password" id="password" name="password" value=""
                                         placeholder="8 characters minimum"
-                                        class="_2rbSul _3fC-K0 _34u_B5 _2ol6Bk _3XjFhj _1cY_kb  " type="password"></div>
-                            <div class="_1jIT2S _192KBC _15o1H4"><label class="_2EAOvR _3XRky5 _1sr1fk "
+                                        class="_2rbSul _3fC-K0 _1VMuma _1P2Vi4 _2sz70T _3wNGTy" type="password"></div>
+                            <div class="_1jIT2S Gtcqpe"><label class="_2EAOvR _3XRky5 _2aLJ9b"
                                                                         for="confirm_password">
                                     Confirm password</label><input
                                         autocomplete="new-password" id="confirm_password" name="confirm_password"
                                         value=""
                                         placeholder="8 characters minimum"
-                                        class="_2rbSul _3fC-K0 _34u_B5 _2ol6Bk _3XjFhj _1cY_kb  " type="password"></div>
+                                        class="_2rbSul _3fC-K0 _1VMuma _1P2Vi4 _2sz70T _3wNGTy" type="password"></div>
                             <button type="submit" role="button"
-                                    class="_1SYIVj _1I3Olm _3WowHb -JvPIU _2XYrUh _15Al1k _3WowHb -JvPIU _2XYrUh  -JvPIU _2XYrUh _2LQVwf _15Al1k _2XYrUh _32xSOV      ">
-                                <span class="_2OI9vT"><div class="_2SDDZK _290-oo _2Ou6VM _2WAWjh _290-oo _2Ou6VM"
+                                    class="_1SYIVj _1I3Olm _1A8EcL _2kT68l _2n0yJn _3S9UdJ _1A8EcL _2kT68l _2n0yJn  _2kT68l _2n0yJn _3fwLzo _3S9UdJ _2n0yJn _2XA2bN">
+                                <span class="_1NdZWc"><div class="_1TgDPI Niere7 _2kLwt_ _3PStHE Niere7 _2kLwt_"
                                                            aria-label="Loading"></div></span><span class="_1Rv20d">Create an account</span>
                             </button>
                         </form>

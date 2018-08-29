@@ -1,7 +1,6 @@
 <?php
 
 use Fuel\Core\Controller_Template;
-use Fuel\Core\DB;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Fuel\Core\View;
@@ -32,7 +31,7 @@ class Controller_Settings extends Controller_Template
 
     public function action_servers()
     {
-        $this->template->js_bottom = ['plex_alert.js'];
+        $this->template->js_bottom = ['plex_alert.js', 'server_refresh.js'];
 
         $body = View::forge('settings/servers');
 
@@ -46,27 +45,6 @@ class Controller_Settings extends Controller_Template
 
         $body->set('servers', $servers);
         $body->set('user', Session::get('user'));
-
-        $this->template->body = $body;
-    }
-
-    public function action_libraries()
-    {
-        $body = View::forge('settings/libraries');
-
-        $user_id = Session::get('user')->id;
-
-        $libraries = Model_Library::find(function($query) use($user_id) {
-            $query
-                ->select('library.*')
-                ->join('server', 'LEFT')
-                ->on('server.id', '=','library.server_id' )
-                ->where('server.user_id', $user_id)
-                ->and_where('server.disable', 0)
-            ;
-        });
-
-        $body->set('libraries', $libraries);
 
         $this->template->body = $body;
     }

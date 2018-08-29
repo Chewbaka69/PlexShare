@@ -48,7 +48,7 @@
     </div>
 </div>
 <div class="MetadataListPageContent-metadataListPageContent-s56y9 PageContent-pageContent-16mK6">
-    <div class="MetadataListPageContent-metadataListScroller-1uFgY MetadataListPageContent-hasGutter-1EfyE Scroller-scroller-d5-b- Scroller-vertical-1bgGS ">
+    <div class="MetadataListPageContent-metadataListScroller-1uFgY Scroller-scroller-d5-b- Scroller-vertical-1bgGS ">
         <div class=" " style="width: 100%; height: auto;">
             <?php foreach ($movies as $movie) : ?>
                 <div class=" virtualized-cell-3KPHx " data-qa-id="cellItem"
@@ -57,7 +57,13 @@
                          data-qa-id="metadataPosterCard--/library/metadata/1">
                         <div class="MetadataPosterCard-card-3bztR " style="width: 126px; height: 189px;">
                             <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
-                                <div class="PosterCardImg-imageContainer-1Ar4M" data-movie-id="<?php echo $movie->id; ?>">
+                                <div class="PosterCardImg-imageContainer-1Ar4M"
+                                    <?php if(get_class($movie) === Model_Movie::class) : ?>
+                                        data-movie-id="<?php echo $movie->id; ?>"
+                                    <?php elseif(get_class($movie) === Model_Tvshow::class) : ?>
+                                        data-tvshow-id="<?php echo $movie->id; ?>"
+                                    <?php endif; ?>
+                                >
                                     <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                          class=""></div>
                                 </div>
@@ -67,7 +73,12 @@
                                          data-qa-id="metadataPosterUnwatchedBadge">
                                         <div class="MetadataPosterCardOverlay-unwatchedTag-Fqazx MetadataPosterCardOverlay-unwatchedBadge-Qn1fv MetadataPosterCardOverlay-badge-1FU-p"></div>
                                     </div>
-                                    <a href="/movie/<?php echo $movie->id; ?>" role="link"
+                                    <?php if(get_class($movie) === Model_Movie::class) : ?>
+                                        <a href="/movie/<?php echo $movie->id; ?>"
+                                    <?php elseif(get_class($movie) === Model_Tvshow::class) : ?>
+                                    <a href="/tvshow/<?php echo $movie->id; ?>"
+                                        <?php endif; ?>
+                                       role="link"
                                        class="MetadataPosterCardOverlay-link-1Swhl Link-link-2XYrU Link-default-32xSO"></a>
                                     <button tabindex="-1" data-id="<?php echo $movie->id; ?>"
                                             role="button"
@@ -95,120 +106,26 @@
                         </div>
                     </div>
                     <div class="MetadataPosterCell-titleContainer-24DI6">
-                        <a title="<?php echo $movie->title; ?>" href="/movie/<?php echo $movie->id; ?>"
+                        <?php if(get_class($movie) === Model_Movie::class) : ?>
+                            <a title="<?php echo $movie->title; ?>" href="/movie/<?php echo $movie->id; ?>"
+                        <?php elseif(get_class($movie) === Model_Tvshow::class) : ?>
+                        <a title="<?php echo $movie->title; ?>" href="/tvshow/<?php echo $movie->id; ?>"
+                            <?php endif; ?>
                            role="link" style="width: 130px;"
                            class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F   Link-link-2XYrU Link-default-32xSO">
                             <?php echo $movie->title; ?>
                         </a>
                         <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY ">
-                            <?php echo $movie->year; ?>
+                            <?php if(get_class($movie) === Model_Movie::class) : ?>
+                                <?php echo $movie->year; ?>
+                            <?php elseif(get_class($movie) === Model_Tvshow::class) : ?>
+                                <?php echo count($movie->getSeasons()) > 1 ? count($movie->getSeasons()) . ' season' : count($movie->getSeasons()) . ' seasons'; ?>
+                            <?php endif; ?>
                         </span>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
-    </div>
-    <div class="LibraryPageJumpBar-jumpBar-22VKU" style="height: 100%;">
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">#
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">A
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">B
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">C
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">D
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">E
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">F
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">G
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">H
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">I
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">J
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">K
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">L
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">M
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">N
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">O
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">P
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">R
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">S
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">T
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">U
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">V
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">W
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">X
-        </button>
-        <button data-qa-id="jumpBarCharacter" role="button"
-                class="LibraryPageJumpBarCharacter-character-2Hr4E Link-link-2XYrU Link-default-32xSO"
-                type="button">Z
-        </button>
     </div>
 </div>
 <div class="Menu-filter-movies"
@@ -332,6 +249,10 @@
         $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
             var movie_id = $(element).data('movie-id');
             $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 160 +'&height='+ 236 +'")');
+        });
+        $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]').each(function (index, element) {
+            var tvshow_id = $(element).data('tvshow-id');
+            $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', 'url("/cover/tvshow?tvshow_id='+ tvshow_id +'&width='+ 160 +'&height='+ 236 +'")');
         });
     });
 </script>

@@ -4,8 +4,10 @@
             <div class="HubCell-hubCell-3Ys17" data-qa-id="tv_show"
                  style="visibility: visible;">
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
-                    <div class="HubCellTitle-hubCellTitle-2abIn"><a
-                                href="#" role="link" class="Link-link-2XYrU Link-default-32xSO">RECENTLY ADDED TV</a></div>
+                    <div class="HubCellTitle-hubCellTitle-2abIn">
+                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO">RECENTLY ADDED TV</a>
+                        <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo count($episodes); ?></span>
+                    </div>
                     <div class="HubCell-hubActions-28w1- tv-shows-hubcell">
                         <button role="button" data-hubcell-action="previous"
                                 class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO isDisabled"
@@ -35,18 +37,22 @@
                                                  style="width: 127px; height: 191px;">
                                                 <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
                                                     <div class="PosterCardImg-imageContainer-1Ar4M" data-movie-id="<?php echo $episode->id; ?>">
-                                                        <div style="background-image: url(data:image/jpeg;base64,<?php //echo $episode->getCover(); ?>); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
+                                                        <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                                              class=""></div>
                                                     </div>
                                                     <div class=" MetadataPosterCardOverlay-overlay-1uMpL         ">
                                                         <div class="MetadataPosterCardOverlay-background-2EwyB"></div>
                                                         <div class="MetadataPosterCardOverlay-unwatchedTagContainer-1lcEn">
-                                                            <div class="MetadataPosterCardOverlay-unwatchedTag-Fqazx MetadataPosterCardOverlay-unwatchedBadge-Qn1fv MetadataPosterCardOverlay-badge-1FU-p"></div>
+                                                            <div class="MetadataPosterCardOverlay-unwatchedBadge-Qn1fv MetadataPosterCardOverlay-badge-1FU-p"><?php echo $episode->count > 1 ? $episode->count : ''; ?></div>
                                                         </div>
-                                                        <a href="/movie/<?php echo $episode->id; ?>"
+                                                        <?php if($episode->count > 1) : ?>
+                                                        <a href="/season/<?php echo $episode->getSeason()->id; ?>"
+                                                        <?php else: ?>
+                                                        <a href="/episode/<?php echo $episode->id; ?>"
+                                                        <?php endif; ?>
                                                            role="link"
-                                                           class="MetadataPosterCardOverlay-link-1Swhl Link-link-2XYrU Link-default-32xSO"></a>
-                                                        <button data-id="<?php echo $episode->id; ?>"
+                                                           class="MetadataPosterCardOverlay-link-1Swhl Link-link-2XYrU Link-default-32xSO">
+                                                        <button data-id="<?php echo $episode->count <= 1 ? $episode->id : ''; ?>"
                                                                 tabindex="-1"
                                                                 role="button"
                                                                 class="MetadataPosterCardOverlay-playButton-1fjhk PlayButton-playButton-3WX8X MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
@@ -55,6 +61,7 @@
                                                                 <i class="plex-icon-play-560 PlayButton-playIcon-dt3sk"
                                                                    aria-hidden="true"></i></div>
                                                         </button>
+                                                        </a>
                                                         <button id="id-3281" tabindex="-1"
                                                                 aria-label="More Actions"
                                                                 aria-haspopup="true"
@@ -84,22 +91,31 @@
                                                class=" MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
                                                 <?php echo $episode->getTvShow()->title; ?>
                                             </a>
+                                            <?php if(1 == $episode->count) : ?>
                                             <a title="<?php echo $episode->title; ?>"
-                                               href="/movie/<?php echo $episode->id; ?>"
+                                               href="/episode/<?php echo $episode->id; ?>"
                                                role="link"
                                                class="MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY Link-link-2XYrU Link-default-32xSO">
                                                 <?php echo $episode->title; ?>
                                             </a>
-                                            <span class=" MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY  "><a
-                                                        title="<?php echo $episode->getSeason()->title; ?>"
+                                            <?php endif; ?>
+                                            <span class=" MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY  ">
+                                                <a title="<?php echo $episode->getSeason()->title; ?>"
                                                         href="/season/<?php echo $episode->getSeason()->id; ?>"
                                                         role="link"
-                                                        class=" Link-link-2XYrU Link-default-32xSO">S<?php echo $episode->getSeason()->number; ?></a><span
-                                                        class="DashSeparator-separator-2a3yn">·</span><a
-                                                        title="<?php echo $episode->title; ?>"
-                                                        href="/movie/<?php echo $episode->id; ?>"
+                                                        class=" Link-link-2XYrU Link-default-32xSO">
+                                                    <?php echo 1 == $episode->count ? 'S' : 'Saison'; ?>
+                                                    <?php echo $episode->getSeason()->number; ?>
+                                                </a>
+                                                <?php if(1 == $episode->count) : ?>
+                                                <span class="DashSeparator-separator-2a3yn">·</span>
+                                                <a title="<?php echo $episode->title; ?>"
+                                                        href="/episode/<?php echo $episode->id; ?>"
                                                         role="link"
-                                                        class=" Link-link-2XYrU Link-default-32xSO">E<?php echo $episode->number; ?></a></span>
+                                                        class=" Link-link-2XYrU Link-default-32xSO">E<?php echo $episode->number; ?>
+                                                </a>
+                                                <?php endif; ?>
+                                            </span>
                                         </div>
                                     </div>
                                 <?php endforeach; ?>
@@ -118,9 +134,10 @@
             <div class="HubCell-hubCell-3Ys17" data-qa-id="movies"
                  style="visibility: visible;">
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
-                    <div class="HubCellTitle-hubCellTitle-2abIn"><a
-                                href="#"
-                                role="link" class="Link-link-2XYrU Link-default-32xSO">RECENTLY ADDED MOVIES</a></div>
+                    <div class="HubCellTitle-hubCellTitle-2abIn">
+                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO">RECENTLY ADDED MOVIES</a>
+                        <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo count($movies); ?></span>
+                    </div>
                     <div class="HubCell-hubActions-28w1- movies-hubcell">
                         <button role="button" data-hubcell-action="previous"
                                 class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO isDisabled"
@@ -215,10 +232,15 @@
     </div>
 </div>
 <script type="text/javascript">
-$(function () {
+$(window).on('load', function() {
+    /** LAUNCH PLAYER **/
     $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
-        event.stopPropagation();
         var movie_id = $(this).data('id');
+        if(movie_id === '')
+            return;
+
+        event.stopPropagation();
+
         $.ajax({
             url: '/rest/movie/stream',
             method: 'GET',
@@ -230,12 +252,12 @@ $(function () {
             console.error(data);
         });
     });
+    /** LOADING PICTURE **/
     $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
-        setTimeout(function () {
-            var movie_id = $(element).data('movie-id');
-            $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 126 +'&height='+189+'")');
-        }, (index + 1) * 100);
+        var movie_id = $(element).data('movie-id');
+        $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 158 +'&height='+ 233 +'")');
     });
+    /** SCROLL LIST TV SHOWS AND MOVIES **/
     $('.HubCell-hubActions-28w1- button').on('click', function(){
         var parent = $(this).closest('div[data-qa-id]');
         var select = $(parent).data('qa-id');
@@ -261,9 +283,11 @@ $(function () {
                     $(previous).removeClass('isDisabled');
                 }
 
-                console.log($('#' + select + '_list').scrollLeft());
-
                 if($('#' + select + '_list').scrollLeft() >= (150 * 19)) {
+                    $(next).addClass('isDisabled');
+                }
+
+                if($('#' + select + '_list').scrollLeft() === 0) {
                     $(next).addClass('isDisabled');
                 }
             }, 500);
