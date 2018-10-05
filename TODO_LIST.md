@@ -26,9 +26,9 @@
   - [x] Description
   - [x] Note
   - [x] Other information like in Plex
-  - [] Select quality
-  - [] Select audio language
-  - [] Select subtitle language
+  - [ ] Select quality
+  - [ ] Select audio language
+  - [ ] Select subtitle language
 - [ ] TV Show
   - [x] List Season
   - [x] List Episode in Season
