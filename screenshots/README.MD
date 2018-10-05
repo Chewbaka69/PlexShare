@@ -20,8 +20,8 @@
 
 ![settings_server](https://raw.githubusercontent.com/Chewbaka69/PlexShare/master/screenshots/settings_server.jpg)
 
-![settings_add_server](https://raw.githubusercontent.com/Chewbaka69/PlexShare/master/screenshots/settings_add_server.jpg)
+![settings_add_server](https://raw.githubusercontent.com/Chewbaka69/PlexShare/master/screenshots/settings_add_server.png)
 
 ![settings_libraries](https://raw.githubusercontent.com/Chewbaka69/PlexShare/master/screenshots/settings_libraries.jpg)
 
-![admin_user](https://raw.githubusercontent.com/Chewbaka69/PlexShare/master/screenshots/admin_user.jpg)
+![admin_users](https://raw.githubusercontent.com/Chewbaka69/PlexShare/master/screenshots/admin_users.jpg)
