@@ -25,14 +25,20 @@
   - [x] Title
   - [x] Description
   - [x] Note
-  - [ ] Other information like in Plex
+  - [x] Other information like in Plex
+  - [] Select quality
+  - [] Select audio language
+  - [] Select subtitle language
 - [ ] TV Show
   - [x] List Season
   - [x] List Episode in Season
   - [x] Title
   - [x] Description
   - [x] Note
-  - [ ] Other information like in Plex
+  - [x] Other information like in Plex
+  - [ ] Select quality
+  - [ ] Select audio language
+  - [ ] Select subtitle language
 - [ ] Streaming
   - [x] Basic options (Play, pause, next...)
   - [x] Implement Video Player
