@@ -1,14 +1,12 @@
 <?php
 /**
- * Fuel
- *
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.8.1
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2018 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -19,46 +17,55 @@ use Tale\Jade as Tale;
 
 class View_Jade extends \View
 {
-	protected static $_parser;
-	protected static $_cache;
-
-	/**
-	 * Returns the Parser lib object
-	 *
-	 * @return  Everzet\Jade
-	 */
-	public static function everzet_parser()
-	{
-		// load a parser object
-		if (empty(static::$_parser))
-		{
-			$parser = new Everzet\Parser(new Everzet\Lexer\Lexer());
-			$dumper = new Everzet\Dumper\PHPDumper();
-			$dumper->registerVisitor('tag', new Everzet\Visitor\AutotagsVisitor());
-			$dumper->registerFilter('javascript', new Everzet\Filter\JavaScriptFilter());
-			$dumper->registerFilter('cdata', new Everzet\Filter\CDATAFilter());
-			$dumper->registerFilter('php', new Everzet\Filter\PHPFilter());
-			$dumper->registerFilter('style', new Everzet\Filter\CSSFilter());
-
-			static::$_parser = new Everzet\Jade($parser, $dumper, static::$_cache);
-		}
-
-		return static::$_parser;
-	}
-
 	/**
 	 * @InheritDoc
 	 */
 	public $extension = 'jade';
 
 	/**
+	 * Returns the Parser lib object
+	 *
+	 * @return  Everzet\Jade
+	 */
+	protected function everzet_parser($cachepath)
+	{
+		// create a parser object
+		$parser = new Everzet\Parser(new Everzet\Lexer\Lexer());
+
+		// create a dumper object
+		$dumper = new Everzet\Dumper\PHPDumper();
+		$dumper->registerVisitor('tag', new Everzet\Visitor\AutotagsVisitor());
+		$dumper->registerFilter('javascript', new Everzet\Filter\JavaScriptFilter());
+		$dumper->registerFilter('cdata', new Everzet\Filter\CDATAFilter());
+		$dumper->registerFilter('php', new Everzet\Filter\PHPFilter());
+		$dumper->registerFilter('style', new Everzet\Filter\CSSFilter());
+
+		// return the Jade parser
+		return new Everzet\Jade($parser, $dumper, $cachepath);
+	}
+
+	/**
+	 * Returns the Parser lib object
+	 *
+	 * @return  Tale\Jade
+	 */
+	protected function tale_parser($cachepath)
+	{
+		// get the config
+		$config = \Config::get('parser.View_Jade', array());
+
+		// add the cache path for this template
+		$config['cachePath'] = $cachepath;
+
+		// create a renderer instance
+		return new Tale\Renderer($config);
+	}
+
+	/**
 	 * @InheritDoc
 	 */
 	protected function process_file($file_override = false)
 	{
-		// update the cache path
-		$this->cache_init($file);
-
 		// determine the filename
 		$file = $file_override ?: $this->file_name;
 
@@ -66,24 +73,15 @@ class View_Jade extends \View
 		if (class_exists('Everzet\\Jade\\Jade'))
 		{
 			// render the template
-			$file = static::everzet_parser()->cache($file);
+			$file = $this->everzet_parser($this->cache_init($file))->cache($file);
 			$result = parent::process_file($file);
 		}
 
 		// render the template using the Tale implementation
 		elseif (class_exists('Tale\\Jade\\Renderer'))
 		{
-			// get the config
-			$config = \Config::get('parser.View_Jade', array());
-
-			// set our cache path
-			$config['cachePath'] = static::$_cache;
-
-			// create a renderer instance
-			static::$_jade = new Tale\Renderer($config);
-
 			// render the template
-			$result = static::$_jade->render($file, $data = $this->get_data());
+			$result = $this->jade_parser($this->cache_init($file))->render($file, $data = $this->get_data());
 
 			// disable sanitization on objects that support it
 			$this->unsanitize($data);
@@ -113,7 +111,7 @@ class View_Jade extends \View
 			mkdir($cache_path, 0777, true);
 		}
 
-		static::$_cache = $cache_path;
+		return $cache_path;
 	}
 
 }

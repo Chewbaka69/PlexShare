@@ -1,12 +1,12 @@
 <?php
 /**
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.8.1
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2018 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -92,7 +92,7 @@ class Auth_Group_Ormgroup extends \Auth_Group_Driver
 			// check for membership
 			foreach($groups as $group)
 			{
-				if ($group[0] === $this->id and $group_id === (int) $group[1]->id)
+				if ($group[0] === $this->id and (int) $group_id === (int) $group[1]->id)
 				{
 					return true;
 				}

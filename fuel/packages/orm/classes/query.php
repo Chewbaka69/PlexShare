@@ -1,14 +1,12 @@
 <?php
 /**
- * Fuel
- *
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.8.1
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2018 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -19,6 +17,36 @@ namespace Orm;
  */
 class Query
 {
+	/**
+	 * @var  bool  switch to globally enable/disable object caching
+	 */
+	protected static $caching = null;
+
+
+	/**
+	 * Load the ORM config file
+	 */
+	public static function _init()
+	{
+		// load the config
+		\Config::load('orm', true);
+
+		// update the caching flag if defined
+		static::$caching = \Config::get('orm.caching', null);
+	}
+
+	/**
+	 * Enables or disables the default state of the object cache
+	 *
+	 * @param  bool  $cache    Whether or not to use the object cache by default
+	 *
+	 * @return  Query
+	 */
+	public static function caching($cache = true)
+	{
+		static::$caching = (bool) $cache;
+	}
+
 	/**
 	 * Create a new instance of the Query class.
 	 *
@@ -109,6 +137,11 @@ class Query
 	protected $group_by = array();
 
 	/**
+	 * @var  array  having clauses
+	 */
+	protected $having = array();
+
+	/**
 	 * @var  array  values for insert or update
 	 */
 	protected $values = array();
@@ -133,6 +166,11 @@ class Query
 	 */
 	protected function __construct($model, $connection, $options, $table_alias = null)
 	{
+		if ( ! is_null(static::$caching))
+		{
+				$this->from_cache = (bool) static::$caching;
+		}
+
 		$this->model = $model;
 
 		if (is_array($connection))
@@ -195,6 +233,225 @@ class Query
 					break;
 			}
 		}
+	}
+
+	/**
+	 * Does the work for where() and or_where()
+	 *
+	 * @param   array   $condition
+	 * @param   string  $type
+	 *
+	 * @throws \FuelException
+	 *
+	 * @return  $this
+	 */
+	public function _where($condition, $type = 'and_where')
+	{
+		if (is_array(reset($condition)) or is_string(key($condition)))
+		{
+			foreach ($condition as $k_c => $v_c)
+			{
+				is_string($k_c) and $v_c = array($k_c, $v_c);
+				$this->_where($v_c, $type);
+			}
+			return $this;
+		}
+
+		// prefix table alias when not yet prefixed and not a DB expression object
+		if (strpos($condition[0], '.') === false and ! $condition[0] instanceof \Fuel\Core\Database_Expression)
+		{
+			$condition[0] = $this->alias.'.'.$condition[0];
+		}
+
+		if (count($condition) == 2)
+		{
+			$this->where[] = array($type, array($condition[0], '=', $condition[1]));
+		}
+		elseif (count($condition) == 3 or $condition[0] instanceof \Fuel\Core\Database_Expression)
+		{
+			$this->where[] = array($type, $condition);
+		}
+		else
+		{
+			throw new \FuelException('Invalid param count for where condition.');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Does the work for having() and or_having()
+	 *
+	 * @param   array   $condition
+	 * @param   string  $type
+	 *
+	 * @throws \FuelException
+	 *
+	 * @return  $this
+	 */
+	public function _having($condition, $type = 'and_having')
+	{
+		if (is_array(reset($condition)) or is_string(key($condition)))
+		{
+			foreach ($condition as $k_c => $v_c)
+			{
+				is_string($k_c) and $v_c = array($k_c, $v_c);
+				$this->_having($v_c, $type);
+			}
+			return $this;
+		}
+
+		// prefix table alias when not yet prefixed and not a DB expression object
+		if (strpos($condition[0], '.') === false and ! $condition[0] instanceof \Fuel\Core\Database_Expression)
+		{
+			$condition[0] = $this->alias.'.'.$condition[0];
+		}
+
+		if (count($condition) == 2)
+		{
+			$this->having[] = array($type, array($condition[0], '=', $condition[1]));
+		}
+		elseif (count($condition) == 3 or $condition[0] instanceof \Fuel\Core\Database_Expression)
+		{
+			$this->having[] = array($type, $condition);
+		}
+		else
+		{
+			throw new \FuelException('Invalid param count for having condition.');
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Parses an array of where conditions into the query
+	 *
+	 * @param   array   $val
+	 * @param   string  $base
+	 * @param   bool    $or
+	 */
+	public function _parse_where_array(array $val, $base = '', $or = false)
+	{
+		$or and $this->or_where_open();
+		foreach ($val as $k_w => $v_w)
+		{
+			if (is_array($v_w) and ! empty($v_w[0]) and (is_string($v_w[0]) or $v_w[0] instanceof \Database_Expression))
+			{
+				! $v_w[0] instanceof \Database_Expression and strpos($v_w[0], '.') === false and $v_w[0] = $base.$v_w[0];
+				call_fuel_func_array(array($this, ($k_w === 'or' ? 'or_' : '').'where'), $v_w);
+			}
+			elseif (is_int($k_w) or $k_w == 'or')
+			{
+				$k_w === 'or' ? $this->or_where_open() : $this->where_open();
+				$this->_parse_where_array($v_w, $base, $k_w === 'or');
+				$k_w === 'or' ? $this->or_where_close() : $this->where_close();
+			}
+			else
+			{
+				! $k_w instanceof \Database_Expression and strpos($k_w, '.') === false and $k_w = $base.$k_w;
+				$this->where($k_w, $v_w);
+			}
+		}
+		$or and $this->or_where_close();
+	}
+
+	/**
+	/* normalize the select fields passed
+	 *
+	 * @param  array  list of columns to select
+	 * @param  int    counter of the number of selected columnss
+	 */
+	protected function _normalize($fields, &$i)
+	{
+		$select = array();
+
+		// for BC reasons, deal with the odd array(DB::expr, 'name') syntax first
+		if (($value = reset($fields)) instanceOf \Fuel\Core\Database_Expression and is_string($index = next($fields)))
+		{
+			$select[$this->alias.'_c'.$i++] = $fields;
+		}
+
+		// otherwise iterate
+		else
+		{
+			foreach ($fields as $index => $value)
+			{
+				// an array of field definitions is passed
+				if (is_array($value))
+				{
+					// recurse and add them individually
+					$select = array_merge($select, $this->_normalize($value, $i));
+				}
+
+				// a "field -> include" value pair is passed
+				elseif (is_bool($value))
+				{
+					if ($value)
+					{
+						// if include is true, add the field
+						$select[$this->alias.'_c'.$i++] = (strpos($index, '.') === false ? $this->alias.'.' : '').$index;
+					}
+					else
+					{
+						// if not, add it to the filter list
+						if ( ! in_array($index, $this->select_filter))
+						{
+							$this->select_filter[] = $index;
+						}
+					}
+				}
+
+				// attempted a "SELECT *"?
+				elseif ($value === '*')
+				{
+					// recurse and add all model properties
+					$select = array_merge($select, $this->_normalize(array_keys(call_user_func($this->model.'::properties')), $i));
+				}
+
+				// DB::expr() passed?
+				elseif ($value instanceOf \Fuel\Core\Database_Expression)
+				{
+					// no column name given for the result?
+					if (is_numeric($index))
+					{
+						$select[$this->alias.'_c'.$i++] = array($value);
+					}
+
+					// add the index as the column name
+					else
+					{
+						$select[$this->alias.'_c'.$i++] = array($value, $index);
+					}
+				}
+
+				// must be a regular field
+				else
+				{
+					$select[$this->alias.'_c'.$i++] = (strpos($value, '.') === false ? $this->alias.'.' : '').$value;
+				}
+			}
+		}
+
+		return $select;
+	}
+
+	/**
+	 * Returns target table (or view, if specified).
+	 */
+	protected function _table()
+	{
+		return $this->view ? $this->view['view'] : call_user_func($this->model.'::table');
+	}
+
+	/**
+	 * Sets the name of the connection to use for this query. Set to null to use the default DB connection
+	 *
+	 * @param string $name
+	 */
+	public function connection($name)
+	{
+		$this->connection = $name;
+		return $this;
 	}
 
 	/**
@@ -286,86 +543,6 @@ class Query
 		$this->select = array_merge($this->select, $this->_normalize($fields, $i));
 
 		return $this;
-	}
-
-	/**
-	/* normalize the select fields passed
-	 *
-	 * @param  array  list of columns to select
-	 * @param  int    counter of the number of selected columnss
-	 */
-	protected function _normalize($fields, &$i)
-	{
-		$select = array();
-
-		// for BC reasons, deal with the odd array(DB::expr, 'name') syntax first
-		if (($value = reset($fields)) instanceOf \Fuel\Core\Database_Expression and is_string($index = next($fields)))
-		{
-			$select[$this->alias.'_c'.$i++] = $fields;
-		}
-
-		// otherwise iterate
-		else
-		{
-			foreach ($fields as $index => $value)
-			{
-				// an array of field definitions is passed
-				if (is_array($value))
-				{
-					// recurse and add them individually
-					$select = array_merge($select, $this->_normalize($value, $i));
-				}
-
-				// a "field -> include" value pair is passed
-				elseif (is_bool($value))
-				{
-					if ($value)
-					{
-						// if include is true, add the field
-						$select[$this->alias.'_c'.$i++] = (strpos($index, '.') === false ? $this->alias.'.' : '').$index;
-					}
-					else
-					{
-						// if not, add it to the filter list
-						if ( ! in_array($index, $this->select_filter))
-						{
-							$this->select_filter[] = $index;
-						}
-					}
-				}
-
-				// attempted a "SELECT *"?
-				elseif ($value === '*')
-				{
-					// recurse and add all model properties
-					$select = array_merge($select, $this->_normalize(array_keys(call_user_func($this->model.'::properties')), $i));
-				}
-
-				// DB::expr() passed?
-				elseif ($value instanceOf \Fuel\Core\Database_Expression)
-				{
-					// no column name given for the result?
-					if (is_numeric($index))
-					{
-						$select[$this->alias.'_c'.$i++] = array($value);
-					}
-
-					// add the index as the column name
-					else
-					{
-						$select[$this->alias.'_c'.$i++] = array($value, $index);
-					}
-				}
-
-				// must be a regular field
-				else
-				{
-					$select[$this->alias.'_c'.$i++] = (strpos($value, '.') === false ? $this->alias.'.' : '').$value;
-				}
-			}
-		}
-
-		return $select;
 	}
 
 	/**
@@ -496,50 +673,6 @@ class Query
 	}
 
 	/**
-	 * Does the work for where() and or_where()
-	 *
-	 * @param   array   $condition
-	 * @param   string  $type
-	 *
-	 * @throws \FuelException
-	 *
-	 * @return  $this
-	 */
-	public function _where($condition, $type = 'and_where')
-	{
-		if (is_array(reset($condition)) or is_string(key($condition)))
-		{
-			foreach ($condition as $k_c => $v_c)
-			{
-				is_string($k_c) and $v_c = array($k_c, $v_c);
-				$this->_where($v_c, $type);
-			}
-			return $this;
-		}
-
-		// prefix table alias when not yet prefixed and not a DB expression object
-		if (strpos($condition[0], '.') === false and ! $condition[0] instanceof \Fuel\Core\Database_Expression)
-		{
-			$condition[0] = $this->alias.'.'.$condition[0];
-		}
-
-		if (count($condition) == 2)
-		{
-			$this->where[] = array($type, array($condition[0], '=', $condition[1]));
-		}
-		elseif (count($condition) == 3 or $condition[0] instanceof \Fuel\Core\Database_Expression)
-		{
-			$this->where[] = array($type, $condition);
-		}
-		else
-		{
-			throw new \FuelException('Invalid param count for where condition.');
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Open a nested and_where condition
 	 *
 	 * @return  $this
@@ -612,35 +745,109 @@ class Query
 	}
 
 	/**
-	 * Parses an array of where conditions into the query
+	 * Set having condition
 	 *
-	 * @param   array   $val
-	 * @param   string  $base
-	 * @param   bool    $or
+	 * @param   string  Property
+	 * @param   string  Comparison type (can be omitted)
+	 * @param   string  Comparison value
+	 *
+	 * @return  $this
 	 */
-	protected function _parse_where_array(array $val, $base = '', $or = false)
+	public function having()
 	{
-		$or and $this->or_where_open();
-		foreach ($val as $k_w => $v_w)
-		{
-			if (is_array($v_w) and ! empty($v_w[0]) and (is_string($v_w[0]) or $v_w[0] instanceof \Database_Expression))
-			{
-				! $v_w[0] instanceof \Database_Expression and strpos($v_w[0], '.') === false and $v_w[0] = $base.$v_w[0];
-				call_fuel_func_array(array($this, ($k_w === 'or' ? 'or_' : '').'where'), $v_w);
-			}
-			elseif (is_int($k_w) or $k_w == 'or')
-			{
-				$k_w === 'or' ? $this->or_where_open() : $this->where_open();
-				$this->_parse_where_array($v_w, $base, $k_w === 'or');
-				$k_w === 'or' ? $this->or_where_close() : $this->where_close();
-			}
-			else
-			{
-				! $k_w instanceof \Database_Expression and strpos($k_w, '.') === false and $k_w = $base.$k_w;
-				$this->where($k_w, $v_w);
-			}
-		}
-		$or and $this->or_where_close();
+		$condition = func_get_args();
+		is_array(reset($condition)) and $condition = reset($condition);
+
+		return $this->_having($condition);
+	}
+
+	/**
+	 * Set or_having condition
+	 *
+	 * @param   string  Property
+	 * @param   string  Comparison type (can be omitted)
+	 * @param   string  Comparison value
+	 *
+	 * @return  $this
+	 */
+	public function or_having()
+	{
+		$condition = func_get_args();
+		is_array(reset($condition)) and $condition = reset($condition);
+
+		return $this->_having($condition, 'or_having');
+	}
+
+	/**
+	 * Open a nested and_having condition
+	 *
+	 * @return  $this
+	 */
+	public function and_having_open()
+	{
+		$this->having[] = array('and_having_open', array());
+
+		return $this;
+	}
+
+	/**
+	 * Close a nested and_where condition
+	 *
+	 * @return  $this
+	 */
+	public function and_having_close()
+	{
+		$this->having[] = array('and_having_close', array());
+
+		return $this;
+	}
+
+	/**
+	 * Alias to and_having_open()
+	 *
+	 * @return  $this
+	 */
+	public function having_open()
+	{
+		$this->having[] = array('and_having_open', array());
+
+		return $this;
+	}
+
+	/**
+	 * Alias to and_having_close()
+	 *
+	 * @return  $this
+	 */
+	public function having_close()
+	{
+		$this->having[] = array('and_having_close', array());
+
+		return $this;
+	}
+
+	/**
+	 * Open a nested or_having condition
+	 *
+	 * @return  $this
+	 */
+	public function or_having_open()
+	{
+		$this->having[] = array('or_having_open', array());
+
+		return $this;
+	}
+
+	/**
+	 * Close a nested or_where condition
+	 *
+	 * @return  $this
+	 */
+	public function or_having_close()
+	{
+		$this->having[] = array('or_having_close', array());
+
+		return $this;
 	}
 
 	/**
@@ -792,7 +999,8 @@ class Query
 	 */
 	public function build_query(\Fuel\Core\Database_Query_Builder_Where $query, $columns = array(), $type = 'select')
 	{
-		$read_query = in_array($type, array('select', 'count'));
+		// Are we generating a read or a write query?
+		$read_query = ! in_array($type, array('insert', 'update', 'delete'));
 
 		// Get the limit
 		if ( ! is_null($this->limit))
@@ -807,7 +1015,7 @@ class Query
 		}
 
 		$where_conditions = call_user_func($this->model.'::condition', 'where');
-		empty($where_conditions) or $this->where($where_conditions);
+		empty($where_conditions) or $this->_parse_where_array($where_conditions);
 
 		$where_backup = $this->where;
 		if ( ! empty($this->where))
@@ -833,9 +1041,9 @@ class Query
 
 				if (empty($conditional)
 					or strpos($conditional[0], $this->alias.'.') === 0
-					or (!$read_query and $conditional[0] instanceof \Fuel\Core\Database_Expression))
+					or ( ! $read_query and $conditional[0] instanceof \Fuel\Core\Database_Expression))
 				{
-					if (!$read_query and ! empty($conditional)
+					if ( ! $read_query and ! empty($conditional)
 						and ! $conditional[0] instanceof \Fuel\Core\Database_Expression)
 					{
 						$conditional[0] = substr($conditional[0], strlen($this->alias.'.'));
@@ -853,9 +1061,9 @@ class Query
 
 					if (empty($conditional)
 						or strpos($conditional[0], $this->alias.'.') === 0
-						or (!$read_query and $conditional[0] instanceof \Fuel\Core\Database_Expression))
+						or ( ! $read_query and $conditional[0] instanceof \Fuel\Core\Database_Expression))
 					{
-						if (!$read_query and ! empty($conditional)
+						if ( ! $read_query and ! empty($conditional)
 							and ! $conditional[0] instanceof \Fuel\Core\Database_Expression)
 						{
 							$conditional[0] = substr($conditional[0], strlen($this->alias.'.'));
@@ -867,13 +1075,16 @@ class Query
 			}
 		}
 
-		// If it's not a select or count, we're done
-		if (!$read_query)
+		// If it's a write query, we're done
+		if ( ! $read_query)
 		{
 			return array('query' => $query, 'models' => array());
 		}
 
+		// Alias number counter
 		$i = 1;
+
+		// Add defined relations
 		$models = array();
 		foreach ($this->relations as $name => $rel)
 		{
@@ -922,7 +1133,6 @@ class Query
 					if (strpos($ob[0], $this->alias.'.') === 0)
 					{
 						// order by on the current model
-						$read_query or $ob[0] = substr($ob[0], strlen($this->alias.'.'));
 						$query->order_by($ob[0], $ob[1]);
 					}
 				}
@@ -959,8 +1169,7 @@ class Query
 		}
 		foreach ($models as $m)
 		{
-			if (($read_query and $m['connection'] != $this->connection) or
-				(!$read_query and $m['connection'] != $this->write_connection))
+			if ($m['connection'] != $this->connection)
 			{
 				throw new \FuelException('Models cannot be related between different database connections.');
 			}
@@ -1015,8 +1224,24 @@ class Query
 				{
 					if (strpos($ob[0], $this->alias.'.') === 0)
 					{
-						// order by on the current model
-						$read_query or $ob[0] = substr($ob[0], strlen($this->alias.'.'));
+						// get the field name
+						$fn = substr($ob[0], strlen($this->alias.'.'));
+
+						// if not a a model property?
+						if ( ! call_fuel_func_array(array($this->model, 'property'), array($fn)))
+						{
+							// and it's not an alias?
+							foreach ($this->select as $salias => $sdef)
+							{
+								// if the fieldname matches
+								if (is_array($sdef) and $sdef[1] == $fn)
+								{
+									// order on it's alias instead
+									$ob[0] = $salias;
+									break;
+								}
+							}
+						}
 					}
 					else
 					{
@@ -1062,6 +1287,28 @@ class Query
 			}
 		}
 
+		// Add any having filters
+		if ( ! empty($this->having))
+		{
+			foreach ($this->having as $h)
+			{
+				list($method, $conditional) = $h;
+
+				// try to rewrite conditions on the relations to their table alias
+				if ( ! empty($conditional) and is_array($conditional))
+				{
+					$dotpos = strrpos($conditional[0], '.');
+					$relation = substr($conditional[0], 0, $dotpos);
+					if ($dotpos > 0 and array_key_exists($relation, $models))
+					{
+						$conditional[0] = $models[$relation]['table'][1].substr($conditional[0], $dotpos);
+					}
+				}
+
+				call_fuel_func_array(array($query, $method), $conditional);
+			}
+		}
+
 		// put omitted where conditions back
 		if ( ! empty($this->where))
 		{
@@ -1070,7 +1317,7 @@ class Query
 				list($method, $conditional) = $w;
 
 				// try to rewrite conditions on the relations to their table alias
-				if ( ! empty($conditional))
+				if ( ! empty($conditional) and is_array($conditional))
 				{
 					$dotpos = strrpos($conditional[0], '.');
 					$relation = substr($conditional[0], 0, $dotpos);
@@ -1184,13 +1431,26 @@ class Query
 		else
 		{
 			// add fields not present in the already cached version
+			$new = array();
 			foreach ($select as $s)
 			{
-				$f = substr($s[0], strpos($s[0], '.') + 1);
+				if ($s[0] instanceOf \Fuel\Core\Database_Expression)
+				{
+					$f = isset($this->select[$s[1]][1]) ? $this->select[$s[1]][1] : $s[1];
+				}
+				else
+				{
+					$f = substr($s[0], strpos($s[0], '.') + 1);
+				}
+				$new[$f] = $row[$s[1]];
 				if ( ! isset($obj->{$f}))
 				{
-					$obj->{$f} = $row[$s[1]];
+					$obj->{$f} = $new[$f];
 				}
+			}
+			if ($new)
+			{
+				$obj->_update_original($new);
 			}
 		}
 
@@ -1558,24 +1818,5 @@ class Query
 		$this->relations = $tmp_relations;
 
 		return $res > 0;
-	}
-
-	/**
-	 * Returns target table (or view, if specified).
-	 */
-	protected function _table()
-	{
-		return $this->view ? $this->view['view'] : call_user_func($this->model.'::table');
-	}
-
-	/**
-	 * Sets the name of the connection to use for this query. Set to null to use the default DB connection
-	 *
-	 * @param string $name
-	 */
-	public function connection($name)
-	{
-		$this->connection = $name;
-		return $this;
 	}
 }

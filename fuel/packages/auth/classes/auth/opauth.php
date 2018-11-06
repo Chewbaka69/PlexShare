@@ -1,14 +1,12 @@
 <?php
 /**
- * Fuel
- *
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.8.1
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2018 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -359,7 +357,11 @@ class Auth_Opauth
 	protected function callback()
 	{
 		// fetch the response and decode it
-		$this->response = \Input::get('opauth', false) and $this->response = unserialize(base64_decode($this->response));
+		if ($this->response = \Input::get('opauth', false))
+		{
+			$this->response = base64_decode($this->response);
+			$this->response = \Str::is_json($this->response) ? json_decode($this->response, true) : unserialize($this->response);
+		}
 
 		// did we receive a response at all?
 		if ( ! $this->response)

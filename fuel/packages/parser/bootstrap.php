@@ -1,14 +1,12 @@
 <?php
 /**
- * Fuel
- *
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.8.1
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2018 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -22,6 +20,7 @@
 	'Parser\\View_Twig'             => __DIR__.'/classes/view/twig.php',
 	'Parser\\View_HamlTwig'         => __DIR__.'/classes/view/hamltwig.php',
 	'Parser\\View_Jade'             => __DIR__.'/classes/view/jade.php',
+	'Parser\\View_Handlebars'       => __DIR__.'/classes/view/handlebars.php',
 	'Parser\\View_Haml'             => __DIR__.'/classes/view/haml.php',
 	'Parser\\View_Smarty'           => __DIR__.'/classes/view/smarty.php',
 	'Parser\\View_Phptal'           => __DIR__.'/classes/view/phptal.php',

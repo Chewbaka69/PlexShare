@@ -1,12 +1,12 @@
 <?php
 /**
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.8.1
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2018 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -108,13 +108,18 @@ class Auth_Acl_Ormacl extends \Auth_Acl_Driver
 		}
 		catch (\CacheNotFoundException $e)
 		{
-			// get the role objects assigned to this group
-			$current_roles  = $entity[1]->roles;
+			$current_roles = array();
+
+			// if we have a group, add the roles assigned to this group
+			if ($entity[1])
+			{
+				$current_roles  = $entity[1]->roles;
+			}
 
 			// if we have a user, add the roles directly assigned to the user
 			if ($user)
 			{
-				$current_roles = \Arr::merge($current_roles, Auth::get_user()->roles);
+				$current_roles = \Arr::merge($current_roles, $user->roles);
 			}
 
 			foreach ($current_roles as $role)
@@ -186,21 +191,24 @@ class Auth_Acl_Ormacl extends \Auth_Acl_Driver
 				if ($user)
 				{
 					// add the users group rights
-					foreach ($user->group->permissions as $permission)
+					if ($user->group)
 					{
-						isset($current_rights[$permission->area][$permission->permission]) or $current_rights[$permission->area][$permission->permission] = array();
-						foreach ($user->group->grouppermission as $grouppermission)
+						foreach ($user->group->permissions as $permission)
 						{
-							if ($grouppermission->group_id == $user->group_id and $grouppermission->perms_id == $permission->id)
+							isset($current_rights[$permission->area][$permission->permission]) or $current_rights[$permission->area][$permission->permission] = array();
+							foreach ($user->group->grouppermission as $grouppermission)
 							{
-								$current_rights[$permission->area][$permission->permission] = array_merge(
-									$current_rights[$permission->area][$permission->permission],
-									array_intersect_key(
-										$permission->actions ?: array(),
-										array_flip($grouppermission->actions ?: array())
-									)
-								);
-								break;
+								if ($grouppermission->group_id == $user->group_id and $grouppermission->perms_id == $permission->id)
+								{
+									$current_rights[$permission->area][$permission->permission] = array_merge(
+										$current_rights[$permission->area][$permission->permission],
+										array_intersect_key(
+											$permission->actions ?: array(),
+											array_flip($grouppermission->actions ?: array())
+										)
+									);
+									break;
+								}
 							}
 						}
 					}

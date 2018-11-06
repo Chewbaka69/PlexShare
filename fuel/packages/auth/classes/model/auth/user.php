@@ -1,12 +1,12 @@
 <?php
 /**
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.8.1
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2018 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -53,14 +53,14 @@ class Auth_User extends \Orm\Model
 			'default'     => 0,
 			'null'        => false,
 			'form'        => array('type' => 'select'),
-			'validation'  => array('required', 'is_numeric'),
+			'validation'  => array('required', 'match_pattern' => array('/^[1-9]\d*$/')),
 		),
 		'group_id'        => array(
 			'label'       => 'auth_model_user.group_id',
-			'default'     => 0,
-			'null'        => false,
+			'default'     => null,
+			'null'        => true,
 			'form'        => array('type' => 'select'),
-			'validation'  => array('required', 'is_numeric'),
+			'validation'  => array('match_pattern' => array('/^[1-9]\d*$/')),
 		),
 		'password'        => array(
 			'label'       => 'auth_model_user.password',

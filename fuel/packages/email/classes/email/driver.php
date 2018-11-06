@@ -1,14 +1,12 @@
 <?php
 /**
- * Fuel
- *
- * Fuel is a fast, lightweight, community driven PHP5 framework.
+ * Fuel is a fast, lightweight, community driven PHP 5.4+ framework.
  *
  * @package    Fuel
- * @version    1.8
+ * @version    1.8.1
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2010 - 2018 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -599,7 +597,7 @@ abstract class Email_Driver
 		if ( ! isset($file[1]))
 		{
 			$name or $name = pathinfo($file[0], PATHINFO_BASENAME);
-			$file[] = $name;
+			$file[1] = $name;
 		}
 
 		// Find the attachment.
@@ -671,7 +669,7 @@ abstract class Email_Driver
 		$mime or $mime = static::attachment_mime($filename);
 
 		$this->attachments[$disp][$cid] = array(
-			'file' => array(1 => $filename),
+			'file' => array(0 => $filename, 1 => pathinfo($filename, PATHINFO_BASENAME)),
 			'contents' => static::encode_string($contents, 'base64', $this->config['newline']),
 			'mime' => $mime,
 			'disp' => $disp,
@@ -954,19 +952,16 @@ abstract class Email_Driver
 		// we need mbstring for this
 		if ( ! MBSTRING)
 		{
-			throw new \RuntimeException('Email requires the multibyte package ("mbstring") package to be installed!');
+			throw new \RuntimeException('Email requires the multibyte ("mbstring") package to be installed!');
 		}
 
+		// determine the transfer encoding to be used
 		$transfer_encoding = ($this->config['encoding'] === 'quoted-printable') ? 'Q' : 'B' ;
 
-		// work around possible bugs with encoding by setting the encoding manually
-		$current_encoding = mb_internal_encoding();
-		mb_internal_encoding($this->config['charset']);
-
+		// encode
 		$header = mb_encode_mimeheader($header, $this->config['charset'], $transfer_encoding, $this->config['newline']);
 
-		mb_internal_encoding($current_encoding);
-
+		// and return it
 		return $header;
 	}
 
