@@ -9,9 +9,11 @@
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
                 </button>
+                <?php if($movie->trailer !== null) : ?>
                 <button id="id-362" title="Visionner la bande annonce." data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-play-trailer-560" aria-hidden="true"></i>
                 </button>
+                <?php endif; ?>
                 <button id="id-21" title="Marquer comme vu" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-played-toggle-560" aria-hidden="true"></i>
                 </button>
@@ -215,9 +217,9 @@
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Audio</div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
-                                            <?php echo $movie->getMetaData()['Stream']['Audio'][0]['language']; ?>
+                                            <?php echo isset($movie->getMetaData()['Stream']['Audio'][0]['language']) ? $movie->getMetaData()['Stream']['Audio'][0]['language'] : ''; ?>
                                             <span class="DashSeparator-separator-2a3yn">—</span>
-                                            <?php echo isset($movie->getMetaData()['Stream']['Audio'][0]['displayTitle']) ? $movie->getMetaData()['Stream']['Audio'][0]['displayTitle'] : isset($movie->getMetaData()['Stream']['Audio'][0]['title']) ? $movie->getMetaData()['Stream']['Audio'][0]['title'] : $movie->getMetaData()['Stream']['Audio'][0]['language']; ?>
+                                            <?php echo isset($movie->getMetaData()['Stream']['Audio'][0]['displayTitle']) ? $movie->getMetaData()['Stream']['Audio'][0]['displayTitle'] : (isset($movie->getMetaData()['Stream']['Audio'][0]['title']) ? $movie->getMetaData()['Stream']['Audio'][0]['title'] : $movie->getMetaData()['Stream']['Audio'][0]['language']); ?>
                                         </span>
                                     </div>
                                 </div>
@@ -299,7 +301,7 @@
                                                                         <a data-qa-id="castTitle" title="<?php echo $role['@attributes']['tag']; ?>" href="#" role="link" class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
                                                                             <?php echo $role['@attributes']['tag']; ?>
                                                                         </a>
-                                                                        <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY " title="Johnny English">
+                                                                        <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY " title="<?php echo $role['@attributes']['role']; ?>">
                                                                             <?php echo $role['@attributes']['role']; ?>
                                                                         </span>
                                                                     </div>
@@ -367,6 +369,17 @@
             }).fail(function (data) {
                 console.error(data);
             });
+        });
+        /** LAUNCH TRAILER **/
+        $(document).on('click', '#id-362', function (event) {
+            $(document).find('body').append('<div style="position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index:1;">' +
+                '<object width="640" height="360" style="position: absolute; margin: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index:2;">\n' +
+                '    <param name="movie" value="<?php echo $movie->trailer; ?>&amp;version=3"/\n' +
+                '    <param name="allowFullScreen" value="true"/>\n' +
+                '    <param name="allowscriptaccess" value="always"/>\n' +
+                '    <embed width="640" height="360" src="https:<?php echo $movie->trailer; ?>&amp;version=3" class="youtube-player" type="text/html" allowscriptaccess="always" allowfullscreen="true"/>\n' +
+                '</object>\n' +
+            '</div>');
         });
         /** LOAD IMG **/
         $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
