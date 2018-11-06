@@ -35,6 +35,9 @@ class Controller_Login extends Controller
 
             if (Input::method() === 'POST') {
                 if($user = Model_User::Login($login, $password)) {
+                    $user->lastlogin = time();
+                    $user->save();
+
                     Session::set('user', $user);
                     Response::redirect('/home');
                 }

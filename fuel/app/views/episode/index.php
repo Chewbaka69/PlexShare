@@ -15,14 +15,15 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-239" data-original-title="Lire" data-toggle="tooltip" role="button"
-                        class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO      "
-                        type="button"><i class="plex-icon-toolbar-play-560"
-                                         aria-hidden="true"></i></button>
-                <button id="id-238" data-original-title="Plus..." aria-haspopup="true" data-toggle="tooltip" role="button"
-                        class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO      "
-                        type="button"><i class="plex-icon-toolbar-more-560"
-                                         aria-hidden="true"></i></button>
+                <button id="id-16" data-original-title="Lire" data-toggle="tooltip" data-placement="bottom" role="button"
+                        class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
+                        type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
+                </button>
+                <button id="id-15" data-original-title="Plus..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
+                        role="button"
+                        class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
+                        type="button"><i class="plex-icon-toolbar-more-560" aria-hidden="true"></i>
+                </button>
             </div>
             <div class="Measure-scrollContainer-3vb4J">
                 <div class="Measure-expandContent-1JQfL"></div>
@@ -213,7 +214,7 @@
                                 <button aria-haspopup="true" role="button"
                                         class="CollapsibleText-readMore-1bRJm DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37 Link-link-2XYrU Link-default-32xSO"
                                         type="button">Show more
-                                    <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
+                                    <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
                                 </button>
                             </div>
                         </div>
@@ -238,6 +239,18 @@
 </div>
 <script type="text/javascript">
     $(window).on('load', function() {
+        /** READ MORE **/
+        $(document).on('click', '.CollapsibleText-readMore-1bRJm', function (event) {
+            var summary = $(document).find('.CollapsibleText-contentTransition-15VYv');
+
+            if(summary.css('max-height') === '78px') {
+                $(this).find('div').removeClass('DisclosureArrow-down-1U7WW').addClass('DisclosureArrow-up-1U7WW');
+                summary.css('max-height', '10000px');
+            } else {
+                $(this).find('div').removeClass('DisclosureArrow-up-1U7WW').addClass('DisclosureArrow-down-1U7WW');
+                summary.css('max-height', '78px');
+            }
+        });
         $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
             event.stopPropagation();
             var movie_id = $(this).data('id');

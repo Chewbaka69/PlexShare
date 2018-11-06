@@ -4,8 +4,8 @@
 <?php echo \View::forge('layout/body', [
     'body'      => isset($body) ? $body : null,
     'user'      => isset($user) ? $user : null,
-    'libraries' => isset($libraries) ? $libraries : null,
-    'server'    => isset($server) ? $server : null,
+    'MenuLibraries' => isset($MenuLibraries) ? $MenuLibraries : null,
+    'MenuServer'    => isset($MenuServer) ? $MenuServer : null,
     'js_bottom' => isset($js_bottom) ? $js_bottom : null,
 ]); ?>
 </html>

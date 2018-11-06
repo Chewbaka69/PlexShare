@@ -13,8 +13,13 @@ function updateServers(servers) {
                 url: '/rest/browse/server.json',
                 data: {server_id: server.id}
             }).done(function (data) {
-                updateLibraries(server);
-                ajax -= 1;
+                if(data.error === true)
+                    show_alert('error', data.message);
+                else
+                {
+                    updateLibraries(server);
+                    ajax -= 1;
+                }
             });
         }, (index + 1) * 1000);
     });

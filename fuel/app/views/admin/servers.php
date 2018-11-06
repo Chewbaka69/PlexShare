@@ -25,12 +25,10 @@
                                     data-placement="top" data-toggle="tooltip" data-original-title="Disable">
                                 <i class="glyphicon ban"></i>
                             </button>
-                            <?php if($user->admin) : ?>
                             <button class="remove-server-btn card-action-btn btn-danger" data-server-id="<?php echo $server->id; ?>"
                                     data-placement="top" data-toggle="tooltip" data-original-title="Delete">
                                 <i class="glyphicon remove-2"></i>
                             </button>
-                            <?php endif; ?>
                         </div>
                         <h4 class="name"><?php echo $server->name; ?> <span data-placement="top" data-toggle="tooltip" data-original-title="<?php echo $server->online ? 'online' : 'offline' ; ?>" class="glyphicon <?php echo $server->online ? 'server text-success' : 'server-ban text-danger' ; ?>"></span></h4>
                         <div class="card-details">
@@ -60,7 +58,7 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(window).on('load', function() {
+    $(function() {
         $('.filter-bar .add').on('click', function () {
             $.ajax({
                 method: 'get',

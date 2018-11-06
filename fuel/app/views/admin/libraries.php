@@ -51,12 +51,10 @@
                                 <i class="glyphicon ban"></i>
                             </button>
                             <?php endif; ?>
-                            <?php if($user->admin) : ?>
                             <button class="remove-library-btn card-action-btn btn-danger" data-library-id="<?php echo $library->id; ?>"
                                     data-toggle="tooltip" data-original-title="Delete">
                                 <i class="glyphicon remove-2"></i>
                             </button>
-                            <?php endif; ?>
                         </div>
                         <h4 class="name">
                             <?php echo $library->name; ?>
@@ -89,7 +87,38 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(window).on('load', function() {
+    $(function() {
+        $('.filter-bar .add').on('click', function () {
+            $.ajax({
+                method: 'get',
+                url: '/rest/settings/add_server.json'
+            }).done(function (data) {
+                $('body').append(data);
+                setTimeout(function(){
+                    $('.media-server-modal').removeClass('out').addClass('in');
+                },100);
+            });
+        });
+        $(document).on('click', '.media-server-modal button.close', function () {
+            $('.media-server-modal').removeClass('in').addClass('out').delay(500).queue(function(){ $(this).remove()});
+        });
+        $(document).on('click', '#add-plex button', function () {
+            var url = $('#add-plex #url').val();
+            var port = $('#add-plex #port').val();
+            var token = $('#add-plex #token').val();
+            $.ajax({
+                method: 'post',
+                url: '/rest/settings/server.json',
+                data: {url: url, port: port, token: token}
+            }).done(function (data) {
+                show_alert('success', 'Server save succesfully!');
+                $('.media-server-modal button.close').click();
+            }).fail(function (data) {
+                data = JSON.parse(data.responseText);
+                show_alert('error', data.message);
+                setTimeout(function(){location.reload()}, 200);
+            });
+        });
         // LIBRARY BUTTON ACTION
         $('button.refresh-library-btn').on('click', function () {
             var library_id = $(this).data('library-id');
@@ -119,21 +148,6 @@
             }).done(function (data) {
                 show_alert('success', 'Library disable succesfully!');
                 $(button).closest('.card.card-device').addClass('disabled');
-            }).fail(function (data) {
-                data = JSON.parse(data.responseText);
-                show_alert('error', data.message);
-            });
-        });
-        $('button.enable-library-btn').on('click', function () {
-            var button = this;
-            var library_id = $(this).data('library-id');
-            $.ajax({
-                method: 'put',
-                url: '/rest/settings/library.json',
-                data: {library_id: library_id}
-            }).done(function (data) {
-                show_alert('success', 'Library enable succesfully!');
-                $(button).closest('.card.card-device').removeClass('disabled');
             }).fail(function (data) {
                 data = JSON.parse(data.responseText);
                 show_alert('error', data.message);

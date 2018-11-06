@@ -5,7 +5,7 @@
         <div class="SidebarMenuButton-sidebarMenuButtonContainer-3vW-e">
 									<span class="SidebarMenuButton-sidebarMenuTitle-2rcM8">
 										<span class="SidebarMenuButton-sidebarMenuPrimaryTitleContainer-15y7y">
-											<span class="SidebarMenuButton-sidebarMenuPrimaryTitle-3-46F"><?php echo isset($server) ? $server->name : null; ?></span>
+											<span class="SidebarMenuButton-sidebarMenuPrimaryTitle-3-46F"><?php echo isset($MenuServer) ? $MenuServer->name : null; ?></span>
 											<div class="DisclosureArrow-disclosureArrow-1sBFv DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd DisclosureArrow-isSelected-VMAVr"></div>
 										</span>
 										<span class="SidebarMenuButton-sidebarMenuSecondaryTitle-1oZlq"></span>
@@ -39,8 +39,8 @@
                          role="header">
                         <div class="SidebarServerLibraries-librariesTitle-3iqmv">Libraries</div>
                     </div>
-                    <?php if (isset($libraries)) : ?>
-                        <?php foreach ($libraries as $library) : ?>
+                    <?php if (isset($MenuLibraries)) : ?>
+                        <?php foreach ($MenuLibraries as $library) : ?>
                             <div class="SidebarLibraryItem-libraryListItem-2cmmj SidebarListItem-sidebarListItem-3ijGg">
                                 <a data-qa-id="sidebarLibraryItem--11"
                                    href="/library/<?php echo $library->id; ?>"

@@ -15,7 +15,7 @@
     <div id="content" class="scroll-container dark-scrollbar">
         <div>
             <div data-reactroot="" class="FullPage-container-3qanw">
-                <?php echo \View::forge('layout/nav_bar_vertical', ['libraries' => $libraries, 'server' => $server]); ?>
+                <?php echo \View::forge('layout/nav_bar_vertical', ['MenuLibraries' => $MenuLibraries, 'MenuServer' => $MenuServer]); ?>
                 <div class="Page-page-aq7i_ Scroller-scroller-d5-b- Scroller-none-1LyUO ">
                     <?php echo $body; ?>
                 </div>
@@ -34,8 +34,8 @@
             <div class="ServerMenu-serverMenuScroller-1nSX6 Menu-menuScroller-E0NwY Scroller-vertical-1bgGS Scroller-scroller-d5-b- Scroller-auto-3t4gM"
                  style="max-height: 300px;">
                 <div>
-                    <?php foreach (Model_Server::find_all() as $_server) : ?>
-                    <?php if($_server->id === $server->id) : ?>
+                    <?php foreach (Model_Server::find(function ($query){$query->where('online',1)->and_where('disable',0);}) as $_server) : ?>
+                    <?php if($_server->id === $MenuServer->id) : ?>
                     <a role="menuitem" href="#"
                     <?php else: ?>
                     <a role="menuitem" href="/home/<?php echo $_server->id; ?>"
@@ -47,7 +47,7 @@
                                 <div class="ServerMenuItem-serverMenuDetails-1-Rfq"></div>
                             </div>
                             <div class="ServerMenuItem-serverMenuIconContainer-2WtBG">
-                                <?php if($_server->id === $server->id) : ?>
+                                <?php if($_server->id === $MenuServer->id) : ?>
                                 <i class="plex-icon-selected-560 ServerMenuItem-serverMenuIcon-2zKCW ServerMenuItem-selectedIcon-dhK05"
                                         aria-hidden="false" aria-label="Sélectionné(e)"></i>
                                 <?php endif; ?>
@@ -63,16 +63,12 @@
     </div>
 </div>
 <div id="divVideo" style="display: none">
-    <div id="movie_id" style="height: 100%"></div>
+    <div id="movie_stream" style="height: 100%"></div>
     <div id="video_controls" class="AudioVideoPlayerView-container-kWiFs"></div>
 </div>
-<?php
-echo \Asset::js(isset($js_bottom) ? $js_bottom : null);
-echo \Asset::js(['bootstrap.min.js']);
-?>
-<script>
+<script type="text/javascript">
     $(function() {
-        $('[data-toggle="tooltip"]').tooltip({ container: 'body'});
+        $('[data-toggle="tooltip"]').tooltip({ container: 'body', template: '<div class="tooltip Tooltip-tooltipPortal-1IUlb"><div class="tooltip-arrow"></div><div class="tooltip-inner Tooltip-tooltip-2AL-W"></div></div>'});
         $(document).on('click', '#id-3026', function (event) {
             event.stopPropagation();
             $(this).find('.DisclosureArrow-disclosureArrow-1sBFv').toggleClass('DisclosureArrow-up-1U7WW DisclosureArrow-down-1U7WW');
@@ -85,4 +81,8 @@ echo \Asset::js(['bootstrap.min.js']);
         });
     });
 </script>
+<?php
+echo \Asset::js(['bootstrap.min.js']);
+echo \Asset::js(isset($js_bottom) ? $js_bottom : null);
+?>
 </body>

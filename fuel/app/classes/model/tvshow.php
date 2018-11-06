@@ -1,6 +1,7 @@
 <?php
 
 use Fuel\Core\CacheNotFoundException;
+use Fuel\Core\FuelException;
 
 class Model_Tvshow extends Model_Overwrite
 {
@@ -132,78 +133,96 @@ class Model_Tvshow extends Model_Overwrite
      * @param $library
      * @return bool | array
      * @throws Exception
-     * @throws HttpNotFoundException
-     * @throws \FuelException
+     * @throws FuelException
      */
     public static function BrowseTvShow($server, $subsections, $library)
     {
+        try {
+            $tvshows_id_array = [];
 
-        $tvshows_id_array = [];
+            foreach ($subsections as $subsection) {
+                $subsection = !isset($subsections['@attributes']) ? $subsection : $subsections;
 
-        foreach ($subsections as $subsection) {
-            $subsection = !isset($subsections['@attributes']) ? $subsection : $subsections;
+                $library_id = $library->id;
 
-            $library_id = $library->id;
+                $tvshow = Model_Tvshow::find(function ($query) use ($subsection, $library_id) {
+                    /** @var Database_Query_Builder_Select $query */
+                    return $query
+                        ->select('*')
+                        ->where('plex_key', $subsection['@attributes']['key'])
+                        ->and_where('library_id', $library_id);
+                })[0] ?: Model_Tvshow::forge();
 
-            $tvshow = Model_Tvshow::find(function ($query) use ($subsection, $library_id){
-                /** @var Database_Query_Builder_Select $query */
-                return $query
-                    ->select('*')
-                    ->where('plex_key', $subsection['@attributes']['key'])
-                    ->and_where('library_id', $library_id)
-                    ;
-            })[0] ?: Model_Tvshow::forge();
+                $tvshow->set([
+                    'library_id' => $library->id,
+                    'plex_key' => $subsection['@attributes']['key'],
+                    'studio' => isset($subsection['@attributes']['studio']) ? $subsection['@attributes']['studio'] : null,
+                    'title' => $subsection['@attributes']['title'],
+                    'contentRating' => isset($subsection['@attributes']['contentRating']) ? $subsection['@attributes']['contentRating'] : null,
+                    'summary' => isset($subsection['@attributes']['summary']) ? $subsection['@attributes']['summary'] : null,
+                    'rating' => isset($subsection['@attributes']['rating']) ? $subsection['@attributes']['rating'] : null,
+                    'year' => isset($subsection['@attributes']['year']) ? $subsection['@attributes']['year'] : null,
+                    'thumb' => isset($subsection['@attributes']['thumb']) ? $subsection['@attributes']['thumb'] : null,
+                    'art' => isset($subsection['@attributes']['art']) ? $subsection['@attributes']['art'] : null,
+                    'banner' => isset($subsection['@attributes']['banner']) ? $subsection['@attributes']['banner'] : null,
+                    'theme' => isset($subsection['@attributes']['theme']) ? $subsection['@attributes']['theme'] : null,
+                    'originallyAvailableAt' => isset($subsection['@attributes']['originallyAvailableAt']) ? $subsection['@attributes']['originallyAvailableAt'] : null,
+                    'leafCount' => isset($subsection['@attributes']['leafCount']) ? $subsection['@attributes']['leafCount'] : null,
+                    'addedAt' => $subsection['@attributes']['addedAt'],
+                    'updatedAt' => isset($subsection['@attributes']['updatedAt']) ? $subsection['@attributes']['updatedAt'] : null
+                ]);
 
-            $tvshow->set([
-                'library_id'            => $library->id,
-                'plex_key'              => $subsection['@attributes']['key'],
-                'studio'                => isset($subsection['@attributes']['studio']) ? $subsection['@attributes']['studio'] : null,
-                'title'                 => $subsection['@attributes']['title'],
-                'contentRating'         => isset($subsection['@attributes']['contentRating']) ? $subsection['@attributes']['contentRating'] : null,
-                'summary'               => isset($subsection['@attributes']['summary']) ? $subsection['@attributes']['summary'] : null,
-                'rating'                => isset($subsection['@attributes']['rating']) ? $subsection['@attributes']['rating'] : null,
-                'year'                  => isset($subsection['@attributes']['year']) ? $subsection['@attributes']['year'] : null,
-                'thumb'                 => isset($subsection['@attributes']['thumb']) ? $subsection['@attributes']['thumb'] : null,
-                'art'                   => isset($subsection['@attributes']['art']) ? $subsection['@attributes']['art'] : null,
-                'banner'                => isset($subsection['@attributes']['banner']) ? $subsection['@attributes']['banner'] : null,
-                'theme'                 => isset($subsection['@attributes']['theme']) ? $subsection['@attributes']['theme'] : null,
-                'originallyAvailableAt' => isset($subsection['@attributes']['originallyAvailableAt']) ? $subsection['@attributes']['originallyAvailableAt'] : null,
-                'leafCount'             => $subsection['@attributes']['leafCount'],
-                'addedAt'               => $subsection['@attributes']['addedAt'],
-                'updatedAt'             => $subsection['@attributes']['updatedAt']
-            ]);
+                $tvshow->save();
 
-            $tvshow->save();
+                $tvshows_id_array[] = ['id' => $tvshow->id, 'name' => $tvshow->title];
 
-            $tvshows_id_array[] = ['id' => $tvshow->id, 'name' => $tvshow->title];
+                //self::getTvShowSeasons($server, $tvshow);
 
-            //self::getTvShowSeasons($server, $tvshow);
+                if (isset($subsections['@attributes']))
+                    break;
+            }
 
-            if(isset($subsections['@attributes']))
-                break;
+            return $tvshows_id_array;
+        } catch (Exception $exception) {
+            throw new FuelException($exception->getMessage(),$exception->getCode());
         }
-
-        return $tvshows_id_array;
     }
 
+    /**
+     * @param $server
+     * @param $tvshow
+     * @return array|bool
+     * @throws FuelException
+     */
     public static function getTvShowSeasons($server, $tvshow)
     {
-        $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . $tvshow->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
-        $curl->execute();
+        try {
+            $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . $tvshow->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
+            $curl->execute();
 
-        if ($curl->response()->status !== 200)
-            return false;
+            if ($curl->response()->status !== 200)
+                return false;
 
-        $seasons = Format::forge($curl->response()->body, 'xml')->to_array();
+            $seasons = Format::forge($curl->response()->body, 'xml')->to_array();
 
-        if(isset($seasons['Directory']))
-            return Model_Season::BrowseSeason($server, $seasons['Directory'], $tvshow);
+            if (isset($seasons['Directory']))
+                return Model_Season::BrowseSeason($server, $seasons['Directory'], $tvshow);
+        } catch (Exception $exception) {
+            throw new FuelException($exception->getMessage(),$exception->getCode());
+        }
     }
 
     public function getSeasons()
     {
-        if(!$this->_seasons)
-            $this->_seasons = Model_Season::find_by('tv_show_id', $this->id);
+        if(!$this->_seasons) {
+            $id = $this->id;
+            $this->_seasons = Model_Season::find_by(function ($query) use ($id) {
+                $query
+                    ->where('tv_show_id', $id)
+                    ->order_by('number', 'ASC')
+                ;
+            });
+        }
 
         return $this->_seasons;
     }

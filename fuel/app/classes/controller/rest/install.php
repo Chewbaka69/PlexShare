@@ -8,6 +8,7 @@ use Fuel\Core\FuelException;
 use Fuel\Core\Input;
 use Fuel\Core\Request;
 use Fuel\Core\Str;
+use function PHPSTORM_META\type;
 
 class Controller_Rest_Install extends Controller_Rest
 {
@@ -92,6 +93,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'password' => array('constraint' => 255, 'type' => 'varchar'),
                     'admin' => array('constraint' => 1, 'type' => 'int', 'default' => 0),
                     'lastlogin' => array('constraint' => 11, 'type' => 'int'),
+                    'parent_id' => array('constraint' => 36, 'type' => 'varchar', 'default' => null, 'null' => true),
                     'disable' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
@@ -187,7 +189,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'plex_key' => array('constraint' => 36, 'type' => 'varchar'),
                     'number' => array('constraint' => 11, 'type' => 'int'),
                     'title' => array('constraint' => 255, 'type' => 'varchar'),
-                    'thumb' => array('constraint' => 255, 'type' => 'varchar'),
+                    'thumb' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
                     'art' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
                     'leafCount' => array('constraint' => 11, 'type' => 'int', 'null' => true),
                     'addedAt' => array('constraint' => 11, 'type' => 'int', 'null' => true),
@@ -304,7 +306,27 @@ class Controller_Rest_Install extends Controller_Rest
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
                     'file_id' => array('constraint' => 11, 'type' => 'int'),
                     'user_id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'watching_time' => array('constraint' => 11, 'type' => 'int'),
+                    'ended' => array('constraint' => 1, 'type' => 'int', 'default' => 0),
                     'disable' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
+                ),
+                array('id'), false, 'InnoDB', 'utf8_unicode_ci'
+            );
+            $logs .= 'User Watching table create!'."\r\n";
+
+            $logs .= 'Creation table user settings'."\r\n";
+            /**
+             * CREATE TABLE USER'S WATCHING
+             */
+            DBUtil::create_table(
+                'user_settings',
+                array(
+                    'id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'language' => array('constraint' => 36, 'type' => 'varchar'),
+                    'refresh' => array('constraint' => 11, 'type' => 'int'),
+                    'trailer' => array('constraint' => 11, 'type' => 'int', 'default' => 0),
+                    'subtitle' => array('constraint' => 11, 'type' => 'int'),
+                    'quality' => array('constraint' => 11, 'type' => 'int', 'default' => -1)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
@@ -427,6 +449,16 @@ class Controller_Rest_Install extends Controller_Rest
             DBUtil::add_foreign_key('server', array(
                 'constraint' => 'constraintServerUser',
                 'key' => 'user_id',
+                'reference' => array(
+                    'table' => 'user',
+                    'column' => 'id',
+                ),
+                'on_update' => 'NO ACTION',
+                'on_delete' => 'NO ACTION',
+            ));
+            DBUtil::add_foreign_key('user', array(
+                'constraint' => 'constraintUserUser',
+                'key' => 'parent_id',
                 'reference' => array(
                     'table' => 'user',
                     'column' => 'id',

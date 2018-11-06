@@ -22,9 +22,17 @@ class Controller_Library extends Controller_Home
         $content = null;
 
         if($library->type === 'movie') {
-            $content = Model_Movie::find_by('library_id', $library->id);
+            $content = Model_Movie::find_by(function ($query) use ($library_id){
+                $query->where('library_id', $library_id)
+                    ->order_by('title', 'ASC')
+                ;
+            });
         } else if($library->type === 'show') {
-            $content = Model_Tvshow::find_by('library_id', $library->id);
+            $content = Model_Tvshow::find_by(function ($query) use ($library_id){
+                $query->where('library_id', $library_id)
+                    ->order_by('title', 'ASC')
+                ;
+            });
         }
 
         $body->set('movies', $content);

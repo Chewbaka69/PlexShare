@@ -30,7 +30,7 @@ class Controller_Rest_Settings extends Controller_Rest
             if(!$result)
                 throw new FuelException('Can not connect to your server!');
 
-            $server = $server_id === null ? Model_Server::forge() : Model_Server::find_by_pk($server_id);
+            $server = ($server_id === '' ? Model_Server::forge() : Model_Server::find_by_pk($server_id));
             $server->set([
                 'user_id'   => Session::get('user')->id,
                 'url'       => $url,
@@ -59,6 +59,34 @@ class Controller_Rest_Settings extends Controller_Rest
 
             $server->set(['disable' => 1]);
             $server->save();
+
+            return $this->response(array('error' => false));
+        } catch (FuelException $e) {
+            return $this->response(array('error' => true, 'message' => $e->getMessage() ?: 'Wrong parameters'), 400);
+        }
+    }
+
+    public function put_library()
+    {
+        try {
+            $library = Input::put('library_id');
+
+            $library = Model_Library::find_one_by(function($query) use($library) {
+                $query
+                    ->join('server', 'LEFT')
+                    ->on('server.id', '=','library.server_id' )
+                    ->where('server.user_id', Session::get('user')->id)
+                    ->and_where('library.id', $library)
+                    ->and_where('library.disable', 1)
+                    ->and_where('server.disable', 0)
+                ;
+            });
+
+            if(!$library)
+                throw new FuelException('No disable library found!');
+
+            $library->set(['disable' => 0]);
+            $library->save();
 
             return $this->response(array('error' => false));
         } catch (FuelException $e) {

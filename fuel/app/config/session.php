@@ -44,7 +44,7 @@ return array(
 	'cookie_path'		=> '/',
 
 	// cookie http_only flag  (optional, default = use the cookie class default)
-	'cookie_http_only'	=> true,
+	'cookie_http_only'	=> null,
 
 	// whether or not to encrypt the session cookie (optional, default is true)
 	'encrypt_cookie'	=> true,
@@ -85,19 +85,19 @@ return array(
 
 	// special configuration settings for cookie based sessions
 	'cookie'			=> array(
-		'cookie_name'		=> 'plexshare_ccn',				// name of the session cookie for cookie based sessions
+		'cookie_name'		=> 'plexshare_cid',				// name of the session cookie for cookie based sessions
 						),
 
 	// specific configuration settings for file based sessions
 	'file'				=> array(
-		'cookie_name'		=> 'plexshare_fcn',				// name of the session cookie for file based sessions
+		'cookie_name'		=> 'plexshare_fid',				// name of the session cookie for file based sessions
 		'path'				=>	'/tmp',					// path where the session files should be stored
 		'gc_probability'	=>	5,						// probability % (between 0 and 100) for garbage collection
 						),
 
 	// specific configuration settings for memcached based sessions
 	'memcached'			=> array(
-		'cookie_name'		=> 'plexshare_mcn',				// name of the session cookie for memcached based sessions
+		'cookie_name'		=> 'plexshare_mid',				// name of the session cookie for memcached based sessions
 		'servers'			=> array(					// array of servers and portnumbers that run the memcached service
 								'default' => array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
 							),
@@ -105,7 +105,7 @@ return array(
 
 	// specific configuration settings for database based sessions
 	'db'			=> array(
-		'cookie_name'		=> 'plexshare_dcn',				// name of the session cookie for database based sessions
+		'cookie_name'		=> 'plexshare_did',				// name of the session cookie for database based sessions
 		'database'			=> null,					// name of the database name (as configured in config/db.php)
 		'table'				=> 'sessions',				// name of the sessions table
 		'gc_probability'	=> 5,						// probability % (between 0 and 100) for garbage collection
@@ -113,7 +113,7 @@ return array(
 
 	// specific configuration settings for redis based sessions
 	'redis'			=> array(
-		'cookie_name'		=> 'plexshare_rcn',				// name of the session cookie for redis based sessions
+		'cookie_name'		=> 'plexshare_rid',				// name of the session cookie for redis based sessions
 		'database'			=> 'default',				// name of the redis database to use (as configured in config/db.php)
 						),
 );

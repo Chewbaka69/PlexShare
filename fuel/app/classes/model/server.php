@@ -53,38 +53,42 @@ class Model_Server extends Model_Overwrite
      */
     public static function BrowseServeur($_servers = null)
     {
-        $servers = $_servers ?: Model_Server::find();
+        $servers = $_servers ?: Model_Server::find_all();
 
         foreach ($servers as $server) {
 
-            if($server->disable)
-                continue;
+            try{
+                if($server->disable)
+                    continue;
 
                 $curl = Request::forge('http://' . $server->url . ($server->port? ':' . $server->port : '') . '/?X-Plex-Token=' . $server->token, 'curl');
-            $curl->execute();
+                $curl->execute();
 
-            $dataServer = Format::forge($curl->response()->body, 'xml')->to_array();
+                $dataServer = Format::forge($curl->response()->body, 'xml')->to_array();
 
-            if (!isset($dataServer['@attributes'])) {
-                $server->set('online', 0);
+                if (!isset($dataServer['@attributes'])) {
+                    $server->set(['online' => 0]);
+                    $server->save();
+                }
+
+                $dataServer = $dataServer['@attributes'];
+
+                $server->set(['lastcheck' => time()]);
+
+                ($server->name              !== $dataServer['friendlyName'])     ? $server->set(['name'              => $dataServer['friendlyName']])      : null;
+                ($server->plateforme        !== $dataServer['platform'])         ? $server->set(['plateforme'        => $dataServer['platform']])          : null;
+                ($server->platformVersion   !== $dataServer['platformVersion'])  ? $server->set(['platformVersion'   => $dataServer['platformVersion']])   : null;
+                ($server->updatedAt         !== $dataServer['updatedAt'])        ? $server->set(['updatedAt'         => $dataServer['updatedAt']])         : null;
+                ($server->version           !== $dataServer['version'])          ? $server->set(['version'           => $dataServer['version']])           : null;
+
+                $server->set(['online' => 1]);
+
                 $server->save();
+            }catch (Exception $exception) {
+                $server->set(['online' => 0]);
+                $server->save();
+                throw new FuelException($exception->getMessage(),$exception->getCode());
             }
-
-            $dataServer = $dataServer['@attributes'];
-
-            $server->set(['lastcheck' => time()]);
-
-            ($server->name !== $dataServer['friendlyName'])     ? $server->set(['name'              => $dataServer['friendlyName']])      : null;
-            ($server->name !== $dataServer['platform'])         ? $server->set(['plateforme'        => $dataServer['platform']])          : null;
-            ($server->name !== $dataServer['platformVersion'])  ? $server->set(['platformVersion'   => $dataServer['platformVersion']])   : null;
-            ($server->name !== $dataServer['updatedAt'])        ? $server->set(['updatedAt'         => $dataServer['updatedAt']])         : null;
-            ($server->name !== $dataServer['version'])          ? $server->set(['version'           => $dataServer['version']])           : null;
-
-            $server->set(['online' => 1]);
-
-            $server->save();
-
-            //Model_Library::BrowseLibraries($server);
         }
     }
 

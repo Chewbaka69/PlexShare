@@ -1,4 +1,5 @@
 <input id="data_movie" type="hidden" data-src="<?php echo $movie->getStreamUrl(); ?>"/>
+<input id="data_movie_id" type="hidden" data-movie-id="<?php echo $movie->id; ?>"/>
 <button aria-label="Lire" role="playCenter" type="button"
         class="PlayPauseOverlay-playButton-25OfW PlayButton-playButton-3WX8X Link-link-2XYrU Link-default-32xSO"
         style="z-index: 0">
@@ -28,7 +29,7 @@
     </div>
 </div>
 <!-- Quality choice -->
-<div class="AudioVideoPlaybackSettings-container-2pTAj AudioVideoStripeContainer-container-MI02O" style="display: none; bottom: 86px;">
+<div class="AudioVideoPlaybackSettings-container-2pTAj AudioVideoStripeContainer-container-MI02O" style="transform: translateY(246px)">
     <div class="AudioVideoPlaybackSettings-title-2MRYF">Configuration de la lecture</div>
     <div class="AudioVideoPlaybackSettings-menusContainer-2bvbj" data-qa-id="playbackSettingsContainer">
         <div class="AudioVideoSettingsRow-row-2CrSz ">
@@ -64,8 +65,7 @@
      style="bottom: -86px; height: 86px; z-index: 0">
     <div class="AudioVideoBottomBar-controlsContainer-2c743">
         <div>
-            <di v
-                class="AudioVideoBottomBar-seekBar-2ai3z SeekBar-seekBar-2UK3i Slider-slider-2oLVT Slider-hasAutoHideThumb-tpdhC">
+            <div class="AudioVideoBottomBar-seekBar-2ai3z SeekBar-seekBar-2UK3i Slider-slider-2oLVT Slider-hasAutoHideThumb-tpdhC">
                 <div class="SeekBar-seekBarTrack-3Gu5R Slider-track-28JOS">
                     <div class="SeekBar-seekBarBuffer-3bUz9 Slider-secondaryFill-31_05 Slider-fill-35GFq "
                          style="transform: scaleX(0);"></div>
@@ -107,7 +107,7 @@
                         </div>
                     <?php else : ?>
                         <div class="AudioVideoPlayerControlsMetadata-titlesContainer-1oLik">
-                            <a title="<?php echo $movie->title; ?>" href="#" role="link"
+                            <a title="<?php echo $movie->title; ?>" href="/movie/<?php echo $movie->id; ?>" role="link"
                                class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
                                 <?php echo $movie->title; ?>
                             </a>
@@ -122,7 +122,7 @@
                 <button data-qa-id="mediaDuration" role="button"
                         class="DurationRemaining-container-1F4w8 Link-link-2XYrU Link-default-32xSO"
                         type="button"><span class="media-time">00:00</span> / <span
-                            class="media-duration"><?php echo $movie->getDuractionMovie(); ?></span></button>
+                            class="media-duration"><?php echo $movie->getDurationMovie(); ?></span></button>
             </div>
         </div>
         <div class="AudioVideoPlayerControls-buttonGroupCenter-Vok98 AudioVideoPlayerControls-buttonGroup-ShnOa">

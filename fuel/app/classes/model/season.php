@@ -1,5 +1,7 @@
 <?php
 
+use Fuel\Core\FuelException;
+
 class Model_Season extends Model_Overwrite
 {
     protected static $_table_name = 'season';
@@ -102,69 +104,79 @@ class Model_Season extends Model_Overwrite
      * @param $server
      * @param $seasons
      * @param $tvshow
-     * @return bool
-     * @throws Exception
+     * @return array
      * @throws FuelException
-     * @throws HttpNotFoundException
-     * @throws \FuelException
      */
     public static function BrowseSeason($server, $seasons, $tvshow)
     {
-        $season_id_array = [];
+        try {
+            $season_id_array = [];
 
-        foreach ($seasons as $XMLseason) {
-            $XMLseason = !isset($seasons['@attributes']) ? $XMLseason : $seasons;
+            foreach ($seasons as $XMLseason) {
+                $XMLseason = !isset($seasons['@attributes']) ? $XMLseason : $seasons;
 
-            // Not browsing array ALL EPISODES
-            if($seasons[0] === $XMLseason)
-                continue;
+                // Not browsing array ALL EPISODES
+                if (isset($seasons[0]) && $seasons[0] === $XMLseason)
+                    continue;
 
-            $tvshow_id = $tvshow->id;
+                $tvshow_id = $tvshow->id;
 
-            $season = Model_Season::find(function ($query) use ($XMLseason, $tvshow_id){
-                /** @var Database_Query_Builder_Select $query */
-                return $query
-                    ->select('*')
-                    ->where('plex_key', $XMLseason['@attributes']['key'])
-                    ->and_where('tv_show_id', $tvshow_id)
-                    ;
-            })[0] ?: Model_Season::forge();
+                $season = Model_Season::find(function ($query) use ($XMLseason, $tvshow_id) {
+                    /** @var Database_Query_Builder_Select $query */
+                    return $query
+                        ->select('*')
+                        ->where('plex_key', $XMLseason['@attributes']['key'])
+                        ->and_where('tv_show_id', $tvshow_id);
+                })[0] ?: Model_Season::forge();
 
-            $season->set([
-                'tv_show_id'            => $tvshow->id,
-                'plex_key'              => $XMLseason['@attributes']['key'],
-                'number'                => $XMLseason['@attributes']['index'],
-                'title'                 => $XMLseason['@attributes']['title'],
-                'thumb'                 => $XMLseason['@attributes']['thumb'],
-                'art'                   => isset($XMLseason['@attributes']['art']) ?  $XMLseason['@attributes']['art'] : null,
-                'leafCount'             => $XMLseason['@attributes']['leafCount'],
-                'addedAt'               => $XMLseason['@attributes']['addedAt'],
-                'updatedAt'             => $XMLseason['@attributes']['updatedAt']
-            ]);
+                $season->set([
+                    'tv_show_id' => $tvshow->id,
+                    'plex_key' => $XMLseason['@attributes']['key'],
+                    'number' => $XMLseason['@attributes']['index'],
+                    'title' => $XMLseason['@attributes']['title'],
+                    'thumb' => isset($XMLseason['@attributes']['thumb']) ? $XMLseason['@attributes']['thumb'] : null,
+                    'art' => isset($XMLseason['@attributes']['art']) ? $XMLseason['@attributes']['art'] : null,
+                    'leafCount' => isset($XMLseason['@attributes']['leafCount']) ? $XMLseason['@attributes']['leafCount'] : null,
+                    'addedAt' => $XMLseason['@attributes']['addedAt'],
+                    'updatedAt' => isset($XMLseason['@attributes']['updatedAt']) ? $XMLseason['@attributes']['updatedAt'] : null
+                ]);
 
-            $season->save();
+                $season->save();
 
-            $season_id_array[] = ['id' => $season->id, 'name' => $season->title];
+                $season_id_array[] = ['id' => $season->id, 'name' => $season->title];
 
-            if(isset($seasons['@attributes']))
-                break;
+                if (isset($seasons['@attributes']))
+                    break;
+            }
+
+            return $season_id_array;
+        } catch (Exception $exception) {
+            throw new FuelException($exception->getMessage(),$exception->getCode());
         }
-
-        return $season_id_array;
     }
 
+    /**
+     * @param $server
+     * @param $season
+     * @return array|bool
+     * @throws FuelException
+     */
     public static function getMovies($server, $season)
     {
-        $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . $season->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
-        $curl->execute();
+        try {
+            $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . $season->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
+            $curl->execute();
 
-        if ($curl->response()->status !== 200)
-            return false;
+            if ($curl->response()->status !== 200)
+                return false;
 
-        $movies = Format::forge($curl->response()->body, 'xml')->to_array();
+            $movies = Format::forge($curl->response()->body, 'xml')->to_array();
 
-        if(isset($movies['Video']))
-            return ['movies' => Model_Movie::BrowseMovies($server, $movies['Video'], null, $season)];
+            if (isset($movies['Video']))
+                return ['movies' => Model_Movie::BrowseMovies($server, $movies['Video'], null, $season)];
+        } catch (Exception $exception) {
+            throw new FuelException($exception->getMessage(),$exception->getCode());
+        }
     }
 
     public function getEpisodes()

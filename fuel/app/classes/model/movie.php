@@ -157,6 +157,10 @@ class Model_Movie extends Model_Overwrite
         }
     }
 
+    /**
+     * @return array|mixed
+     * @throws FuelException
+     */
     public function getMetaData()
     {
         try {
@@ -183,8 +187,26 @@ class Model_Movie extends Model_Overwrite
             //ROLES
             $this->metadata['Role'] = isset($array['Video']['Role']) ? $array['Video']['Role'] : null;
 
+            $this->metadata['Stream'] = [];
+            $this->metadata['Stream']['Video'] = [];
+            $this->metadata['Stream']['Audio'] = [];
+            $this->metadata['Stream']['SubTitle'] = [];
+
+            if(isset($array['Video']['Media']['Part']['Stream'])) {
+                foreach ($array['Video']['Media']['Part']['Stream'] as $stream) {
+                    if($stream['@attributes']['streamType'] === '1')
+                        $this->metadata['Stream']['Video'][] = $stream['@attributes'];
+                    else if($stream['@attributes']['streamType'] === '2')
+                        $this->metadata['Stream']['Audio'][] = $stream['@attributes'];
+                    else if($stream['@attributes']['streamType'] === '3')
+                        $this->metadata['Stream']['SubTitle'][] = $stream['@attributes'];
+                }
+            }
+
             Cache::set($this->id . '.metadata', $this->metadata);
             return $this->metadata;
+        } catch (Exception $exception) {
+            throw new FuelException($exception->getMessage(),$exception->getCode());
         }
     }
 
@@ -208,7 +230,7 @@ class Model_Movie extends Model_Overwrite
         return ($hours > 0 ? $hours . ' h ' : '') . $minutes . ' min';
     }
 
-    public function getDuractionMovie()
+    public function getDurationMovie()
     {
         $init = $this->duration;
 
@@ -225,7 +247,7 @@ class Model_Movie extends Model_Overwrite
             if (!$this->_server)
                 $this->getServer();
 
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start.m3u8?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
             //$curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&videoResolution=576x320&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
             $curl->execute();
 
@@ -245,8 +267,8 @@ class Model_Movie extends Model_Overwrite
             $this->_session = $split[1];
 
             return 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
-        }catch (Exception $exception) {
-            throw new FuelException('TOKEN MAYBE OUTDATED',$exception->getCode());
+        } catch (Exception $exception) {
+            throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!',$exception->getCode());
         }
     }
 
@@ -298,9 +320,9 @@ class Model_Movie extends Model_Overwrite
                 'summary'               => $XMLmovie['@attributes']['summary'],
                 'rating'                => isset($XMLmovie['@attributes']['rating']) ? $XMLmovie['@attributes']['rating'] : null,
                 'year'                  => isset($XMLmovie['@attributes']['year']) ? $XMLmovie['@attributes']['year'] : null,
-                'thumb'                 => $XMLmovie['@attributes']['thumb'],
+                'thumb'                 => isset($XMLmovie['@attributes']['thumb']) ? $XMLmovie['@attributes']['thumb'] : null,
                 'art'                   => isset($XMLmovie['@attributes']['art']) ? $XMLmovie['@attributes']['art'] : null,
-                'duration'              => $XMLmovie['@attributes']['duration'],
+                'duration'              => isset($XMLmovie['@attributes']['duration']) ? $XMLmovie['@attributes']['duration'] : null,
                 'originallyAvailableAt' => isset($XMLmovie['@attributes']['originallyAvailableAt']) ? $XMLmovie['@attributes']['originallyAvailableAt'] : null,
                 'addedAt'               => $XMLmovie['@attributes']['addedAt'],
                 'updatedAt'             => $XMLmovie['@attributes']['updatedAt']

@@ -8,10 +8,6 @@
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560"
                                                                   aria-hidden="true"></i></button>
-                <button id="id-568" aria-label="Visionner la bande annonce." role="button"
-                        class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-play-trailer-560"
-                                                                  aria-hidden="true"></i></button>
                 <button id="id-639" aria-label="Ordre aléatoire." data-qa-id="toolbarShuffle" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-shuffle-560"
@@ -122,7 +118,7 @@
                                 </div>
                             </div>
                             <div class="PrePlaySummary-summary-1NL8g">
-                                <div class="false" style="overflow: hidden; max-height: 78px;">
+                                <div class="CollapsibleText-contentTransition-15VYv" style="overflow: hidden; max-height: 78px;">
                                     <div class="Measure-container-2XznZ"><?php echo $tvshow->summary; ?>
                                         <div class="Measure-scrollContainer-3vb4J">
                                             <div class="Measure-expandContent-1JQfL"></div>
@@ -134,8 +130,8 @@
                                 </div>
                                 <button aria-haspopup="true" role="button"
                                         class="CollapsibleText-readMore-1bRJm DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37  Link-link-2XYrU Link-default-32xSO"
-                                        type="button">Voir plus
-                                    <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
+                                        type="button">Read more
+                                    <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
                                 </button>
                             </div>
                         </div>
@@ -153,11 +149,10 @@
                                 <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle">SAISONS</div>
                             </div>
                             <div>
-                                <div class=" " style="width: 1226px; height: 248px;">
-                                    <?php $translate = -132; ?>
+                                <div class=" " style="width: 100%;">
                                     <?php foreach ($tvshow->getSeasons() as $season) : ?>
                                     <div class=" virtualized-cell-3KPHx"
-                                         style="position: absolute; width: 122px; height: 233px; transform: translate3d(<?php echo $translate += 152; ?>px, 10px, 0px);">
+                                         style="position: relative; width: 137px; height: 206px; display: inline-block; margin-left: 28px; margin-top: 10px">
                                         <div class="MetadataPosterCard-cardContainer-2gRcQ"
                                              data-qa-id="metadataPosterCard--/library/metadata/28083">
                                             <div class="MetadataPosterCard-card-3bztR "
@@ -215,6 +210,71 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="PrePlayMetadataListInnerContent-innerContent-2CsIz">
+                            <div class="PrePlayMetadataInnerContent-innerContent-1BPzw">
+                                <div class="PrePlayCastList-castList-3dQB5">
+                                    <div class="HubCell-hubCell-3Ys17" style="visibility: visible;" data-qa-id="hub--cast">
+                                        <div class="HubCellHeader-hubCellHeader-2pvYN">
+                                            <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle">ACTEURS</div>
+                                            <div class="HubCell-hubActions-28w1-">
+                                                <button data-qa-id="hubPreviousButton" role="button" class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO isDisabled " type="button" disabled="">
+                                                    <i class="plex-icon-hub-prev-560" aria-hidden="false" aria-label="Page précédente"></i>
+                                                </button>
+                                                <button data-qa-id="hubNextButton" role="button" class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO" type="button">
+                                                    <i class="plex-icon-hub-next-560" aria-hidden="false" aria-label="Page suivante"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="height: 183px; overflow: hidden;">
+                                            <div class="Measure-container-3yONE">
+                                                <div class="HubCell-hubScroller-2qgkr VirtualListScroller-scroller-37EU_ Scroller-horizontal-cOKsq Scroller-scroller-3GqQc Scroller-horizontal-cOKsq ">
+                                                    <?php $translate = -143; ?>
+                                                    <div class=" " style="width: 5012px; height: 183px;">
+                                                        <?php if(isset($tvshow->getMetadata()['Role'])) : ?>
+                                                            <?php foreach ($tvshow->getMetadata()['Role'] as $role) : ?>
+                                                                <?php $translate += 148; ?>
+                                                                <div data-qa-id="cellItem" style="position: absolute; width: 118px; height: 168px; transform: translate3d(<?php echo $translate; ?>px, 10px, 0px);">
+                                                                    <a href="#" role="link" class="PrePlayCastCell-cardLink-Tndv5 Link-link-2XYrU Link-default-32xSO">
+                                                                        <div class="TagPosterCard-card-RVD0D MetadataPosterCardFace-poster-L2P6r TagPosterCard-isPerson-1ez1h" style="width: 118px; height: 118px;">
+                                                                            <?php if (isset($role['@attributes']['thumb'])) : ?>
+                                                                                <div class="PosterCardImg-imageContainer-1Ar4M">
+                                                                                    <div style="background-image: url('<?php echo $role['@attributes']['thumb']; ?>'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;" class=""></div>
+                                                                                </div>
+                                                                            <?php else : ?>
+                                                                                <div style="font-size: 30px; line-height: 118px;" class="Anagram-anagram-2KZ_Z">
+                                                                                    <?php
+                                                                                    $actor = explode(' ',$role['@attributes']['tag']);
+                                                                                    echo substr($actor[0],0,1).substr($actor[1],0,1);
+                                                                                    ?>
+                                                                                </div>
+                                                                            <?php endif; ?>
+                                                                        </div>
+                                                                    </a>
+                                                                    <div class="PrePlayCastCell-titleContainer-PAy29">
+                                                                        <a data-qa-id="castTitle" title="<?php echo $role['@attributes']['tag']; ?>" href="#" role="link" class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
+                                                                            <?php echo $role['@attributes']['tag']; ?>
+                                                                        </a>
+                                                                        <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY " title="Johnny English">
+                                                                            <?php echo $role['@attributes']['role']; ?>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="Measure-scrollContainer-1c6dy">
+                                                    <div class="Measure-expandContent-zsLw6"></div>
+                                                </div>
+                                                <div class="Measure-scrollContainer-1c6dy">
+                                                    <div class="Measure-shrinkContent-303GS Measure-expandContent-zsLw6"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -229,6 +289,18 @@
 </div>
 <script type="text/javascript">
     $(window).on('load', function() {
+        /** READ MORE **/
+        $(document).on('click', '.CollapsibleText-readMore-1bRJm', function (event) {
+            var summary = $(document).find('.CollapsibleText-contentTransition-15VYv');
+
+            if(summary.css('max-height') === '78px') {
+                $(this).find('div').removeClass('DisclosureArrow-down-1U7WW').addClass('DisclosureArrow-up-1U7WW');
+                summary.css('max-height', '10000px');
+            } else {
+                $(this).find('div').removeClass('DisclosureArrow-up-1U7WW').addClass('DisclosureArrow-down-1U7WW');
+                summary.css('max-height', '78px');
+            }
+        });
         $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]').each(function (index, element) {
             var tvshow_id = $(element).data('tvshow-id');
             $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', 'url("/cover/tvshow?tvshow_id=' + tvshow_id + '&width=' + 325 + '&height=' + 488 + '")');

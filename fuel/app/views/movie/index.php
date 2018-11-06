@@ -5,13 +5,21 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-16" data-original-title="Lire" data-toggle="tooltip" role="button"
+                <button id="id-16" title="Lire" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i></button>
-                <button id="id-15" data-original-title="Plus..." aria-haspopup="true" data-toggle="tooltip"
+                        type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
+                </button>
+                <button id="id-362" title="Visionner la bande annonce." data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                    <i class="plex-icon-toolbar-play-trailer-560" aria-hidden="true"></i>
+                </button>
+                <button id="id-21" title="Marquer comme vu" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                    <i class="plex-icon-toolbar-played-toggle-560" aria-hidden="true"></i>
+                </button>
+                <button id="id-15" title="Plus..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-more-560" aria-hidden="true"></i></button>
+                        type="button"><i class="plex-icon-toolbar-more-560" aria-hidden="true"></i>
+                </button>
             </div>
             <div class="Measure-scrollContainer-3vb4J">
                 <div class="Measure-expandContent-1JQfL"></div>
@@ -21,7 +29,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-14" data-original-title="Montrer les affiches" data-toggle="tooltip" role="button"
+        <button id="id-14" title="Montrer les affiches" data-placement="bottom" data-toggle="tooltip" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
     </div>
@@ -31,15 +39,14 @@
         <div class="PageContent-innerPageContent-3ktLT">
             <div>
                 <div style="position: fixed; top: 180px;">
-                    <div class="MetadataPosterCard-cardContainer-2gRcQ"
-                         data-qa-id="metadataPosterCard--/library/metadata/28283">
+                    <div class="MetadataPosterCard-cardContainer-2gRcQ">
                         <div class="MetadataPosterCard-card-3bztR " style="width: 260px; height: 390px;">
                             <div class="PrePlayPosterCard-face-3rQEj MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
                                 <div class="PosterCardImg-imageContainer-1Ar4M" data-movie-id="<?php echo $movie->id; ?>">
                                     <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                          class=""></div>
                                 </div>
-                                <div class=" MetadataPosterCardOverlay-overlay-1uMpL         ">
+                                <div class=" MetadataPosterCardOverlay-overlay-1uMpL">
                                     <div class="MetadataPosterCardOverlay-background-2EwyB"></div>
                                     <div class="MetadataPosterCardOverlay-unwatchedTagContainer-1lcEn"
                                          data-qa-id="metadataPosterUnwatchedBadge">
@@ -57,15 +64,30 @@
                             </div>
                         </div>
                     </div>
+                    <?php if($movie->getMetaData()['Media']['@attributes']['videoResolution'] >= '720') : ?>
+                        <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-hd"></i></div>
+                    <?php else: ?>
+                        <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-sd"></i></div>
+                    <?php endif; ?>
+
+                    <?php if($movie->getMetaData()['Stream']['Audio'][0]['codec'] === 'ac3') : ?>
+                        <div class="col-sm-4 text-center" title="Dolby Digital" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-dolby"></i></div>
+                    <?php endif; ?>
+
+                    <?php if(preg_match('/7\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                        <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-7-1"></i></div>
+                    <?php elseif (preg_match('/5\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                        <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-5-1"></i></div>
+                    <?php elseif (preg_match('/stereo/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                        <div class="col-sm-4 text-center" title="Stereo" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-stereo"></i></div>
+                    <?php endif; ?>
                 </div>
                 <div class="PrePlayMetadataContent-content-2ww3j" style="padding-left: 320px;">
                     <div>
                         <div class="PrePlayMetadataInnerContent-innerContent-1BPzw">
                             <div class="PrePlayPrimaryTitle-primaryTitle-1r9P9">
-                                <div class="PrePlayLeftTitle-leftTitle-Ev1KG"><a title="<?php echo $movie->title; ?>"
-                                                                                 href="#"
-                                                                                 role="link"
-                                                                                 class=" Link-link-2XYrU Link-default-32xSO"><?php echo $movie->title; ?></a>
+                                <div class="PrePlayLeftTitle-leftTitle-Ev1KG">
+                                    <a title="<?php echo $movie->title; ?>" href="#" role="link" class=" Link-link-2XYrU Link-default-32xSO"><?php echo $movie->title; ?></a>
                                 </div>
                             </div>
                             <div class="PrePlaySecondaryTitle-secondaryTitle-YJRGC PrePlayPrimaryTitle-primaryTitle-1r9P9"
@@ -81,13 +103,15 @@
                                     </span>
                                 </div>
                                 <div class="PrePlayRatingRightTitle-ratingRightTitle-1d4Yy PrePlayRightTitle-rightTitle-VxiwU">
-                                    <span
-                                            class="PrePlayRatingRightTitle-criticRating-2J_tn"><div
-                                                class="CriticRating-container-2t5Lw"><div
-                                                    class="CriticRating-rating-1Ntfn"><div
-                                                        class="CriticRating-other-uJc1K CriticRating-ratingImage-1bHp5"
-                                                        title="Note"></div><?php echo $movie->rating * 10; ?>%
-                                                </div></div></span></div>
+                                    <span class="PrePlayRatingRightTitle-criticRating-2J_tn">
+                                        <div class="CriticRating-container-2t5Lw">
+                                            <div class="CriticRating-rating-1Ntfn">
+                                                <div class="CriticRating-imdb-16xaH CriticRating-ratingImage-1bHp5" title="Note"></div>
+                                                <?php echo $movie->rating; ?>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </div>
                             </div>
                             <div class="PrePlayTertiaryTitle-tertiaryTitle-1Rc92">
                                 <div class="PrePlayLeftTitle-leftTitle-Ev1KG">
@@ -99,18 +123,20 @@
                                 </div>
                                 <div class="PrePlayRightTitle-rightTitle-VxiwU">
                                     <span>
-                                        <?php foreach ($movie->metadata['Genre'] as $genre) : ?>
-                                            <?php $genre = isset($movie->metadata['Genre']['@attributes']) ? $movie->metadata['Genre'] : $genre; ?>
-                                            <span>
-                                            <a href="#" role="link"
-                                               class="PrePlayTagList-tagsListLink-Z6lfX Link-link-2XYrU Link-default-32xSO">
-                                                <?php echo $genre['@attributes']['tag']; ?>
-                                            </a>,
-                                        </span>
-                                            <?php if (isset($movie->metadata['Genre']['@attributes'])) {
-                                                break;
-                                            } ?>
-                                        <?php endforeach; ?>
+                                        <?php if(isset($movie->metadata['Genre'])) :?>
+                                            <?php foreach ($movie->metadata['Genre'] as $genre) : ?>
+                                                <?php $genre = isset($movie->metadata['Genre']['@attributes']) ? $movie->metadata['Genre'] : $genre; ?>
+                                                <span>
+                                                <a href="#" role="link"
+                                                   class="PrePlayTagList-tagsListLink-Z6lfX Link-link-2XYrU Link-default-32xSO">
+                                                    <?php echo $genre['@attributes']['tag']; ?>
+                                                </a>,
+                                            </span>
+                                                <?php if (isset($movie->metadata['Genre']['@attributes'])) {
+                                                    break;
+                                                } ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </span>
                                 </div>
                             </div>
@@ -143,18 +169,20 @@
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Writed by</div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
-                                            <?php foreach ($movie->metadata['Writer'] as $writer) : ?>
-                                                <?php $writer = isset($movie->metadata['Writer']['@attributes']) ? $movie->metadata['Writer'] : $writer; ?>
-                                                <span>
-                                                <a href="#" role="link"
-                                                   class="PrePlayTagList-tagsListLink-Z6lfX Link-link-2XYrU Link-link-2XYrU Link-default-32xSO">
-                                                    <?php echo $writer['@attributes']['tag']; ?>
-                                                </a>,
-                                            </span>
-                                                <?php if (isset($movie->metadata['Writer']['@attributes'])) {
-                                                    break;
-                                                } ?>
-                                            <?php endforeach; ?>
+                                            <?php if(isset($movie->metadata['Writer'])) :?>
+                                                <?php foreach ($movie->metadata['Writer'] as $writer) : ?>
+                                                    <?php $writer = isset($movie->metadata['Writer']['@attributes']) ? $movie->metadata['Writer'] : $writer; ?>
+                                                    <span>
+                                                    <a href="#" role="link"
+                                                       class="PrePlayTagList-tagsListLink-Z6lfX Link-link-2XYrU Link-link-2XYrU Link-default-32xSO">
+                                                        <?php echo $writer['@attributes']['tag']; ?>
+                                                    </a>,
+                                                </span>
+                                                    <?php if (isset($movie->metadata['Writer']['@attributes'])) {
+                                                        break;
+                                                    } ?>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </span>
                                     </div>
                                 </div>
@@ -177,9 +205,9 @@
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Vidéo</div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span data-qa-id="videoStream">
-                                            SD
+                                            <?php echo $movie->getMetaData()['Media']['@attributes']['videoResolution']; ?>p
                                             <span class="DashSeparator-separator-2a3yn">—</span>
-                                            MPEG4
+                                            <?php echo $movie->getMetaData()['Stream']['Video'][0]['codec']; ?>
                                         </span>
                                     </div>
                                 </div>
@@ -187,15 +215,25 @@
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Audio</div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
-                                            Inconnu
+                                            <?php echo $movie->getMetaData()['Stream']['Audio'][0]['language']; ?>
                                             <span class="DashSeparator-separator-2a3yn">—</span>
-                                            MP3 Stéréo
+                                            <?php echo isset($movie->getMetaData()['Stream']['Audio'][0]['displayTitle']) ? $movie->getMetaData()['Stream']['Audio'][0]['displayTitle'] : isset($movie->getMetaData()['Stream']['Audio'][0]['title']) ? $movie->getMetaData()['Stream']['Audio'][0]['title'] : $movie->getMetaData()['Stream']['Audio'][0]['language']; ?>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Sous-titres</div>
-                                    <div class="PrePlayDetailsGroupItem-content-1aRNU"><span>Aucun</span></div>
+                                    <div class="PrePlayDetailsGroupItem-content-1aRNU">
+                                        <span>
+                                            <?php if(count($movie->getMetaData()['Stream']['SubTitle']) > 0): ?>
+                                                <?php echo isset($movie->getMetaData()['Stream']['SubTitle'][0]['language']) ? $movie->getMetaData()['Stream']['SubTitle'][0]['language'] : ''; ?>
+                                                <span class="DashSeparator-separator-2a3yn">—</span>
+                                                <?php echo isset($movie->getMetaData()['Stream']['SubTitle'][0]['displayTitle']) ? $movie->getMetaData()['Stream']['SubTitle'][0]['displayTitle'] : $movie->getMetaData()['Stream']['SubTitle'][0]['title']; ?>
+                                            <?php else: ?>
+                                                Aucun
+                                            <?php endif;?>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="PrePlaySummary-summary-1NL8g">
@@ -213,8 +251,73 @@
                                 <button aria-haspopup="true" role="button"
                                         class="CollapsibleText-readMore-1bRJm DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37  Link-link-2XYrU Link-default-32xSO"
                                         type="button">Show more
-                                    <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
+                                    <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
                                 </button>
+                            </div>
+                        </div>
+                        <div class="PrePlayMetadataListInnerContent-innerContent-2CsIz">
+                            <div class="PrePlayMetadataInnerContent-innerContent-1BPzw">
+                                <div class="PrePlayCastList-castList-3dQB5">
+                                    <div class="HubCell-hubCell-3Ys17" style="visibility: visible;" data-qa-id="hub--cast">
+                                        <div class="HubCellHeader-hubCellHeader-2pvYN">
+                                            <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle">ACTEURS</div>
+                                            <div class="HubCell-hubActions-28w1-">
+                                                <button data-qa-id="hubPreviousButton" role="button" class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO isDisabled " type="button" disabled="">
+                                                    <i class="plex-icon-hub-prev-560" aria-hidden="false" aria-label="Page précédente"></i>
+                                                </button>
+                                                <button data-qa-id="hubNextButton" role="button" class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO" type="button">
+                                                    <i class="plex-icon-hub-next-560" aria-hidden="false" aria-label="Page suivante"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="height: 183px; overflow: hidden;">
+                                            <div class="Measure-container-3yONE">
+                                                <div class="HubCell-hubScroller-2qgkr VirtualListScroller-scroller-37EU_ Scroller-horizontal-cOKsq Scroller-scroller-3GqQc Scroller-horizontal-cOKsq ">
+                                                    <?php $translate = -143; ?>
+                                                    <div class=" " style="width: 5012px; height: 183px;">
+                                                        <?php if(isset($movie->getMetadata()['Role'])) : ?>
+                                                            <?php foreach ($movie->getMetadata()['Role'] as $role) : ?>
+                                                                <?php $translate += 148; ?>
+                                                                <div data-qa-id="cellItem" style="position: absolute; width: 118px; height: 168px; transform: translate3d(<?php echo $translate; ?>px, 10px, 0px);">
+                                                                    <a href="#" role="link" class="PrePlayCastCell-cardLink-Tndv5 Link-link-2XYrU Link-default-32xSO">
+                                                                        <div class="TagPosterCard-card-RVD0D MetadataPosterCardFace-poster-L2P6r TagPosterCard-isPerson-1ez1h" style="width: 118px; height: 118px;">
+                                                                            <?php if (isset($role['@attributes']['thumb'])) : ?>
+                                                                                <div class="PosterCardImg-imageContainer-1Ar4M">
+                                                                                    <div style="background-image: url('<?php echo $role['@attributes']['thumb']; ?>'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;" class=""></div>
+                                                                                </div>
+                                                                            <?php else : ?>
+                                                                                <div style="font-size: 30px; line-height: 118px;" class="Anagram-anagram-2KZ_Z">
+                                                                                    <?php
+                                                                                    $actor = explode(' ',$role['@attributes']['tag']);
+                                                                                    echo substr($actor[0],0,1).substr($actor[1],0,1);
+                                                                                    ?>
+                                                                                </div>
+                                                                            <?php endif; ?>
+                                                                        </div>
+                                                                    </a>
+                                                                    <div class="PrePlayCastCell-titleContainer-PAy29">
+                                                                        <a data-qa-id="castTitle" title="<?php echo $role['@attributes']['tag']; ?>" href="#" role="link" class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
+                                                                            <?php echo $role['@attributes']['tag']; ?>
+                                                                        </a>
+                                                                        <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY " title="Johnny English">
+                                                                            <?php echo $role['@attributes']['role']; ?>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="Measure-scrollContainer-1c6dy">
+                                                    <div class="Measure-expandContent-zsLw6"></div>
+                                                </div>
+                                                <div class="Measure-scrollContainer-1c6dy">
+                                                    <div class="Measure-shrinkContent-303GS Measure-expandContent-zsLw6"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -238,6 +341,18 @@
 </div>
 <script type="text/javascript">
     $(window).on('load', function() {
+        /** READ MORE **/
+        $(document).on('click', '.CollapsibleText-readMore-1bRJm', function (event) {
+            var summary = $(document).find('.CollapsibleText-contentTransition-15VYv');
+
+            if(summary.css('max-height') === '78px') {
+                $(this).find('div').removeClass('DisclosureArrow-down-1U7WW').addClass('DisclosureArrow-up-1U7WW');
+                summary.css('max-height', '10000px');
+            } else {
+                $(this).find('div').removeClass('DisclosureArrow-up-1U7WW').addClass('DisclosureArrow-down-1U7WW');
+                summary.css('max-height', '78px');
+            }
+        });
         /** LAUNCH PLAYER **/
         $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
             event.stopPropagation();

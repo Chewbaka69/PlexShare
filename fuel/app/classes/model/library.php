@@ -1,6 +1,8 @@
 <?php
 
 
+use Fuel\Core\FuelException;
+
 class Model_Library extends Model_Overwrite
 {
     protected static $_table_name = 'library';
@@ -49,67 +51,66 @@ class Model_Library extends Model_Overwrite
      * List all libraries and register it in database
      * @param $server
      * @return bool | array
-     * @throws Exception
-     * @throws HttpNotFoundException
-     * @throws \FuelException
+     * @throws FuelException
      */
     public static function BrowseLibraries($server)
     {
-        $libraries_id_array = [];
+        try {
+            $libraries_id_array = [];
 
-        $curl = Request::forge('http://' . $server->url . ($server->port? ':' . $server->port : '') . '/library/sections?X-Plex-Token=' . $server->token, 'curl');
-        $curl->execute();
+            $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . '/library/sections?X-Plex-Token=' . $server->token, 'curl');
+            $curl->execute();
 
-        if($curl->response()->status !== 200)
-            return false;
+            if ($curl->response()->status !== 200)
+                return false;
 
-        $list_libraries = Format::forge($curl->response()->body, 'xml')->to_array();
+            $list_libraries = Format::forge($curl->response()->body, 'xml')->to_array();
 
-        if(!isset($list_libraries['Directory']))
-            return false;
+            if (!isset($list_libraries['Directory']))
+                return false;
 
-        $list_libraries = $list_libraries['Directory'];
+            $list_libraries = $list_libraries['Directory'];
 
-        foreach ($list_libraries as $index => $library) {
-            $library = !isset($list_libraries['@attributes']) ? $library : $list_libraries;
+            foreach ($list_libraries as $index => $library) {
+                $library = !isset($list_libraries['@attributes']) ? $library : $list_libraries;
 
-            $new_library = Model_Library::find_by_pk($library['@attributes']['uuid']) ?: Model_Library::forge();
+                $new_library = Model_Library::find_by_pk($library['@attributes']['uuid']) ?: Model_Library::forge();
 
-            if(isset($new_library->disable) && $new_library->disable)
-                continue;
+                if ((isset($new_library->disable) && $new_library->disable) || ($library['@attributes']['type'] !== 'show' && $library['@attributes']['type'] !== 'movie'))
+                    continue;
 
-            $libraries_id_array[] = ['id' => $library['@attributes']['uuid'], 'name' => $library['@attributes']['title']];
+                $libraries_id_array[] = ['id' => $library['@attributes']['uuid'], 'name' => $library['@attributes']['title']];
 
-            $new_library->set(array(
-                'id'        => $library['@attributes']['uuid'],
-                'plex_key'  => $library['@attributes']['key'],
-                'server_id' => $server->id,
-                'name'      => $library['@attributes']['title'],
-                'type'      => $library['@attributes']['type'],
-                'updatedAt' => $library['@attributes']['updatedAt'],
-                'createdAt' => $library['@attributes']['createdAt'],
-                'scannedAt' => $library['@attributes']['scannedAt']
-            ));
+                $new_library->set(array(
+                    'id' => $library['@attributes']['uuid'],
+                    'plex_key' => $library['@attributes']['key'],
+                    'server_id' => $server->id,
+                    'name' => $library['@attributes']['title'],
+                    'type' => $library['@attributes']['type'],
+                    'updatedAt' => $library['@attributes']['updatedAt'],
+                    'createdAt' => $library['@attributes']['createdAt'],
+                    'scannedAt' => $library['@attributes']['scannedAt']
+                ));
 
-            $new_library->save();
+                $new_library->save();
 
-            //self::getSectionsContent($server, $new_library);
+                //self::getSectionsContent($server, $new_library);
 
-            if(isset($list_libraries['@attributes']))
-                break;
+                if (isset($list_libraries['@attributes']))
+                    break;
+            }
+
+            return $libraries_id_array;
+        } catch (Exception $exception) {
+            throw new FuelException($exception->getMessage(),$exception->getCode());
         }
-
-        return $libraries_id_array;
     }
 
     /**
      * @param $server
      * @param $library
      * @return bool
-     * @throws Exception
      * @throws FuelException
-     * @throws HttpNotFoundException
-     * @throws \FuelException
      */
     public static function getSectionsContent($server, $library)
     {
