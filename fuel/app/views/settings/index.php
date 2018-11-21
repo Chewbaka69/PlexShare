@@ -10,27 +10,18 @@
                 </ul>
             </div>
             <div class="col-sm-8 col-md-9">
-                <form id="web-settings-form">
+                <form id="web-settings-form" method="post">
                     <div id="general-web-group" class="settings-group active">
-                        <h4 class="version-title"> Version 0.1A </h4>
+                        <h4 class="version-title"> Version 0.62 </h4>
                         <div class="form-group">
                             <label for="language">Language</label>
-                            <select id="language">
-                                <option value="english" selected=""> English</option>
+                            <select id="language" name="language">
+                                <option value="english"> English</option>
                                 <option value="french"> Français</option>
                             </select>
                             <p class="help-block">
-                                Aidez-nous à traduire cette application dans votre langue <a
-                                        href="https://transifex.com/plex-1/plex-web" target="_blank">ici</a>.
+
                             </p>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" for="input_FriendlyName_c">
-                                Second refresh
-                            </label>
-                            <input id="input_FriendlyName_c" class="form-control" name="refresh" value=""
-                                   placeholder="ex: 800" type="text">
-                            <p class="help-block">Number in second, you want to check new content on server.</p>
                         </div>
                     </div>
                     <div id="subaccount-web-group" class="settings-group">
@@ -61,7 +52,7 @@
                         <h4 class="settings-header-first">Streaming</h4>
                         <div class="form-group">
                             <label for="remoteQuality">Video Quality</label>
-                            <select id="remoteQuality" data-type="int">
+                            <select id="remoteQuality" name="remoteQuality" data-type="int">
                                 <option value="-1">Maximale</option>
                                 <option value="20000"> 20 Mbps, 1080p</option>
                                 <option value="12000"> 12 Mbps, 1080p</option>
@@ -79,7 +70,7 @@
                                 quality is set too high, videos will start slowly and pause frequently.</p></div>
                         <div class="form-group">
                             <label for="subtitleSize">Subtitle Size</label>
-                            <select id="subtitleSize" data-type="int">
+                            <select id="subtitleSize" name="subtitleSize" data-type="int">
                                 <option value="50">Tiny</option>
                                 <option value="75">Small</option>
                                 <option value="100" selected="">Normal</option>
@@ -89,8 +80,15 @@
                         </div>
                         <h4 class="settings-header">Bonus</h4>
                         <div class="form-group">
-                            <label for="extrasPrefixCount">Cinema Trailers to Play Before Movies</label>
-                            <select id="extrasPrefixCount" data-type="int">
+                            <label for="typeTrailer">Cinema Trailers Type</label>
+                            <select id="typeTrailer" name="typeTrailer" data-type="string">
+                                <option value="Cinema">In Cinema</option>
+                                <option value="Upcoming" selected="">Upcoming</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="trailerCount">Cinema Trailers to Play Before Movies</label>
+                            <select id="trailerCount" name="trailerCount" data-type="int">
                                 <option value="0" selected="">None</option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -101,7 +99,7 @@
                         </div>
                     </div>
                     <div class="form-footer">
-                        <button type="submit" class="submit-btn btn btn-lg btn-primary disabled">
+                        <button name="submit" type="submit" class="submit-btn btn btn-lg btn-primary disabled">
                             <span class="btn-label">Enregistrer les modifications</span></button>
                         <span class="form-message"></span></div>
                 </form>
@@ -120,6 +118,9 @@
             $('#web-settings-form .settings-group').removeClass('active');
             $(href).addClass('active');
         }
+        $(document).on('change', 'form#web-settings-form', function (event) {
+           $('button[type="submit"]').removeClass('disabled');
+        });
         $(document).on('click', '.settings-nav li .card', function (event) {
             $('.settings-nav li .card').removeClass('selected');
             $(this).addClass('selected');
