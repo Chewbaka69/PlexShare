@@ -57,10 +57,7 @@ function launchPlayer(view) {
                 $('.media-time').html(toHHMMSS(timeplay));
 
                 $('.SeekBar-seekBarFill-1Lcu0').css('transform', 'scaleX('+ percent +')');
-
-                if(parseInt(percent * 100) > 1) {
-                    ajaxPlayingMovies($('#data_movie_id').data('movie-id'));
-                }
+                $('.Slider-thumbTrack-21hGV').css('transform', 'translateX('+ (-100 + (percent*100)) +'%)');
             }
         }
     });
@@ -115,6 +112,7 @@ function launchPlayer(view) {
         else
             video_audio_control.css('transform', 'translateY(246px)');
     });
+
     /** HOVER PLAYER, BUTTON CENTER AND NAVBAR SHOW NAVBAR **/
     $(document).on('mouseover', '#movie_stream , button[role="playCenter"], .AudioVideoFullPlayer-topBar-2XUGM, .AudioVideoFullPlayer-bottomBar-2yixi, .AudioVideoPlaybackSettings-container-2pTAj.AudioVideoStripeContainer-container-MI02O', function (event) {
         clearTimeout(timeout);
