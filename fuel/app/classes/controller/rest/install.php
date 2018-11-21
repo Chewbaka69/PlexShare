@@ -211,7 +211,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'library_id' => array('constraint' => 36, 'type' => 'varchar', 'null' => true),
                     'season_id' => array('constraint' => 36, 'type' => 'varchar', 'null' => true),
                     'plex_key' => array('constraint' => 36, 'type' => 'varchar'),
-                    'type' => array('constraint' => 5, 'type' => 'varchar'),
+                    'type' => array('constraint' => 20, 'type' => 'varchar'),
                     'number' => array('constraint' => 11, 'type' => 'int', 'null' => true),
                     'studio' => array('constraint' => 36, 'type' => 'varchar', 'null' => true),
                     'title' => array('constraint' => 255, 'type' => 'varchar'),
@@ -322,15 +322,16 @@ class Controller_Rest_Install extends Controller_Rest
                 'user_settings',
                 array(
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
-                    'language' => array('constraint' => 36, 'type' => 'varchar'),
-                    'refresh' => array('constraint' => 11, 'type' => 'int'),
+                    'user_id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'language' => array('constraint' => 36, 'type' => 'varchar', 'default' => 'english'),
+                    'trailer_type' => array('constraint' => 36, 'type' => 'varchar', 'default' => 'Upcoming'),
                     'trailer' => array('constraint' => 11, 'type' => 'int', 'default' => 0),
-                    'subtitle' => array('constraint' => 11, 'type' => 'int'),
+                    'subtitle' => array('constraint' => 11, 'type' => 'int', 'default' => 100),
                     'quality' => array('constraint' => 11, 'type' => 'int', 'default' => -1)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'User Watching table create!'."\r\n";
+            $logs .= 'User Setting table create!'."\r\n";
 
             $logs .= 'Create Foreign key'."\r\n";
             /**
