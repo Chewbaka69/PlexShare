@@ -11,6 +11,8 @@ class Controller_Tvshow extends Controller_Home
         if(!$tvshow)
             Response::redirect('/home');
 
+        $this->template->title = $tvshow->title;
+
         $tvshow->getMetaData();
 
         $body = View::forge('tvshow/index');

@@ -11,6 +11,8 @@ class Controller_Season extends Controller_Home
         if(!$season)
             Response::redirect('/home');
 
+        $this->template->title = $season->getTvShow()->title . ' S' . $season->number;
+
         $body = View::forge('season/index');
 
         $body->set('season', $season);

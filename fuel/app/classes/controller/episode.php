@@ -17,6 +17,8 @@ class Controller_Episode extends Controller_Home
         if(!$episode)
             Response::redirect('/home');
 
+        $this->template->title = $episode->getTvShow()->title . ' S' . $episode->getSeason()->number . ' - E' .$episode->number . ' ' . $episode->title;
+
         $episode->getMetaData();
 
         $body = View::forge('episode/index');

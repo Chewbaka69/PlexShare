@@ -17,6 +17,8 @@ class Controller_Movie extends Controller_Home
         if(!$movie)
             Response::redirect('/home');
 
+        $this->template->title = $movie->title;
+
         $movie->getMetaData();
 
         $movie->getTrailer();
@@ -34,6 +36,8 @@ class Controller_Movie extends Controller_Home
 
         if(!$movies)
             Response::redirect('/home');
+
+        $this->template->title = 'Movie List';
 
         $body = View::forge('movie/list');
 

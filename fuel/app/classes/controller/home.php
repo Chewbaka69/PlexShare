@@ -24,7 +24,7 @@ class Controller_Home extends Controller_Template
         if(!$server)
             Response::redirect('/login');
 
-        //var_dump($sessionLibraries);die();
+        $this->template->title = 'Home';
 
         $libraries = $server->getLibraries();
 

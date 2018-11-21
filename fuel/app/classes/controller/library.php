@@ -17,6 +17,8 @@ class Controller_Library extends Controller_Home
         if(!$library)
             Response::redirect('/home');
 
+        $this->template->title = $library->name . ' in '. $library->getServer()->name;
+
         $body = View::forge('libraries/list');
 
         $content = null;

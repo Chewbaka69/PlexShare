@@ -1,5 +1,5 @@
 <head>
-    <title>PlexShare 1.0 by Chewbaka</title>
+    <title><?php echo $title; ?></title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
