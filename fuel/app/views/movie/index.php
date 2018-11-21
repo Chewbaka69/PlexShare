@@ -372,14 +372,14 @@
         });
         /** LAUNCH TRAILER **/
         $(document).on('click', '#id-362', function (event) {
-            $(document).find('body').append('<div style="position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index:1;">' +
-                '<object width="640" height="360" style="position: absolute; margin: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index:2;">\n' +
-                '    <param name="movie" value="<?php echo $movie->trailer; ?>&amp;version=3"/\n' +
-                '    <param name="allowFullScreen" value="true"/>\n' +
-                '    <param name="allowscriptaccess" value="always"/>\n' +
-                '    <embed width="640" height="360" src="https:<?php echo $movie->trailer; ?>&amp;version=3" class="youtube-player" type="text/html" allowscriptaccess="always" allowfullscreen="true"/>\n' +
-                '</object>\n' +
+            var height = $(window).height();
+            var width = $(window).width();
+            $(document).find('body').append('<div id="youtube-iframe" style="position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index:1;">' +
+                '<iframe style="position: absolute; margin: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index:2;" width="' + (width/3*2) + '" height="' + (height/3*2) + '" src="<?php echo $movie->trailer; ?>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
             '</div>');
+        });
+        $(document).on('click', '#youtube-iframe', function (event) {
+            event.target.remove();
         });
         /** LOAD IMG **/
         $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
