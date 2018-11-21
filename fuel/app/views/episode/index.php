@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-235" data-original-title="Montrer les affiches" data-toggle="tooltip" role="button"
+        <button id="id-235" data-original-title="Montrer les affiches" data-placement="bottom" data-toggle="tooltip" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO      " type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
