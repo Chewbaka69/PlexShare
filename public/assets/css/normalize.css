@@ -7003,7 +7003,7 @@ label.disabled {
 .nav-bar {
     flex-grow: 0;
     flex-shrink: 0;
-    z-index: 1000;
+    z-index: 1;
     padding: 0 3px;
     font-size: 24px;
     background-color: rgba(0, 0, 0, .7)
