@@ -254,7 +254,7 @@
                                                                         <a data-qa-id="castTitle" title="<?php echo $role['@attributes']['tag']; ?>" href="#" role="link" class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
                                                                             <?php echo $role['@attributes']['tag']; ?>
                                                                         </a>
-                                                                        <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY " title="Johnny English">
+                                                                        <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY " title="<?php echo $role['@attributes']['role']; ?>">
                                                                             <?php echo $role['@attributes']['role']; ?>
                                                                         </span>
                                                                     </div>

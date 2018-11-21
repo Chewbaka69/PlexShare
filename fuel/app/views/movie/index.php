@@ -291,7 +291,7 @@
                                                                                 <div style="font-size: 30px; line-height: 118px;" class="Anagram-anagram-2KZ_Z">
                                                                                     <?php
                                                                                     $actor = explode(' ',$role['@attributes']['tag']);
-                                                                                    echo substr($actor[0],0,1).substr($actor[1],0,1);
+                                                                                    echo substr($actor[0],0,1).(isset($actor[1]) ? substr($actor[1],0,1) : '');
                                                                                     ?>
                                                                                 </div>
                                                                             <?php endif; ?>
