@@ -4,6 +4,8 @@ about: Create a report to help us improve
 
 ---
 
+*Dont Forget to set your ENVIRONMENT variable to DEVELOPMENT*
+
 **Describe the bug**
 A clear and concise description of what the bug is.
 
