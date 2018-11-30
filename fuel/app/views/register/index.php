@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="shortcut icon"
+          href="//assets.plex.tv/deploys/desktop/env-eb2798cc3c7d9533df5b563963d5c394/3.34.1-b51c37a/favicon.ico">
     <?php
         echo \Asset::css(['normalize_login.css', 'normalize.css', 'plex_login.css']);
     ?>
@@ -73,6 +75,11 @@
                         <div>Share</div>
                     </div>
                     <div class="_2zl_7T">
+                        <?php if(isset($error) && $error) : ?>
+                            <div class="_3arxVY">
+                                <span class="FCU2Ru"><?php echo $error; ?></span>
+                            </div>
+                        <?php endif; ?>
                         <form method="post" action="" class="_19Nqmf">
                             <div class="_192KBC Gtcqpe"><label class="_3XRky5 _2aLJ9b" for="email">
                                     Email address</label><input
@@ -115,9 +122,6 @@
         if($('.progress').length === 0)
             $('#password').pwstrength();
     });
-    <?php if(isset($error) && $error) : ?>
-        show_alert('error', '<?php echo $error; ?>');
-    <?php endif; ?>
 </script>
 </body>
 </html>

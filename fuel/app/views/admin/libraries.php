@@ -138,7 +138,7 @@
                 alert_status.html('Start browsing your library');
             });
         });
-        $('button.disable-library-btn').on('click', function () {
+        $(document).on('click', 'button.disable-library-btn', function () {
             var button = this;
             var library_id = $(this).data('library-id');
             $.ajax({
@@ -147,7 +147,26 @@
                 data: {library_id: library_id}
             }).done(function (data) {
                 show_alert('success', 'Library disable succesfully!');
+                $(button).removeClass('disable-library-btn btn-danger').addClass('enable-library-btn btn-success');
+                $(button).find('i').removeClass('ban').addClass('ok-2');
                 $(button).closest('.card.card-device').addClass('disabled');
+            }).fail(function (data) {
+                data = JSON.parse(data.responseText);
+                show_alert('error', data.message);
+            });
+        });
+        $(document).on('click', 'button.enable-library-btn', function () {
+            var button = this;
+            var library_id = $(this).data('library-id');
+            $.ajax({
+                method: 'put',
+                url: '/rest/settings/library.json',
+                data: {library_id: library_id}
+            }).done(function (data) {
+                show_alert('success', 'Library enable succesfully!');
+                $(button).removeClass('enable-library-btn btn-success').addClass('disable-library-btn btn-danger');
+                $(button).find('i').removeClass('ok-2').addClass('ban');
+                $(button).closest('.card.card-device').removeClass('disabled');
             }).fail(function (data) {
                 data = JSON.parse(data.responseText);
                 show_alert('error', data.message);

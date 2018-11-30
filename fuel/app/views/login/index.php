@@ -48,6 +48,11 @@
                         <div>Share</div>
                     </div>
                     <div class="_2zl_7T">
+                        <?php if(isset($error) && $error) : ?>
+                        <div class="_3arxVY">
+                            <span class="FCU2Ru"><?php echo $error; ?></span>
+                        </div>
+                        <?php endif; ?>
                         <form action method="post" class="_19Nqmf" novalidate="">
                             <div class="_192KBC Gtcqpe"><label class="_3XRky5 _2aLJ9b " for="email">
                                     Email or Username</label><input
@@ -67,8 +72,10 @@
                             </div>
                             <button type="submit" role="button"
                                     class="_1SYIVj _1I3Olm _1A8EcL _2kT68l _2n0yJn _3S9UdJ _1A8EcL _2kT68l _2n0yJn  _2kT68l _2n0yJn _3fwLzo _3S9UdJ _2n0yJn _2XA2bN">
-                                <span class="_1NdZWc"><div class="_1TgDPI Niere7 _2kLwt_ _3PStHE Niere7 _2kLwt_"
-                                                           aria-label="Loading"></div></span><span class="qxG01S">Sign in</span>
+                                <span class="_1NdZWc">
+                                    <div class="_1TgDPI Niere7 _2kLwt_ _3PStHE Niere7 _2kLwt_" aria-label="Loading"></div>
+                                </span>
+                                <span class="qxG01S">Sign in</span>
                             </button>
                         </form>
                         <span class="_3kVXYV _3TSWy2">Need an account? <a href="/register" role="link" class=" _2n0yJn _1vcAGA ">Create an account!</a></span>
@@ -78,11 +85,5 @@
         </div>
     </div>
 </div>
-<?php echo $end_js; ?>
-<script type="text/javascript">
-    <?php if(isset($error) && $error) : ?>
-    show_alert('error', '<?php echo $error; ?>');
-    <?php endif; ?>
-</script>
 </body>
 </html>

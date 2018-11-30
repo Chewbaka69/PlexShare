@@ -244,14 +244,38 @@ class Model_Movie extends Model_Overwrite
         return ($hours > 0 ? $hours . ':' : '') . ($minutes > 0 ? $minutes . ':' : '0:') . $secondes;
     }
 
-    public function getStreamUrl()
+    public function getStreamUrl($user_settings)
     {
         try {
             if (!$this->_server)
                 $this->getServer();
 
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start.m3u8?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
-            //$curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/start?identifier=[PlexShare]&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key) . '&mediaIndex=0&partIndex=0&protocol=hls&offset=0&fastSeek=1&directStream=0&directPlay=1&videoQuality=100&videoResolution=576x320&maxVideoBitrate=2294&subtitleSize=100&audioBoost=100&X-Plex-Platform=Chrome&X-Plex-Token=' . $this->_server->token, 'curl');
+            $maxVideoBitrate = isset($user_settings->maxdownloadspeed) ? $user_settings->maxdownloadspeed : 10000;
+            $subtitleSize = isset($user_settings->subtitle) ? $user_settings->subtitle : 100;
+            $language = isset($user_settings->language) ? $user_settings->language : false;
+
+            $request = 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '');
+            $request .= '/video/:/transcode/universal/start.m3u8';
+            $request .= '?identifier=[PlexShare]';
+            $request .= '&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key);
+            $request .= '&mediaIndex=0';
+            $request .= '&partIndex=0';
+            $request .= '&protocol=hls';
+            $request .= '&offset=0';
+            $request .= '&fastSeek=1';
+            $request .= '&directStream=0';
+            $request .= '&directPlay=1';
+            $request .= '&videoQuality=100';
+            $request .= '&maxVideoBitrate=' . $maxVideoBitrate;
+            $request .= '&subtitleSize=' . $subtitleSize;
+            $request .= '&audioBoost=100';
+            $request .= '&videoResolution=1920x1080';
+            $request .= '&Accept-Language=' . $language;
+            $request .= '&X-Plex-Platform=Chrome';
+            $request .= '&X-Plex-Token=' . $this->_server->token;
+
+            $curl = Request::forge($request, 'curl');
+
             $curl->execute();
 
             if ($curl->response()->status !== 200)

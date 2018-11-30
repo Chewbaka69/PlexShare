@@ -22,15 +22,17 @@ class Controller_Register extends Controller
     {
         $view = View::forge('register/index');
         $start_js = Asset::js('jquery.min.js');
-        $end_js = Asset::js(['pwstrength-bootstrap.min.js', 'plex_alert.js']);
+        $end_js = Asset::js(['pwstrength-bootstrap.min.js']);
 
         try {
-            $email = Input::post('email');
-            $username = Input::post('username');
-            $password = Input::post('password');
-            $c_password = Input::post('confirm_password');
 
             if (Input::method() === 'POST') {
+
+                $email = Input::post('email');
+                $username = Input::post('username');
+                $password = Input::post('password');
+                $c_password = Input::post('confirm_password');
+
                 if(!$email || !$username || !$password || !$c_password)
                     throw new FuelException('Field(s) is/are empty!');
 

@@ -18,8 +18,11 @@ class Controller_Rest_Movie extends Controller_Rest
         if(!$movie)
             throw new FuelException('No movie found');
 
+        $user_settings = Model_Settings::find_one_by('user_id', Session::get('user')->id);
+
         $view = View::forge('stream/index');
 
+        $view->set('user_settings', $user_settings);
         $view->set('movie', $movie);
 
         return $this->response($view->render());

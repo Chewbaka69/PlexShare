@@ -327,7 +327,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'trailer_type' => array('constraint' => 36, 'type' => 'varchar', 'default' => 'Upcoming'),
                     'trailer' => array('constraint' => 11, 'type' => 'int', 'default' => 0),
                     'subtitle' => array('constraint' => 11, 'type' => 'int', 'default' => 100),
-                    'quality' => array('constraint' => 11, 'type' => 'int', 'default' => -1)
+                    'maxdownloadspeed' => array('constraint' => 11, 'type' => 'int', 'default' => -1)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );

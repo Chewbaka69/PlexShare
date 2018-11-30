@@ -1,4 +1,4 @@
-<input id="data_movie" type="hidden" data-src="<?php echo $movie->getStreamUrl(); ?>"/>
+<input id="data_movie" type="hidden" data-src="<?php echo $movie->getStreamUrl($user_settings); ?>"/>
 <input id="data_movie_id" type="hidden" data-movie-id="<?php echo $movie->id; ?>"/>
 <button aria-label="Lire" role="playCenter" type="button"
         class="PlayPauseOverlay-playButton-25OfW PlayButton-playButton-3WX8X Link-link-2XYrU Link-default-32xSO"

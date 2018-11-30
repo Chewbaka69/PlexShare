@@ -16,8 +16,9 @@
                         <div class="form-group">
                             <label for="language">Language</label>
                             <select id="language" name="language">
-                                <option value="english"> English</option>
-                                <option value="french"> Français</option>
+                                <?php foreach ($default_settings['language'] as $key => $language) : ?>
+                                    <option value="<?php echo $key; ?>" <?php echo isset($settings) && $key === $settings->language ? 'selected=""' : ''; ?>> <?php echo $language; ?></option>
+                                <?php endforeach; ?>
                             </select>
                             <p class="help-block">
 
@@ -51,50 +52,37 @@
                     <div id="player-web-group" class="settings-group">
                         <h4 class="settings-header-first">Streaming</h4>
                         <div class="form-group">
-                            <label for="remoteQuality">Video Quality</label>
-                            <select id="remoteQuality" name="remoteQuality" data-type="int">
-                                <option value="-1">Maximale</option>
-                                <option value="20000"> 20 Mbps, 1080p</option>
-                                <option value="12000"> 12 Mbps, 1080p</option>
-                                <option value="10000"> 10 Mbps, 1080p</option>
-                                <option value="8000"> 8 Mbps, 1080p</option>
-                                <option value="4000"> 4 Mbps, 720p</option>
-                                <option value="3000"> 3 Mbps, 720p</option>
-                                <option value="2000" selected=""> 2 Mbps, 720p</option>
-                                <option value="1500"> 1.5 Mbps, 480p</option>
-                                <option value="700"> 0.7 Mbps</option>
-                                <option value="300"> 0.3 Mbps</option>
-                                <option value="200"> 0.2 Mbps</option>
+                            <label for="remoteQuality">Max Download Speed</label>
+                            <select id="remoteQuality" name="maxdownloadspeed" data-type="int">
+                                <?php foreach ($default_settings['maxdownloadspeed'] as $key => $speed) : ?>
+                                    <option value="<?php echo $key; ?>" <?php echo isset($settings) &&  $key === (int)$settings->maxdownloadspeed ? 'selected=""' : ''; ?>> <?php echo $speed; ?></option>
+                                <?php endforeach; ?>
                             </select>
                             <p class="help-block">Set the default quality for streaming video over the internet. If
                                 quality is set too high, videos will start slowly and pause frequently.</p></div>
                         <div class="form-group">
                             <label for="subtitleSize">Subtitle Size</label>
                             <select id="subtitleSize" name="subtitleSize" data-type="int">
-                                <option value="50">Tiny</option>
-                                <option value="75">Small</option>
-                                <option value="100" selected="">Normal</option>
-                                <option value="125">Large</option>
-                                <option value="200">Huge</option>
+                                <?php foreach ($default_settings['subtitle'] as $key => $subtitle) : ?>
+                                    <option value="<?php echo $key; ?>" <?php echo isset($settings) &&  $key === (int)$settings->subtitle ? 'selected=""' : ''; ?>> <?php echo $subtitle; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <h4 class="settings-header">Bonus</h4>
                         <div class="form-group">
                             <label for="typeTrailer">Cinema Trailers Type</label>
                             <select id="typeTrailer" name="typeTrailer" data-type="string">
-                                <option value="Cinema">In Cinema</option>
-                                <option value="Upcoming" selected="">Upcoming</option>
+                                <?php foreach ($default_settings['trailer_type'] as $key => $trailer_type) : ?>
+                                    <option value="<?php echo $key; ?>" <?php echo isset($settings) && $key === $settings->trailer_type ? 'selected=""' : ''; ?>> <?php echo $trailer_type; ?></option>
+                                <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="trailerCount">Cinema Trailers to Play Before Movies</label>
                             <select id="trailerCount" name="trailerCount" data-type="int">
-                                <option value="0" selected="">None</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
+                                <?php for ($i = 0; $i < 6; $i++) : ?>
+                                    <option value="<?php echo $i; ?>" <?php echo isset($settings) &&  $i === (int)$settings->trailer ? 'selected=""' : ''; ?>> <?php echo $i; ?></option>
+                                <?php endfor; ?>
                             </select>
                         </div>
                     </div>

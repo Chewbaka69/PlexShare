@@ -98,7 +98,7 @@
                                     <span>
                                         <span>
                                             <a title="<?php echo $movie->year; ?>"
-                                               href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336/details?key=%2Flibrary%2Fmetadata%2F28083"
+                                               href="#"
                                                role="link"
                                                class=" Link-link-2XYrU Link-default-32xSO"><?php echo $movie->year; ?></a>
                                         </span>
@@ -257,6 +257,7 @@
                                 </button>
                             </div>
                         </div>
+                        <?php if(isset($movie->getMetadata()['Role'])) : ?>
                         <div class="PrePlayMetadataListInnerContent-innerContent-2CsIz">
                             <div class="PrePlayMetadataInnerContent-innerContent-1BPzw">
                                 <div class="PrePlayCastList-castList-3dQB5">
@@ -277,7 +278,6 @@
                                                 <div class="HubCell-hubScroller-2qgkr VirtualListScroller-scroller-37EU_ Scroller-horizontal-cOKsq Scroller-scroller-3GqQc Scroller-horizontal-cOKsq ">
                                                     <?php $translate = -143; ?>
                                                     <div class=" " style="width: 5012px; height: 183px;">
-                                                        <?php if(isset($movie->getMetadata()['Role'])) : ?>
                                                             <?php foreach ($movie->getMetadata()['Role'] as $role) : ?>
                                                                 <?php $translate += 148; ?>
                                                                 <div data-qa-id="cellItem" style="position: absolute; width: 118px; height: 168px; transform: translate3d(<?php echo $translate; ?>px, 10px, 0px);">
@@ -307,7 +307,6 @@
                                                                     </div>
                                                                 </div>
                                                             <?php endforeach; ?>
-                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                                 <div class="Measure-scrollContainer-1c6dy">
@@ -322,6 +321,7 @@
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
                     </div>
                     <div class="PrePlayMetadataListInnerContent-innerContent-2CsIz">
                         <div class="PrePlayMetadataInnerContent-innerContent-1BPzw">

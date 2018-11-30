@@ -43,7 +43,9 @@ class Model_Trailer
 
         $media = $html->response()->body;
 
-        preg_match('/<a id="[a-z0-9_]*" data-id="[a-z0-9]*" data-media-type="movie" data-media-adult="[a-z]*" class="[a-z]*" href="(\/movie\/[\d]*\?language\=us)" title=".*" alt=".*">/i', $media, $urls);
+        $regex = '/<a id="[a-z0-9_]*" data-id="[a-z0-9]*" data-media-type="movie" data-media-adult="[a-z]*" class="[a-z]*" href="(\/movie\/[\d]*\?language\=us)" title=".*" alt=".*">/i';
+
+        preg_match($regex, $media, $urls);
 
         if (!isset($urls[1]))
             return false;
@@ -65,7 +67,9 @@ class Model_Trailer
 
         $media = $html->response()->body;
 
-        preg_match('/<iframe type="text\/html" src="(\/\/www.youtube.com\/embed\/[a-zA-Z0-9\_\-]*\?enablejsapi\=1&autoplay\=0\&origin\=https%3A%2F%2Fwww\.themoviedb\.org\&hl\=en-US\&modestbranding\=1\&fs\=1)" frameborder\="0" allowfullscreen><\/iframe>/', $media, $youtube);
+        $regex = '/<iframe type="text\/html" src="(\/\/www.youtube.com\/embed\/[a-zA-Z0-9\_\-]*\?enablejsapi\=1&autoplay\=0\&origin\=https%3A%2F%2Fwww\.themoviedb\.org\&hl\=en-US\&modestbranding\=1\&fs\=1)" frameborder\="0" allowfullscreen><\/iframe>/';
+
+        preg_match($regex, $media, $youtube);
 
         if (!isset($youtube[1]))
             return false;
@@ -87,7 +91,9 @@ class Model_Trailer
 
         $media = $html->response()->body;
 
-        preg_match('/<iframe type="text\/html" src="(\/\/www.youtube.com\/embed\/[a-zA-Z0-9\_]*\?enablejsapi\=1&autoplay\=0\&origin\=https%3A%2F%2Fwww\.themoviedb\.org\&hl\=en-US\&modestbranding\=1\&fs\=1)" frameborder\="0" allowfullscreen><\/iframe>/', $media, $youtube);
+        $regex = '/<iframe type="text\/html" src="(\/\/www.youtube.com\/embed\/[a-zA-Z0-9\_]*\?enablejsapi\=1&autoplay\=0\&origin\=https%3A%2F%2Fwww\.themoviedb\.org\&hl\=en-US\&modestbranding\=1\&fs\=1)" frameborder\="0" allowfullscreen><\/iframe>/';
+
+        preg_match($regex, $media, $youtube);
 
         if (!isset($youtube[1]))
             return false;

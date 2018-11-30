@@ -21,5 +21,6 @@
 /fuel/app/config/plex.php
 /fuel/app/config/db.php
 /fuel/app/config/crypt.php
+/fuel/app/config/lock.php
 
 /.idea

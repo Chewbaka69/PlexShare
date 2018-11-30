@@ -11,19 +11,7 @@ class Controller_Settings_Libraries extends Controller_Settings
 
         $body = View::forge('settings/libraries');
 
-        $user_id = Session::get('user')->id;
-
-        $libraries = Model_Library::find(function($query) use($user_id) {
-            $query
-                ->select('library.*')
-                ->join('server', 'LEFT')
-                ->on('server.id', '=','library.server_id' )
-                ->where('server.user_id', $user_id)
-                ->and_where('server.disable', 0)
-            ;
-        });
-
-        $body->set('libraries', $libraries);
+        $body->set('libraries', $this->template->libraries);
         $body->set('user', Session::get('user'));
 
         $this->template->body = $body;

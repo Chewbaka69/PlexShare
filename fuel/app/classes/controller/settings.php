@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\Config;
 use Fuel\Core\Controller_Template;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
@@ -20,6 +21,32 @@ class Controller_Settings extends Controller_Template
         if(!$this->_user)
             Response::redirect('/login');
 
+        $user_id = $this->_user->id;
+
+        $servers = Model_Server::find(function($query) use($user_id) {
+            $query
+                ->where('user_id', $user_id)
+            ;
+        });
+
+        $libraries = Model_Library::find(function($query) use($user_id) {
+            $query
+                ->select('library.*')
+                ->join('server', 'LEFT')
+                ->on('server.id', '=','library.server_id' )
+                ->where('server.user_id', $user_id)
+                ->and_where('server.disable', 0)
+            ;
+        });
+
+        $this->template->countServers = count($servers);
+
+        $this->template->countLibraries = count($libraries);
+
+        $this->template->servers = $servers;
+
+        $this->template->libraries = $libraries;
+
         $this->template->user = $this->_user;
 
         $this->template->js_bottom = [];
@@ -27,6 +54,8 @@ class Controller_Settings extends Controller_Template
 
     public function action_index()
     {
+        $default_settings = Config::load('user_settings');
+
         $settings = Model_Settings::find_one_by('user_id', Session::get('user')->id);
 
         $is_submit = Input::post('submit');
@@ -39,12 +68,13 @@ class Controller_Settings extends Controller_Template
                 'trailer_type'=> Input::post('typeTrailer'),
                 'trailer'   => Input::post('trailerCount'),
                 'subtitle'  => Input::post('subtitleSize'),
-                'quality'   => Input::post('remoteQuality')
+                'maxdownloadspeed'   => Input::post('maxdownloadspeed')
             ]);
             $settings->save();
         }
 
         $body = View::forge('settings/index');
+        $body->set('default_settings', $default_settings);
         $body->set('settings', $settings);
 
         $this->template->body = $body;
@@ -56,15 +86,7 @@ class Controller_Settings extends Controller_Template
 
         $body = View::forge('settings/servers');
 
-        $user_id = Session::get('user')->id;
-
-        $servers = Model_Server::find(function($query) use($user_id) {
-            $query
-                ->where('user_id', $user_id)
-            ;
-        });
-
-        $body->set('servers', $servers);
+        $body->set('servers', $this->template->servers);
         $body->set('user', Session::get('user'));
 
         $this->template->body = $body;

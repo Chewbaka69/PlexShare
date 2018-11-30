@@ -280,7 +280,7 @@
             var next = $(parent).find('button[data-hubcell-action="next"]');
 
             if ($(this).data('hubcell-action') === 'previous') {
-                $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() - 152 * 2}, 500);
+                $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() - 152 * 2}, 200);
                 setTimeout(function () {
                     if ($('#' + select + '_list').scrollLeft() <= (150 * 19)) {
                         $(next).removeClass('isDisabled');
@@ -289,10 +289,10 @@
                     if ($('#' + select + '_list').scrollLeft() === 0) {
                         $(previous).addClass('isDisabled');
                     }
-                }, 500);
+                }, 200);
             }
             if ($(this).data('hubcell-action') === 'next') {
-                $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() + 152 * 2}, 500);
+                $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() + 152 * 2}, 300);
                 setTimeout(function () {
                     if ($('#' + select + '_list').scrollLeft() > 0) {
                         $(previous).removeClass('isDisabled');
@@ -305,7 +305,7 @@
                     if ($('#' + select + '_list').scrollLeft() === 0) {
                         $(next).addClass('isDisabled');
                     }
-                }, 500);
+                }, 300);
             }
         });
     });

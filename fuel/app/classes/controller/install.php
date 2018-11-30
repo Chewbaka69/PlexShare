@@ -8,13 +8,18 @@ use Fuel\Core\Asset;
 
 class Controller_Install extends Controller
 {
-    public function action_index()
+    public function before()
     {
+        parent::before();
+
         $lock = Config::load('lock', true);
 
         if($lock)
             Response::redirect('/login');
+    }
 
+    public function action_index()
+    {
         $view = View::forge('install/index');
 
         $js = Asset::js('plex_alert.js');

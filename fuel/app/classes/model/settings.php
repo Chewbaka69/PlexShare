@@ -14,6 +14,6 @@ class Model_Settings extends Model_Overwrite
         'trailer_type',
         'trailer',
         'subtitle',
-        'quality',
+        'maxdownloadspeed',
     );
 }
