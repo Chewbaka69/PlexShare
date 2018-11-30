@@ -28,6 +28,12 @@ class Controller_Home extends Controller_Template
 
         $libraries = $server->getLibraries();
 
+        $this->template->servers = Model_Server::find([
+            'where' => [
+                ['online', '=', 1],
+                ['disable', '=', 0],
+            ],
+        ]);
         $this->template->user = Session::get('user');
         $this->template->MenuServer = $server;
         $this->template->MenuLibraries = $libraries;

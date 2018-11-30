@@ -34,7 +34,7 @@
             <div class="ServerMenu-serverMenuScroller-1nSX6 Menu-menuScroller-E0NwY Scroller-vertical-1bgGS Scroller-scroller-d5-b- Scroller-auto-3t4gM"
                  style="max-height: 300px;">
                 <div>
-                    <?php foreach (Model_Server::find(function ($query){$query->where('online',1)->and_where('disable',0);}) as $_server) : ?>
+                    <?php foreach ($servers as $_server) : ?>
                     <?php if($_server->id === $MenuServer->id) : ?>
                     <a role="menuitem" href="#"
                     <?php else: ?>
