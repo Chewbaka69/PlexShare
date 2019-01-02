@@ -5925,8 +5925,7 @@ a:hover .DisclosureArrow-disclosureArrow-1sBFv, button:hover .DisclosureArrow-di
     position: relative;
     float: left;
     margin-left: 15px;
-    width: 360px;
-    height: 100%
+    width: 360px
 }
 
 @media only screen and (max-width: 768px) {
