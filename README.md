@@ -35,7 +35,7 @@ With only one interface and without plex.tv registration, everybody can have acc
 [SCREENSHOT](https://github.com/Chewbaka69/PlexShare/tree/master/screenshots)
 
 # Installation And Support
-Not at this time
+[Wiki](https://github.com/Chewbaka69/PlexShare/wiki)
 
 # Todo-List
 [TODO LIST](https://github.com/Chewbaka69/PlexShare/blob/master/TODO_LIST.md)
