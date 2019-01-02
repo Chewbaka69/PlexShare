@@ -20,7 +20,6 @@ class Controller_Rest_Install extends Controller_Rest
         $result['version'] = $version ? true : false;
 
         $result['mysql'] = extension_loaded('mysql') ? true : false;
-        $result['mysqli'] = extension_loaded('mysqli') ? true : false;
         $result['pdo_mysql'] = extension_loaded('pdo_mysql') ? true : false;
         $result['simplexml'] = extension_loaded('SimpleXML') ? true : false;
         $result['curl'] = function_exists('curl_version') ? true : false;
@@ -475,17 +474,22 @@ class Controller_Rest_Install extends Controller_Rest
             $logs .= 'All Tables and Foreign Key successfully!'."\r\n";
 
             return $this->response(array('error' => false, 'message' => $logs));
-        }catch (FuelException $e) {
-            DBUtil::drop_table('user_watching');
-            DBUtil::drop_table('user_permission');
-            DBUtil::drop_table('libraries_permission');
-            DBUtil::drop_table('permission');
-            DBUtil::drop_table('library');
-            DBUtil::drop_table('server');
-            DBUtil::drop_table('configurations');
-            DBUtil::drop_table('user');
-            DB::rollback_transaction();
-            return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);
+        } catch (FuelException $e) {
+            try {
+                DBUtil::drop_table('user_watching');
+                DBUtil::drop_table('user_permission');
+                DBUtil::drop_table('libraries_permission');
+                DBUtil::drop_table('permission');
+                DBUtil::drop_table('library');
+                DBUtil::drop_table('server');
+                DBUtil::drop_table('configurations');
+                DBUtil::drop_table('user');
+                DB::rollback_transaction();
+
+                return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);
+            } catch (FuelException $e) {
+                return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);
+            }
         }
     }
 
