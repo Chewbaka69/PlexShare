@@ -36,6 +36,7 @@ class Controller_Settings extends Controller_Template
                 ->on('server.id', '=','library.server_id' )
                 ->where('server.user_id', $user_id)
                 ->and_where('server.disable', 0)
+                ->and_where('server.online', 1)
             ;
         });
 
