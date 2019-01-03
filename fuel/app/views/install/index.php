@@ -91,22 +91,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="MetadataTableRow-item-11DH-"
-                                                         id="mysqli"
-                                                         style="width: 100%; height: 40px; transform: translate3d(0px, 0px, 0px);">
-                                                        <div class="MetadataTableRow-overlay-1RiId">
-                                                            <div class="MetadataTableCell-tableCell-35117"
-                                                                 style="flex: 2 1 350px;"><span
-                                                                        class="MetadataTableCell-title-3KMG0"><div
-                                                                            class="MetadataTableTitle-titleContainer-3sPQC"><span
-                                                                                class="MetadataTableTitle-title-2WmEM">PHP Extension MYSQLi </span><span></span></div></span>
-                                                            </div>
-                                                            <div class="MetadataTableRow-libraryActionsCell-2OOmP MetadataTableRow-actionsCell-1ax6E">
-                                                                <div class="loading hidden"
-                                                                     style="margin: auto; left: 0; top: 0; position: relative"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     <div class="MetadataTableRow-alternateItem-1-jtp MetadataTableRow-item-11DH-"
                                                          id="pdo_sql"
                                                          style="width: 100%; height: 40px; transform: translate3d(0px, 0px, 0px);">
