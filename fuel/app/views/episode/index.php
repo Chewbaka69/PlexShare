@@ -15,11 +15,11 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-16" data-original-title="Lire" data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-16" data-original-title="Play" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
                 </button>
-                <button id="id-15" data-original-title="Plus..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
+                <button id="id-15" data-original-title="More..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-more-560" aria-hidden="true"></i>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-235" data-original-title="Montrer les affiches" data-placement="bottom" data-toggle="tooltip" role="button"
+        <button id="id-235" data-original-title="Show poster" data-placement="bottom" data-toggle="tooltip" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO      " type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
@@ -77,6 +77,23 @@
                             </div>
                         </div>
                     </div>
+                    <?php if((int)$episode->getMetaData()['Media']['@attributes']['videoResolution'] >= 720) : ?>
+                        <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-hd"></i></div>
+                    <?php else: ?>
+                        <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-sd"></i></div>
+                    <?php endif; ?>
+
+                    <?php if($episode->getMetaData()['Stream']['Audio'][0]['codec'] === 'ac3') : ?>
+                        <div class="col-sm-4 text-center" title="Dolby Digital" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-dolby"></i></div>
+                    <?php endif; ?>
+
+                    <?php if(preg_match('/7\.1(\([a-z]*\))?/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                        <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-7-1"></i></div>
+                    <?php elseif (preg_match('/5\.1(\([a-z]*\))?/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                        <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-5-1"></i></div>
+                    <?php elseif (preg_match('/stereo/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                        <div class="col-sm-4 text-center" title="Stereo" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-stereo"></i></div>
+                    <?php endif; ?>
                 </div>
                 <div class="PrePlayMetadataContent-content-2ww3j" style="padding-left: 320px;">
                     <div>
@@ -108,13 +125,16 @@
                                             class=" Link-link-2XYrU Link-default-32xSO"><?php echo $episode->title; ?></a></span>
                                 </div>
                                 <div class="PrePlayRatingRightTitle-ratingRightTitle-1d4Yy PrePlayRightTitle-rightTitle-VxiwU">
-                                    <span class="PrePlayRatingRightTitle-starRating-31XbA"></span><span
-                                        class="PrePlayRatingRightTitle-criticRating-2J_tn"><div
-                                            class="CriticRating-container-2t5Lw"><div
-                                                class="CriticRating-rating-1Ntfn"><div
-                                                    class="CriticRating-other-uJc1K CriticRating-ratingImage-1bHp5"
-                                                    title="Note"></div><?php echo $episode->rating * 10; ?>%
-                                                </div></div></span></div>
+                                    <span class="PrePlayRatingRightTitle-starRating-31XbA"></span>
+                                    <span class="PrePlayRatingRightTitle-criticRating-2J_tn">
+                                        <div class="CriticRating-container-2t5Lw">
+                                            <div class="CriticRating-rating-1Ntfn">
+                                                <div class="CriticRating-other-uJc1K CriticRating-ratingImage-1bHp5" title="Note"></div>
+                                                <?php echo $episode->rating; ?>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </div>
                             </div>
                             <div class="PrePlayTertiaryTitle-tertiaryTitle-1Rc92">
                                 <div class="PrePlayLeftTitle-leftTitle-Ev1KG"><span
@@ -189,15 +209,26 @@
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Audio</div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
-                                        <span data-qa-id="audioStream">
-                                            Inconnu
+                                        <span>
+                                            <?php echo isset($episode->getMetaData()['Stream']['Audio'][0]['language']) ? $episode->getMetaData()['Stream']['Audio'][0]['language'] : ''; ?>
                                             <span class="DashSeparator-separator-2a3yn">—</span>
-                                            MP3 Stéréo
-                                        </span></div>
+                                            <?php echo isset($episode->getMetaData()['Stream']['Audio'][0]['displayTitle']) ? $episode->getMetaData()['Stream']['Audio'][0]['displayTitle'] : (isset($episode->getMetaData()['Stream']['Audio'][0]['title']) ? $episode->getMetaData()['Stream']['Audio'][0]['title'] : $episode->getMetaData()['Stream']['Audio'][0]['language']); ?>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Sous-titres</div>
-                                    <div class="PrePlayDetailsGroupItem-content-1aRNU"><span>Aucun</span></div>
+                                    <div class="PrePlayDetailsGroupItem-content-1aRNU">
+                                        <span>
+                                            <?php if(count($episode->getMetaData()['Stream']['SubTitle']) > 0): ?>
+                                                <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['language']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['language'] : ''; ?>
+                                                <span class="DashSeparator-separator-2a3yn">—</span>
+                                                <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle'] : $movie->getMetaData()['Stream']['SubTitle'][0]['title']; ?>
+                                            <?php else: ?>
+                                                Aucun
+                                            <?php endif;?>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="PrePlaySummary-summary-1NL8g">

@@ -5,19 +5,19 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-16" title="Lire" data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-16" title="Play" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
                 </button>
                 <?php if($movie->trailer !== null) : ?>
-                <button id="id-362" title="Visionner la bande annonce." data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                <button id="id-362" title="Watch trailer" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-play-trailer-560" aria-hidden="true"></i>
                 </button>
                 <?php endif; ?>
-                <button id="id-21" title="Marquer comme vu" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                <button id="id-21" title="Mark as read" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-played-toggle-560" aria-hidden="true"></i>
                 </button>
-                <button id="id-15" title="Plus..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
+                <button id="id-15" title="More..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-more-560" aria-hidden="true"></i>
@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-14" title="Montrer les affiches" data-placement="bottom" data-toggle="tooltip" role="button"
+        <button id="id-14" title="Show poster" data-placement="bottom" data-toggle="tooltip" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
     </div>
@@ -66,7 +66,14 @@
                             </div>
                         </div>
                     </div>
-                    <?php if($movie->getMetaData()['Media']['@attributes']['videoResolution'] >= '720') : ?>
+                    <?php if($movie->trailer !== null) : ?>
+                    <div style="font-size: 20px;padding: 0;" class="col-sm-12 text-center">
+                        <button id="id-362" class="Link-link-2XYrU Link-default-32xSO" style="background: #dc3535;border-radius: 3px;padding: 0 7px;width: 100%;margin-top: 15px;">
+                            <i class="glyphicon video-hd"></i> Watch Trailer
+                        </button>
+                    </div>
+                    <?php endif; ?>
+                    <?php if((int)$movie->getMetaData()['Media']['@attributes']['videoResolution'] >= 720) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-hd"></i></div>
                     <?php else: ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-sd"></i></div>

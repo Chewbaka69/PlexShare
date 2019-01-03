@@ -5,10 +5,10 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-16" data-original-title="Lire" data-toggle="tooltip" role="button"
+                <button id="id-16" data-original-title="Play" data-toggle="tooltip" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i></button>
-                <button id="id-15" data-original-title="Plus..." aria-haspopup="true" data-toggle="tooltip"
+                <button id="id-15" data-original-title="More..." aria-haspopup="true" data-toggle="tooltip"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-more-560" aria-hidden="true"></i></button>
@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-14" data-original-title="Montrer les affiches" data-toggle="tooltip" role="button"
+        <button id="id-14" data-original-title="Show poster" data-toggle="tooltip" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
     </div>
