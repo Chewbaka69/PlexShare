@@ -4,23 +4,19 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-567" aria-label="Lire" data-qa-id="toolbarPlay" role="button"
+                <button id="id-22" title="Play" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-play-560"
-                                                                  aria-hidden="true"></i></button>
-                <button id="id-639" aria-label="Ordre aléatoire." data-qa-id="toolbarShuffle" role="button"
+                        type="button"><i class="plex-icon-toolbar-play-560"></i></button>
+                <button id="id-23" title="Ordre aléatoire." data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-shuffle-560"
-                                                                   aria-hidden="true"></i></button>
-                <button id="id-640" aria-label="Ajouter à la liste de lecture" data-qa-id="toolbarPlaylist"
+                        type="button"><i class="plex-icon-toolbar-shuffle-560"></i></button>
+                <button id="id-24" title="Ajouter à la liste de lecture" data-toggle="tooltip" data-placement="bottom"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-add-to-playlist-560"
-                                                                   aria-hidden="true"></i></button>
-                <button id="id-566" aria-haspopup="true" data-qa-id="toolbarMore" role="button"
+                        type="button"><i class="plex-icon-toolbar-add-to-playlist-560"></i></button>
+                <button id="id-21" title="Plus..." data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button" aria-label="Plus..."><i
-                            class="plex-icon-toolbar-more-560" aria-hidden="true"></i></button>
+                        type="button"><i class="plex-icon-toolbar-more-560"></i></button>
             </div>
             <div class="Measure-scrollContainer-3vb4J">
                 <div class="Measure-expandContent-1JQfL"></div>
@@ -30,7 +26,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-563" aria-label="Montrer les affiches" data-qa-id="toolbarToggleArtwork" role="button"
+        <button id="id-15" title="Montrer les affiches" data-toggle="tooltip" data-placement="bottom" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
     </div>
@@ -43,6 +39,7 @@
                     <div class="MetadataPosterCard-cardContainer-2gRcQ">
                         <div class="MetadataPosterCard-card-3bztR " style="width: 260px; height: 390px;">
                             <div class="PrePlayPosterCard-face-3rQEj MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
+                                <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 42px; line-height: 390px;"></i>
                                 <div class="PosterCardImg-imageContainer-1Ar4M" data-tvshow-id="<?php echo $tvshow->id; ?>">
                                     <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                          class=""></div>
@@ -158,6 +155,7 @@
                                             <div class="MetadataPosterCard-card-3bztR "
                                                  style="width: 137px; height: 206px;">
                                                 <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
+                                                    <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 30px; line-height: 206px;"></i>
                                                     <div class="PosterCardImg-imageContainer-1Ar4M" data-season-id="<?php echo $season->id; ?>">
                                                         <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                                              class=""></div>
