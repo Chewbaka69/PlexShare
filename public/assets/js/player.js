@@ -36,7 +36,6 @@ function launchPlayer(view) {
         parentId: '#movie_stream',
         width: '100%',
         height: '100%',
-        mediacontrol: false,
         playback: {
             preload: 'metadata',
             controls: false,
@@ -57,10 +56,11 @@ function launchPlayer(view) {
                 $('.media-time').html(toHHMMSS(timeplay));
 
                 $('.SeekBar-seekBarFill-1Lcu0').css('transform', 'scaleX('+ percent +')');
-                $('.Slider-thumbTrack-21hGV').css('transform', 'translateX('+ (-100 + (percent*100)) +'%)');
             }
         }
     });
+
+    player.on(Clappr.Events.PLAYER_PLAY, function(){player.core.mediaControl.disable()});
 
     /** EVENT PLAYER WHEN LOADED GET TOTATL TIME **/
     player.core.getCurrentContainer().on(Clappr.Events.CONTAINER_LOADEDMETADATA, function(metadata) {
@@ -101,6 +101,10 @@ function launchPlayer(view) {
             exitFullScreen();
         else
             fullScreen();
+    });
+    /** QUEUELIST **/
+    $(document).on('click', '.PlayerIconButton-playerButton-1DmNp[data-qa-id="playQueueButton"]', function () {
+        $('.AudioVideoFullPlayer-content-37T7O').toggleClass('hidden');
     });
 
     /** SETTINGS AUDIO VIDEO AND SUBTITLES **/
