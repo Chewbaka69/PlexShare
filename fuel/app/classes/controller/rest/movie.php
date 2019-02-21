@@ -20,10 +20,16 @@ class Controller_Rest_Movie extends Controller_Rest
 
         $user_settings = Model_Settings::find_one_by('user_id', Session::get('user')->id);
 
+        if($movie->type !== 'movie')
+            $episodes = $movie->getSeason()->getEpisodes();
+        else
+            $episodes = [$movie];
+
         $view = View::forge('stream/index');
 
         $view->set('user_settings', $user_settings);
         $view->set('movie', $movie);
+        $view->set('episodes', $episodes);
 
         return $this->response($view->render());
     }
