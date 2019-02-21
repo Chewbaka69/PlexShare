@@ -21,8 +21,13 @@ class Controller_Episode extends Controller_Home
 
         $episode->getMetaData();
 
+        $seasons = $episode->getTvShow()->getSeasons();
+        $episodes = $episode->getSeason()->getEpisodes();
+
         $body = View::forge('episode/index');
         $body->set('episode', $episode);
+        $body->set('seasons', $seasons);
+        $body->set('episodes', $episodes);
 
         $this->template->body = $body;
     }
