@@ -45,17 +45,12 @@ class Controller_Cover extends Controller_Home
         $width = Input::get('width');
         $height = Input::get('height');
 
-        $thumb = Input::get('thumb') ?: null;
-
         $tv_show = Model_Tvshow::find_by_pk($tvshow_id);
 
         if(!$tv_show)
             throw new FuelException();
 
-        if(!$thumb)
-            $images = $tv_show->getCover($width, $height);
-        else
-            $images = $tv_show->getThumb($width, $height);
+        $images = $tv_show->getCover($width, $height);
 
         $response = new Response();
         $response->set_header('Content-Type', 'image/jpeg');
