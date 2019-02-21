@@ -1,32 +1,29 @@
 <div class="PrePlayPageHeader-altPageHeader-3bZbS PrePlayPageHeader-pageHeader-2o14F PageHeader-pageHeader-18RSw">
-    <div class="PageHeaderLeft-pageHeaderLeft-2TxSo"><a
-                href="/tvshow/<?php echo $season->getTvShow()->id; ?>"
+    <div class="PageHeaderLeft-pageHeaderLeft-2TxSo">
+        <a href="/tvshow/<?php echo $season->getTvShow()->id; ?>"
                 role="link" class="PageHeaderBreadcrumbButton-link-1N0DD Link-link-2XYrU Link-default-32xSO"><?php echo $season->getTvShow()->title; ?></a>
         <button aria-haspopup="true" role="button"
                 class="PageHeaderBreadcrumbButton-button-1uaPj DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37  Link-link-2XYrU Link-default-32xSO"
-                type="button">Saison <?php echo $season->number; ?>
+                type="button"><?php echo $season->title; ?>
             <div class="DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
-        </button></div>
+        </button>
+    </div>
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-22" aria-label="Lire" data-qa-id="toolbarPlay" role="button"
+                <button id="id-22" title="Play" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-play-560"
-                                                                  aria-hidden="true"></i></button>
-                <button id="id-23" aria-label="Ordre aléatoire." data-qa-id="toolbarShuffle" role="button"
+                        type="button"><i class="plex-icon-toolbar-play-560"></i></button>
+                <button id="id-23" title="Ordre aléatoire." data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-shuffle-560"
-                                                                  aria-hidden="true"></i></button>
-                <button id="id-24" aria-label="Ajouter à la liste de lecture" data-qa-id="toolbarPlaylist"
+                        type="button"><i class="plex-icon-toolbar-shuffle-560"></i></button>
+                <button id="id-24" title="Ajouter à la liste de lecture" data-toggle="tooltip" data-placement="bottom"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-add-to-playlist-560"
-                                                                  aria-hidden="true"></i></button>
-                <button id="id-21" aria-label="Plus..." aria-haspopup="true" data-qa-id="toolbarMore" role="button"
+                        type="button"><i class="plex-icon-toolbar-add-to-playlist-560"></i></button>
+                <button id="id-21" title="Plus..." data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
-                        type="button"><i class="plex-icon-toolbar-more-560"
-                                                                  aria-hidden="true"></i></button>
+                        type="button"><i class="plex-icon-toolbar-more-560"></i></button>
             </div>
             <div class="Measure-scrollContainer-3vb4J">
                 <div class="Measure-expandContent-1JQfL"></div>
@@ -36,7 +33,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-15" aria-label="Montrer les affiches" data-qa-id="toolbarToggleArtwork" role="button"
+        <button id="id-15" title="Montrer les affiches" data-toggle="tooltip" data-placement="bottom" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
         <div class="PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
@@ -61,6 +58,7 @@
                          data-qa-id="metadataPosterCard--/library/metadata/28083">
                         <div class="MetadataPosterCard-card-3bztR " style="width: 260px; height: 390px;">
                             <div class="PrePlayPosterCard-face-3rQEj MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
+                                <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 42px; line-height: 390px;"></i>
                                 <div class="PosterCardImg-imageContainer-1Ar4M" data-season-id="<?php echo $season->id; ?>">
                                     <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                          class=""></div>
@@ -187,6 +185,21 @@
         <div class="Measure-shrinkContent-32Udi Measure-expandContent-1JQfL"></div>
     </div>
 </div>
+<div class="Menu-select-season hidden" style="position: absolute; top: 60px;">
+    <div id="id-1865">
+        <div role="menu" class="MenuContainer-menu-3Gtlw MenuContainer-medium-2XOYJ">
+            <div class="Menu-menuScroller-E0NwY Scroller-vertical-1bgGS Scroller-scroller-d5-b- Scroller-vertical-1bgGS Scroller-auto-3t4gM" style="max-height: 591px;">
+                <?php foreach ($seasons as $one_season) : ?>
+                <a role="menuitem" href="/season/<?php echo $one_season->id; ?>" class="<?php echo $one_season->id === $season->id ? 'SelectedMenuItem-isSelected-3zuEi' : ''; ?> MenuItem-menuItem-25266 MenuItem-default-tX5Cl Link-link-2XYrU Link-default-32xSO">
+                    <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
+                        <div class="SelectedMenuItem-menuLabel-1tKeW"><?php echo $one_season->title; ?></div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $(window).on('load', function() {
         $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
@@ -204,6 +217,18 @@
             });
         });
     });
+    /** SHOW SEASON LIST **/
+    $('.PageHeaderBreadcrumbButton-button-1uaPj').on('click', function (event) {
+        event.stopPropagation();
+        $(this).find('.DisclosureArrow-disclosureArrow-1sBFv').toggleClass('DisclosureArrowButton-down-bd2wx DisclosureArrowButton-up-2fzdj');
+        $('.Menu-select-season').css('left', $(this).position().left + 'px');
+        $('.Menu-select-season').toggleClass('hidden');
+    });
+    $(document).on('mouseup', function() {
+        if($('.Menu-select-season').css('display') !== 'none')
+            $('.PageHeaderBreadcrumbButton-button-1uaPj').click();
+    });
+    /** LOAD COVER SEASON **/
     $('.PosterCardImg-imageContainer-1Ar4M[data-season-id]').each(function (index, element) {
         var season_id = $(element).data('season-id');
         $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id='+ season_id +'&width='+ 338 +'&height='+ 488 +'")');
@@ -214,6 +239,7 @@
         $(background).css('filter', 'blur(100px)');
         $(background).css('opacity', '0.3');
     });
+    /** LOAD COVER EPISODE **/
     $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
         var movie_id = $(element).data('movie-id');
         $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 240 +'&height='+ 135 +'&thumb=true")');
