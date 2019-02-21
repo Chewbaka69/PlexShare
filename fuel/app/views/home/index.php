@@ -47,6 +47,7 @@
                                                 <div class="MetadataPosterCard-card-3bztR "
                                                      style="width: 127px; height: 191px;">
                                                     <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
+                                                        <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 32px; line-height: 191px;"></i>
                                                         <div class="PosterCardImg-imageContainer-1Ar4M"
                                                              data-movie-id="<?php echo $episode->id; ?>">
                                                             <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
@@ -178,6 +179,7 @@
                                                 <div class="MetadataPosterCard-card-3bztR "
                                                      style="width: 127px; height: 191px;">
                                                     <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
+                                                        <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 32px; line-height: 191px;"></i>
                                                         <div class="PosterCardImg-imageContainer-1Ar4M"
                                                              data-movie-id="<?php echo $movie->id; ?>">
                                                             <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"

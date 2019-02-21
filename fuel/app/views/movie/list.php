@@ -57,6 +57,7 @@
                          data-qa-id="metadataPosterCard--/library/metadata/1">
                         <div class="MetadataPosterCard-card-3bztR " style="width: 126px; height: 189px;">
                             <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
+                                <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 30px; line-height: 189px;"></i>
                                 <div class="PosterCardImg-imageContainer-1Ar4M" data-movie-id="<?php echo $movie->id; ?>">
                                     <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                          class=""></div>
@@ -330,8 +331,11 @@
         });
         /** LOAD IMAGES **/
         $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
-            var movie_id = $(element).data('movie-id');
-            $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 160 +'&height='+ 236 +'")');
+            /** IF USING CLOUDFLARE TOO MANY REQUEST **/
+            setTimeout(function(){
+                var movie_id = $(element).data('movie-id');
+                $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 160 +'&height='+ 236 +'")');
+            }, 10 * index);
         });
     });
 </script>

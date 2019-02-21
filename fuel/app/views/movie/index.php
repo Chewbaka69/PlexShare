@@ -5,7 +5,7 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-16" title="Play" data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-16" title="Play" data-toggle="tooltip" data-placement="bottom" data-id="<?php echo $movie->id; ?>" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
                 </button>
@@ -73,21 +73,21 @@
                         </button>
                     </div>
                     <?php endif; ?>
-                    <?php if((int)$movie->getMetaData()['Media']['@attributes']['videoResolution'] >= 720) : ?>
+                    <?php if(isset($movie->getMetaData()['Media']['@attributes']) && (int)$movie->getMetaData()['Media']['@attributes']['videoResolution'] >= 720) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-hd"></i></div>
                     <?php else: ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-sd"></i></div>
                     <?php endif; ?>
 
-                    <?php if($movie->getMetaData()['Stream']['Audio'][0]['codec'] === 'ac3') : ?>
+                    <?php if(isset($movie->getMetaData()['Stream']['Audio'][0]) && $movie->getMetaData()['Stream']['Audio'][0]['codec'] === 'ac3') : ?>
                         <div class="col-sm-4 text-center" title="Dolby Digital" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-dolby"></i></div>
                     <?php endif; ?>
 
-                    <?php if(preg_match('/7\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php if(isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/7\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-7-1"></i></div>
-                    <?php elseif (preg_match('/5\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php elseif (isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/5\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-5-1"></i></div>
-                    <?php elseif (preg_match('/stereo/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php elseif (isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/stereo/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
                         <div class="col-sm-4 text-center" title="Stereo" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-stereo"></i></div>
                     <?php endif; ?>
                 </div>
@@ -213,21 +213,25 @@
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Vidéo</div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
+                                        <?php if (isset($movie->getMetaData()['Media']['@attributes'])) : ?>
                                         <span data-qa-id="videoStream">
                                             <?php echo $movie->getMetaData()['Media']['@attributes']['videoResolution']; ?>p
                                             <span class="DashSeparator-separator-2a3yn">—</span>
                                             <?php echo $movie->getMetaData()['Stream']['Video'][0]['codec']; ?>
                                         </span>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43">Audio</div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
+                                        <?php if (isset($movie->getMetaData()['Stream']['Audio'][0])) : ?>
                                         <span>
                                             <?php echo isset($movie->getMetaData()['Stream']['Audio'][0]['language']) ? $movie->getMetaData()['Stream']['Audio'][0]['language'] : ''; ?>
                                             <span class="DashSeparator-separator-2a3yn">—</span>
                                             <?php echo isset($movie->getMetaData()['Stream']['Audio'][0]['displayTitle']) ? $movie->getMetaData()['Stream']['Audio'][0]['displayTitle'] : (isset($movie->getMetaData()['Stream']['Audio'][0]['title']) ? $movie->getMetaData()['Stream']['Audio'][0]['title'] : $movie->getMetaData()['Stream']['Audio'][0]['language']); ?>
                                         </span>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
@@ -363,7 +367,7 @@
             }
         });
         /** LAUNCH PLAYER **/
-        $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
+        $(document).on('click', '#id-16, .MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
             event.stopPropagation();
             var movie_id = $(this).data('id');
             $.ajax({

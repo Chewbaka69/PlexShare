@@ -8,6 +8,7 @@ use Fuel\Core\Cache;
 use Fuel\Core\CacheNotFoundException;
 use Fuel\Core\Database_Query_Builder_Select;
 use Fuel\Core\FuelException;
+use Fuel\Core\RequestStatusException;
 
 class Model_Movie extends Model_Overwrite
 {
@@ -48,7 +49,7 @@ class Model_Movie extends Model_Overwrite
 
     public function getSeason()
     {
-        if(!$this->_season)
+        if(!$this->_season && $this->season_id !== null)
             $this->_season = Model_Season::find_by_pk($this->season_id);
 
         return $this->_season;
@@ -58,7 +59,9 @@ class Model_Movie extends Model_Overwrite
     {
         if(!$this->_tv_show) {
             $season = $this->getSeason();
-            $this->_tv_show = Model_Tvshow::find_by_pk($season->tv_show_id);
+
+            if($season !== null)
+                $this->_tv_show = Model_Tvshow::find_by_pk($season->tv_show_id);
         }
 
         return $this->_tv_show;
@@ -107,6 +110,7 @@ class Model_Movie extends Model_Overwrite
             if ($thumb)
                 return $thumb;
         } catch (CacheNotFoundException $e) {
+
             if($this->type === 'episode')
                 $this->getPicture($this->_season->thumb,$path_cache, $width, $height);
             else if($this->type === 'movie')
@@ -124,10 +128,10 @@ class Model_Movie extends Model_Overwrite
 
         $curl = null;
 
-        if(!$width && !$height)
+        if (!$width && !$height)
             $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $path . '?X-Plex-Token=' . $this->_server->token, 'curl');
         else
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width='.$width.'&height='.$height.'&minSize=1&url='.$path.'&X-Plex-Token='.$this->_server->token, 'curl');
+            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width=' . $width . '&height=' . $height . '&minSize=1&url=' . $path . '&X-Plex-Token=' . $this->_server->token, 'curl');
 
         $curl->execute();
 
@@ -255,7 +259,8 @@ class Model_Movie extends Model_Overwrite
             $language = isset($user_settings->language) ? $user_settings->language : false;
 
             $request = 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '');
-            $request .= '/video/:/transcode/universal/start.m3u8';
+            //$request .= '/video/:/transcode/universal/decision?hasMDE=1'; // DASH
+            $request .= '/video/:/transcode/universal/start.m3u8'; // HLS
             $request .= '?identifier=[PlexShare]';
             $request .= '&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key);
             $request .= '&mediaIndex=0';
