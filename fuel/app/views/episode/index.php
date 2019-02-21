@@ -1,13 +1,15 @@
 <div class="PrePlayPageHeader-altPageHeader-3bZbS PrePlayPageHeader-pageHeader-2o14F PageHeader-pageHeader-18RSw">
-    <div class="PageHeaderLeft-pageHeaderLeft-2TxSo"><a
-            href="/tvshow/<?php echo $episode->getTvShow()->id ; ?>"
+    <div class="PageHeaderLeft-pageHeaderLeft-2TxSo">
+        <a href="/tvshow/<?php echo $episode->getTvShow()->id ; ?>"
             role="link"
-            class="PageHeaderBreadcrumbButton-link-1N0DD Link-link-2XYrU Link-default-32xSO"><?php echo $episode->getTvShow()->title; ?></a><a
-            href="/season/<?php echo $episode->getSeason()->id; ?>"
-            role="link"
-            class="PageHeaderBreadcrumbButton-link-1N0DD Link-link-2XYrU Link-default-32xSO"><?php echo $episode->getSeason()->title; ?></a>
-        <button aria-haspopup="true" data-qa-id="typeDropdownButton" id="id-233" role="button"
-                class="PageHeaderBreadcrumbButton-button-1uaPj DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37 Link-link-2XYrU Link-default-32xSO"
+            class="PageHeaderBreadcrumbButton-link-1N0DD Link-link-2XYrU Link-default-32xSO"><?php echo $episode->getTvShow()->title; ?></a>
+        <button role="button"
+                class="PageHeaderBreadcrumbButton-button-1uaPj Season DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37  Link-link-2XYrU Link-default-32xSO"
+                type="button"><?php echo $episode->getSeason()->title ; ?>
+            <div class="DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
+        </button>
+        <button role="button"
+                class="PageHeaderBreadcrumbButton-button-1uaPj Episode DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37 Link-link-2XYrU Link-default-32xSO"
                 type="button"><?php echo $episode->title; ?>
             <div class="DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
         </button>
@@ -15,7 +17,7 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-16" data-original-title="Play" data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-16" data-original-title="Play" data-toggle="tooltip" data-placement="bottom" data-id="<?php echo $episode->id; ?>" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
                 </button>
@@ -268,6 +270,36 @@
         <div class="Measure-shrinkContent-32Udi Measure-expandContent-1JQfL"></div>
     </div>
 </div>
+<div class="Menu-select-season hidden" style="position: absolute; top: 60px;">
+    <div id="id-1865">
+        <div role="menu" class="MenuContainer-menu-3Gtlw MenuContainer-medium-2XOYJ">
+            <div class="Menu-menuScroller-E0NwY Scroller-vertical-1bgGS Scroller-scroller-d5-b- Scroller-vertical-1bgGS Scroller-auto-3t4gM" style="max-height: 591px;">
+                <?php foreach ($seasons as $one_season) : ?>
+                    <a role="menuitem" href="/season/<?php echo $one_season->id; ?>" class="<?php echo $one_season->id === $episode->getSeason()->id ? 'SelectedMenuItem-isSelected-3zuEi' : ''; ?> MenuItem-menuItem-25266 MenuItem-default-tX5Cl Link-link-2XYrU Link-default-32xSO">
+                        <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
+                            <div class="SelectedMenuItem-menuLabel-1tKeW"><?php echo $one_season->title; ?></div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="Menu-select-episode hidden" style="position: absolute; top: 60px;">
+    <div id="id-1865">
+        <div role="menu" class="MenuContainer-menu-3Gtlw MenuContainer-medium-2XOYJ">
+            <div class="Menu-menuScroller-E0NwY Scroller-vertical-1bgGS Scroller-scroller-d5-b- Scroller-vertical-1bgGS Scroller-auto-3t4gM" style="max-height: 591px;">
+                <?php foreach ($episodes as $one_episode) : ?>
+                    <a role="menuitem" href="/episode/<?php echo $one_episode->id; ?>" class="<?php echo $one_episode->id === $episode->id ? 'SelectedMenuItem-isSelected-3zuEi' : ''; ?> MenuItem-menuItem-25266 MenuItem-default-tX5Cl Link-link-2XYrU Link-default-32xSO">
+                        <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
+                            <div class="SelectedMenuItem-menuLabel-1tKeW"><?php echo $one_episode->number; ?> - <?php echo $one_episode->title; ?></div>
+                        </div>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
     $(window).on('load', function() {
         /** READ MORE **/
@@ -282,7 +314,29 @@
                 summary.css('max-height', '78px');
             }
         });
-        $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
+        /** SHOW SEASON LIST **/
+        $('.PageHeaderBreadcrumbButton-button-1uaPj.Season').on('click', function (event) {
+            event.stopPropagation();
+            $(this).find('.DisclosureArrow-disclosureArrow-1sBFv').toggleClass('DisclosureArrowButton-down-bd2wx DisclosureArrowButton-up-2fzdj');
+            $('.Menu-select-season').css('left', $(this).position().left + 'px');
+            $('.Menu-select-season').toggleClass('hidden');
+        });
+        /** SHOW EPISODE LIST **/
+        $('.PageHeaderBreadcrumbButton-button-1uaPj.Episode').on('click', function (event) {
+            event.stopPropagation();
+            $(this).find('.DisclosureArrow-disclosureArrow-1sBFv').toggleClass('DisclosureArrowButton-down-bd2wx DisclosureArrowButton-up-2fzdj');
+            $('.Menu-select-episode').css('left', $(this).position().left + 'px');
+            $('.Menu-select-episode').toggleClass('hidden');
+        });
+        $(document).on('mouseup', function() {
+            if($('.Menu-select-season').css('display') !== 'none')
+                $('.PageHeaderBreadcrumbButton-button-1uaPj.Season').click();
+
+            if($('.Menu-select-episode').css('display') !== 'none')
+                $('.PageHeaderBreadcrumbButton-button-1uaPj.Episode').click();
+        });
+        /** PLAY EPISODE **/
+        $(document).on('click', '#id-16, .MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
             event.stopPropagation();
             var movie_id = $(this).data('id');
             $.ajax({
