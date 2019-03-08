@@ -21,6 +21,7 @@
   - [x] List last Movies
   - [x] List last TvShow
   - [ ] Search
+    - [x] By Name
 - [ ] Movies
   - [x] Title
   - [x] Description
@@ -55,7 +56,7 @@
 - [ ] Management Libraries
   - [x] List libraries
   - [x] Disable library
-  - [ ] Add permition to library
+  - [x] Add permition to library
   - [ ] Add permition to user
 - [ ] Management User
   - [ ] Edit profil
