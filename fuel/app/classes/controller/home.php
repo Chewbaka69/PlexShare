@@ -38,7 +38,7 @@ class Controller_Home extends Controller_Template
         $this->template->MenuServer = $server;
         $this->template->MenuLibraries = $libraries;
 
-        $this->template->js_bottom = ['clappr.min.js', 'player.js'];
+        $this->template->js_bottom = ['clappr.min.js', 'player.js', 'plex_alert.js'];
     }
 
     public function action_index()

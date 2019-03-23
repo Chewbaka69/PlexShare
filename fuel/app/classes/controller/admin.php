@@ -22,7 +22,7 @@ class Controller_Admin extends Controller_Template
 
         $this->template->user = Session::get('user');
 
-        $this->template->js_bottom = [];
+        $this->template->js_bottom = ['plex_alert.js'];
     }
 
     public function action_index()
