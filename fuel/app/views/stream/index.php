@@ -1,5 +1,5 @@
-<input id="data_movie" type="hidden" data-src="<?php echo $movie->getStreamUrl($user_settings); ?>"/>
-<input id="data_movie_id" type="hidden" data-movie-id="<?php echo $movie->id; ?>"/>
+<input id="data_movie" type="hidden" data-src="<?php echo $movie->getStreamUrl($user_settings); ?>" data-movie-type="<?php echo $movie->type; ?>"/>
+<input id="data_movie_id" type="hidden" data-movie-id="<?php echo $movie->id; ?>" />
 <button aria-label="Lire" role="playCenter" type="button"
         class="PlayPauseOverlay-playButton-25OfW PlayButton-playButton-3WX8X Link-link-2XYrU Link-default-32xSO"
         style="z-index: 0">
@@ -48,18 +48,11 @@
                         <div class="EqualizerIcon-equalizer-2SoFA" style="width: 14px; height: 14px;">
                             <?php if($movie->id === $episode->id) : ?>
                                 <div class="EqualizerIcon-bar-1nPot"
-                                     style="left: 0px; width: 3px; background-color: rgb(249, 190, 3); transition-duration: 467.145ms; transform: scaleY(0.2);"></div>
+                                     style="left: 0px; width: 3px; background-color: rgb(249, 190, 3); transition-duration: 467.145ms; transform: scaleY(0.9);"></div>
                                 <div class="EqualizerIcon-bar-1nPot"
-                                     style="left: 5px; width: 3px; background-color: rgb(249, 190, 3); transition-duration: 409.912ms; transform: scaleY(0.2);"></div>
+                                     style="left: 5px; width: 3px; background-color: rgb(249, 190, 3); transition-duration: 409.912ms; transform: scaleY(0.9);"></div>
                                 <div class="EqualizerIcon-bar-1nPot"
-                                     style="left: 10px; width: 3px; background-color: rgb(249, 190, 3); transition-duration: 477.391ms; transform: scaleY(0.2);"></div>
-                            <?php else: ?>
-                                <div class="EqualizerIcon-bar-1nPot"
-                                     style="left: 0px; width: 3px; background-color: rgb(255, 255, 255); transition-duration: 467.145ms; transform: scaleY(0.2);"></div>
-                                <div class="EqualizerIcon-bar-1nPot"
-                                     style="left: 5px; width: 3px; background-color: rgb(255, 255, 255); transition-duration: 409.912ms; transform: scaleY(0.2);"></div>
-                                <div class="EqualizerIcon-bar-1nPot"
-                                     style="left: 10px; width: 3px; background-color: rgb(255, 255, 255); transition-duration: 477.391ms; transform: scaleY(0.2);"></div>
+                                     style="left: 9.5px; width: 3px; background-color: rgb(249, 190, 3); transition-duration: 477.391ms; transform: scaleY(0.9);"></div>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -88,10 +81,23 @@
                             </div>
                         </div>
                         <div class="AudioVideoPlayerPlayQueueMetadata-titlesContainer-2G9lR" data-qa-id="playQueueTitleContainer">
-                            <a data-qa-id="metadataTitleLink" title="<?php echo $episode->title; ?>" href="#!/server/11f086036e179128e7b077495e238d1c922d605c/details?key=%2Flibrary%2Fmetadata%2F37"
-                               role="link" class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO"><?php echo $episode->title; ?></a>
+                            <a data-qa-id="metadataTitleLink" title="<?php echo $episode->title; ?>" href="<?php echo ($episode->type === 'movie' ? '/movie/' : '/episode/') . $episode->id; ?>"
+                               role="link" class="MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO"><?php echo $episode->title; ?></a>
+                            <?php if ($episode->type === 'movie') : ?>
                             <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY "
-                                    data-qa-id="metadataYear"><?php echo $episode->year; ?></span>
+                                    data-qa-id="metadataYear"><?php echo $episode->year; ?>
+                            </span>
+                            <?php else : ?>
+                            <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY ">
+                                <span>
+                                    <a title="Saison 1" href="#" role="link" class=" Link-link-2n0yJ Link-default-2XA2b">S1</a>
+                                    <span class="DashSeparator-separator-2a3yn">·</span>
+                                    <a title="VOSTFR (BDRip" href="#" role="link" class=" Link-link-2n0yJ Link-default-2XA2b">E26</a>
+                                </span>
+                                <span class="DashSeparator-separator-2a3yn">—</span>
+                                <a data-qa-id="metadataTitleLink" title="VOSTFR (BDRip" href="#" role="link" class=" Link-link-2n0yJ Link-default-2XA2b">VOSTFR (BDRip</a>
+                            </span>
+                            <?php endif; ?>
                         </div>
                         <div class="AudioVideoPlayQueueItem-metadataDurationContainer-184Jw AudioVideoPlayerPlayQueueMetadata-durationContainer-2dgI9">
                             <?php echo $episode->getDuration(); ?>
@@ -136,6 +142,18 @@
     <div class="Measure-scrollContainer-3vb4J">
         <div class="Measure-shrinkContent-32Udi Measure-expandContent-1JQfL"></div>
     </div>
+</div>
+<div class="Next hidden" style="position: absolute;bottom: 120px;right: 100px;">
+    <button name="close" type="button" class="AudioVideoPlayerControls-closeButton-2ULmA btn btn-danger">
+        <span class="btn-label">Fermer</span>
+    </button>
+    <?php foreach ($episodes as $index => $episode) : ?>
+    <?php if($movie->id === $episode->id && isset($episodes[$index + 1])) : ?>
+    <button id="next" type="button" class="submit-btn btn btn-primary" data-id="<?php echo $episodes[$index + 1]->id; ?>">
+        <span class="btn-label">Episode suivant</span>
+    </button>
+    <?php endif; ?>
+    <?php endforeach; ?>
 </div>
 <div class="AudioVideoFullPlayer-bottomBar-2yixi AudioVideoFullPlayer-bar-dDYeo"
      style="bottom: -86px; height: 86px; z-index: 0">
@@ -259,7 +277,7 @@
                                     class="VolumeSlider-track-2WJDz Slider-track-28JOS"><div
                                         class="VolumeSlider-fill-3XkYy Slider-fill-35GFq"
                                         style="transform: scaleX(1);"></div></div><div
-                                    class="Slider-thumbTrack-21hGV" style="transform: translateX(0%);">
+                                    class="Slider-thumbTrack-21hGV" style="transform: translateX(-100%);">
                                 <button id="buttonVolume"
                                         role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"
                                         class="Slider-thumb-2QGiU Link-link-2XYrU Link-default-32xSO      "
