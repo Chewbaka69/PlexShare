@@ -79,10 +79,72 @@
             if($('.Menu-menuPortal-2JtDz').css('display') !== 'none')
                 $('#id-3026').click();
         });
+        $(document).on('focus focusout', '.QuickSearchInput-container-R2-wn', function (event) {
+            event.stopPropagation();
+            if(!$('.QuickSearchInput-container-R2-wn').hasClass('QuickSearchInput-focused-2kpW8'))
+                $('.QuickSearchInput-container-R2-wn').addClass('QuickSearchInput-focused-2kpW8');
+            else {
+                $('.QuickSearchInput-container-R2-wn').removeClass('QuickSearchInput-focused-2kpW8');
+            }
+        });
+        $('body').not('#search_result').on('click', function () {
+            if(!$('#search_result').hasClass('hidden')) {
+                $('#search_result').addClass('hidden');
+                $('input.QuickSearchInput-searchInput-2HU6-').val('');
+                $('._search').remove();
+            }
+        });
+        $(document).on('keyup', '.QuickSearchInput-searchInput-2HU6-', function (event) {
+            event.stopPropagation();
+            if($(this).val().length < 2)
+                return;
+
+            $.ajax({
+                url: '/rest/search/index',
+                method: 'GET',
+                data: {search: $(this).val()},
+                dataType: 'json'
+            }).done(function (data) {
+                $('._search').remove();
+
+                if(data.movies.length === 0 && data.episodes.length === 0)
+                    return;
+
+                $('#search_result').removeClass('hidden');
+
+                data.movies.forEach(function (movie, index) {
+                    let template = $('#film_template').clone();
+
+                    template.removeClass('hidden');
+                    template.addClass('_search');
+                    template.html(template.html().replace(/{\$TITLE\$}/g, movie.title));
+                    template.html(template.html().replace(/{\$YEAR\$}/g, movie.year));
+                    template.html(template.html().replace(/{\$MOVIEID\$}/g, movie.id));
+
+                    $('#film_template').after(template);
+                });
+
+                data.episodes.forEach(function (episode, index) {
+                    let template = $('#episode_template').clone();
+
+                    template.removeClass('hidden');
+                    template.addClass('_search');
+                    template.html(template.html().replace(/{\$TITLE\$}/g, episode.title));
+                    template.html(template.html().replace(/{\$YEAR\$}/g, episode.year));
+                    template.html(template.html().replace(/{\$MOVIEID\$}/g, episode.id));
+
+                    $('#episode_template').after(template);
+                });
+            }).fail(function (data) {
+                console.error(data.responseText);
+                show_alert('error', data.responseText);
+            });
+        });
     });
 </script>
 <?php
 echo \Asset::js(['bootstrap.min.js']);
 echo \Asset::js(isset($js_bottom) ? $js_bottom : null);
 ?>
+<devBy class="hidden">Created By Chewbaka69 // https://github.com/Chewbaka69/PlexShare</devBy>
 </body>
