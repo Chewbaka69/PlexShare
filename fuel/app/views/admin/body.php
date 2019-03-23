@@ -43,8 +43,8 @@ echo \Asset::js(isset($js_bottom) ? $js_bottom : null);
 echo \Asset::js(['bootstrap.min.js']);
 ?>
 <script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip({ container: 'body'});
+    $(window).on('load', function() {
+        $('[data-toggle="tooltip"]').tooltip({ container: 'body', template: '<div class="tooltip Tooltip-tooltipPortal-1IUlb"><div class="tooltip-arrow"></div><div class="tooltip-inner Tooltip-tooltip-2AL-W"></div></div>'});
     });
 </script>
 </body>

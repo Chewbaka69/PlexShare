@@ -18,7 +18,7 @@ class Controller_Rest_Browse extends Controller_Rest
             ));
         } else {
             $server = Model_Server::find(array(
-                'select' => array('id', 'name', 'url', 'port', 'token'),
+                'select' => array('*'),
                 'where' => array(
                     'id' => Input::get('server_id')
                 )

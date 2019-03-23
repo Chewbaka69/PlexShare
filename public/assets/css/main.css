@@ -16,8 +16,3 @@
 .AudioVideoFullPlayer-topBar-2XUGM{
     transform: translateY(0);
 }
-.vjs-controls-disabled .vjs-control-bar,
-.vjs-controls-disabled .vjs-modal-dialog,
-.vjs-controls-disabled .vjs-modal-dialog {
-    display: none;
-}
