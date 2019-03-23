@@ -109,6 +109,7 @@ class Controller_Rest_Install extends Controller_Rest
                 array(
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
                     'user_id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'https' => array('constraint' => 1, 'type' => 'int'),
                     'url' => array('constraint' => 255, 'type' => 'varchar'),
                     'port' => array('constraint' => 2, 'type' => 'int', 'null' => true),
                     'token' => array('constraint' => 255, 'type' => 'varchar'),
@@ -228,6 +229,7 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
+            DBUtil::create_index('movie', 'title', 'searchTitle', 'fulltext');
             $logs .= 'Movie table create!'."\r\n";
 
             $logs .= 'Creation table configuration'."\r\n";
@@ -254,6 +256,7 @@ class Controller_Rest_Install extends Controller_Rest
                 array(
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
                     'name' => array('constraint' => 255, 'type' => 'varchar'),
+                    'parameters' => array('constraint' => 1, 'type' => 'int', 'default' => 0),
                     'disable' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
@@ -265,7 +268,7 @@ class Controller_Rest_Install extends Controller_Rest
              * CREATE TABLE USER'S PERMISSION
              */
             DBUtil::create_table(
-                'libraries_permission',
+                'library_permission',
                 array(
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
                     'permission_id' => array('constraint' => 36, 'type' => 'varchar'),
@@ -376,7 +379,7 @@ class Controller_Rest_Install extends Controller_Rest
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
             ));
-            DBUtil::add_foreign_key('libraries_permission', array(
+            DBUtil::add_foreign_key('library_permission', array(
                 'constraint' => 'constraintPermissionLibrariesPermission',
                 'key' => 'permission_id',
                 'reference' => array(
@@ -386,11 +389,11 @@ class Controller_Rest_Install extends Controller_Rest
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
             ));
-            DBUtil::add_foreign_key('libraries_permission', array(
+            DBUtil::add_foreign_key('library_permission', array(
                 'constraint' => 'constraintLibraryLibrariesPermission',
                 'key' => 'library_id',
                 'reference' => array(
-                    'table' => 'permission',
+                    'table' => 'library',
                     'column' => 'id',
                 ),
                 'on_update' => 'NO ACTION',
@@ -468,6 +471,15 @@ class Controller_Rest_Install extends Controller_Rest
             ));
 
             $logs .= 'Foreign key create!'."\r\n";
+
+            DB::insert('permission',['name', 'parameters'])
+                ->values(['RIGHT_WATCH'])
+                ->values(['RIGHT_MAX_WATCH', 1])
+                ->values(['RIGHT_MAX_QUALITY', 1])
+                ->values(['RIGHT_MAX_CONCURRENT_STREAM', 1])
+                ->values(['RIGHT_DOWNLOAD', 1])
+                ->values(['RIGHT_MAX_DOWNLOAD', 1])
+            ;
 
             DB::commit_transaction();
 
