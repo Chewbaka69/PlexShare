@@ -67,14 +67,16 @@ class Model_Trailer
 
         $media = $html->response()->body;
 
-        $regex = '/<iframe type="text\/html" src="(\/\/www.youtube.com\/embed\/[a-zA-Z0-9\_\-]*\?enablejsapi\=1&autoplay\=0\&origin\=https%3A%2F%2Fwww\.themoviedb\.org\&hl\=en-US\&modestbranding\=1\&fs\=1)" frameborder\="0" allowfullscreen><\/iframe>/';
+        $regex = '/<a href="https:\/\/www\.youtube\.com\/watch\?v=(.*)" target="_blank" rel="noopener">.*<\/a>/';
 
         preg_match($regex, $media, $youtube);
 
         if (!isset($youtube[1]))
             return false;
 
-        $this->trailer = $youtube[1];
+        $youtube = '//www.youtube.com/embed/'.$youtube[1].'?enablejsapi=1&autoplay=0&hl=en-US&modestbranding=1&fs=1';
+
+        $this->trailer = $youtube;
     }
 
     private function getMovieTeaser()
