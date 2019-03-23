@@ -129,11 +129,22 @@ class Model_Movie extends Model_Overwrite
         $curl = null;
 
         if (!$width && !$height)
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $path . '?X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https === '1' ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $path . '?X-Plex-Token=' . $this->_server->token, 'curl');
         else
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width=' . $width . '&height=' . $height . '&minSize=1&url=' . $path . '&X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https === '1' ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width=' . $width . '&height=' . $height . '&minSize=1&url=' . $path . '&X-Plex-Token=' . $this->_server->token, 'curl');
 
-        $curl->execute();
+        if($this->_server->https === '1') {
+            $curl->set_options([
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false
+            ]);
+        }
+
+        try {
+            $curl->execute();
+        } catch (Exception $exception) {
+            Cache::set($this->id . $path_cache, null);
+        }
 
         if ($curl->response()->status !== 200)
             return false;
@@ -164,6 +175,29 @@ class Model_Movie extends Model_Overwrite
         }
     }
 
+    public function getArt($width = null, $height = null)
+    {
+        $path_cache = null;
+        $art = null;
+
+        if(!$width && !$height)
+            $path_cache = '.art';
+        else
+            $path_cache = '.art_' . $width . '_' . $height;
+
+        try {
+            $art = Cache::get($this->id . $path_cache);
+
+            if ($art)
+                return $art;
+        } catch (CacheNotFoundException $e) {
+            $this->getPicture($this->art, $path_cache, $width, $height);
+
+            $art = Cache::get($this->id . $path_cache);
+            return $art;
+        }
+    }
+
     /**
      * @return array|mixed
      * @throws FuelException
@@ -178,7 +212,15 @@ class Model_Movie extends Model_Overwrite
             if(!$this->_server)
                 $this->getServer();
 
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $this->plex_key . '?X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https === '1' ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $this->plex_key . '?X-Plex-Token=' . $this->_server->token, 'curl');
+
+            if($this->_server->https === '1') {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
             $curl->execute();
 
             $array = Format::forge($curl->response()->body, 'xml')->to_array();
@@ -258,7 +300,8 @@ class Model_Movie extends Model_Overwrite
             $subtitleSize = isset($user_settings->subtitle) ? $user_settings->subtitle : 100;
             $language = isset($user_settings->language) ? $user_settings->language : false;
 
-            $request = 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '');
+            $request = $this->_server->https === '1' ? 'https' : 'http';
+            $request .= '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '');
             //$request .= '/video/:/transcode/universal/decision?hasMDE=1'; // DASH
             $request .= '/video/:/transcode/universal/start.m3u8'; // HLS
             $request .= '?identifier=[PlexShare]';
@@ -281,6 +324,13 @@ class Model_Movie extends Model_Overwrite
 
             $curl = Request::forge($request, 'curl');
 
+            if($this->_server->https === '1') {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
             $curl->execute();
 
             if ($curl->response()->status !== 200)
@@ -298,9 +348,12 @@ class Model_Movie extends Model_Overwrite
 
             $this->_session = $split[1];
 
-            return 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
+            return ($this->_server->https === '1' ? 'https' : 'http') . '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
         } catch (Exception $exception) {
-            throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!',$exception->getCode());
+            if($exception->getCode() === 403)
+                throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!',$exception->getCode());
+            else
+                throw new FuelException($exception->getMessage(),$exception->getCode());
         }
     }
 
@@ -387,12 +440,10 @@ class Model_Movie extends Model_Overwrite
 
     public static function getThirtyLastedTvShows($server)
     {
-        $conf = Config::get('db');
-
-        return self::find(function ($query) use ($server, $conf) {
+        return self::find(function ($query) use ($server) {
             /** @var Database_Query_Builder_Select $query */
             return $query
-                ->select('movie.*', DB::expr('COUNT(' . $conf['default']['table_prefix'] . 'movie.type) AS count'))
+                ->select('movie.*', DB::expr('COUNT(' . DB::table_prefix('movie') . '.type) AS count'))
                 ->join('season', 'LEFT')
                 ->on('movie.season_id', '=', 'season.id')
                 ->join('tvshow', 'LEFT')
@@ -404,7 +455,7 @@ class Model_Movie extends Model_Overwrite
                 ->where('server.id', $server->id)
                 ->and_where('movie.type', 'episode')
                 ->order_by('movie.addedAt', 'DESC')
-                ->order_by(DB::expr('MAX(' . $conf['default']['table_prefix'] .'movie.addedAt)'), 'DESC ')//'movie.addedAt', 'DESC')
+                ->order_by(DB::expr('MAX(' . DB::table_prefix('movie') .'.addedAt)'), 'DESC ')//'movie.addedAt', 'DESC')
                 ->group_by('movie.season_id')
                 ->limit(30)
             ;

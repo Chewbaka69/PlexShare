@@ -58,7 +58,15 @@ class Model_Library extends Model_Overwrite
         try {
             $libraries_id_array = [];
 
-            $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . '/library/sections?X-Plex-Token=' . $server->token, 'curl');
+            $curl = Request::forge(($server->https ? 'https' : 'http') . '://' . $server->url . ($server->port ? ':' . $server->port : '') . '/library/sections?X-Plex-Token=' . $server->token, 'curl');
+
+            if($server->https) {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
             $curl->execute();
 
             if ($curl->response()->status !== 200)
@@ -114,7 +122,15 @@ class Model_Library extends Model_Overwrite
      */
     public static function getSectionsContent($server, $library)
     {
-        $curl = Request::forge('http://' . $server->url . ($server->port? ':' . $server->port : '') . '/library/sections/' . $library->plex_key . '/all?X-Plex-Token=' . $server->token, 'curl');
+        $curl = Request::forge(($server->https ? 'https' : 'http').'://' . $server->url . ($server->port? ':' . $server->port : '') . '/library/sections/' . $library->plex_key . '/all?X-Plex-Token=' . $server->token, 'curl');
+
+        if($server->https) {
+            $curl->set_options([
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false
+            ]);
+        }
+
         $curl->execute();
 
         if($curl->response()->status !== 200)

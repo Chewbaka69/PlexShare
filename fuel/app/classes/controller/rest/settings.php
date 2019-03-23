@@ -2,6 +2,8 @@
 
 use Fuel\Core\Controller_Rest;
 use Fuel\Core\FuelException;
+use Fuel\Core\Input;
+use Fuel\Core\Request;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 
@@ -9,7 +11,7 @@ class Controller_Rest_Settings extends Controller_Rest
 {
     public function get_modal_server()
     {
-        $view = View::forge('modal/modal');
+        $view = View::forge('modal/server');
 
         return $this->response($view->render());
     }
@@ -21,10 +23,19 @@ class Controller_Rest_Settings extends Controller_Rest
             $url = Input::post('url');
             $port = Input::post('port');
             $token = Input::post('token');
+            $https = Input::post('https') === 'true' ? true : false;
 
             //@TODO CHECK AND REMOVE HTTP AND HTTPS
 
-            $curl = Request::forge('http://' . $url . ($port ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
+            $curl = Request::forge(($https ? 'https' : 'http') . '://' . $url . ($port ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
+
+            if($https) {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
             $result = $curl->execute();
 
             if(!$result)
@@ -33,6 +44,7 @@ class Controller_Rest_Settings extends Controller_Rest
             $server = ($server_id === '' ? Model_Server::forge() : Model_Server::find_by_pk($server_id));
             $server->set([
                 'user_id'   => Session::get('user')->id,
+                'https'     => $https,
                 'url'       => $url,
                 'port'      => $port,
                 'token'     => $token,
@@ -40,9 +52,9 @@ class Controller_Rest_Settings extends Controller_Rest
             ]);
             $server->save();
 
-            return $this->response(array('error' => false));
+            return $this->response(['error' => false]);
         } catch (FuelException $e) {
-            return $this->response(array('error' => true, 'message' => $e->getMessage() ?: 'Wrong parameters'), $e->getCode());
+            return $this->response(['error' => true, 'message' => $e->getMessage() ?: 'Wrong parameters'], $e->getCode() > 100 ? $e->getCode() : null);
         }
     }
 

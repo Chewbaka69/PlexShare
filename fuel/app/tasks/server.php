@@ -10,23 +10,28 @@ use Model_Server;
 use Model_Tvshow;
 use function time;
 use Fuel\Core\Request;
-use function var_dump;
 
 class Server
 {
-
-    public function run($message = 'Hello!')
-    {
-        echo $message;
-    }
-
     public function ping()
     {
         $servers = Model_Server::find();
 
         foreach ($servers as $server) {
             try {
-                $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . '?X-Plex-Token=' . $server->token, 'curl');
+                $curl = Request::forge(($this->_server->https === '1' ? 'https' : 'http').'://' . $server->url . ($server->port ? ':' . $server->port : '') . '?X-Plex-Token=' . $server->token, 'curl');
+
+                $curl->set_options([
+                    CURLOPT_CONNECTTIMEOUT => 1
+                ]);
+
+                if($this->_server->https === '1') {
+                    $curl->set_options([
+                        CURLOPT_SSL_VERIFYPEER => false,
+                        CURLOPT_SSL_VERIFYHOST => false
+                    ]);
+                }
+
                 $curl->execute();
 
                 if ($curl->response()->status !== 200)
