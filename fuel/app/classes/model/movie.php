@@ -37,6 +37,7 @@ class Model_Movie extends Model_Overwrite
     );
 
     public $metadata = [];
+    public $download = '';
 
     private $_session = null;
 
@@ -455,12 +456,10 @@ class Model_Movie extends Model_Overwrite
 
     public static function getThirtyLastedTvShows($server)
     {
-        $conf = Config::get('db');
-
-        return self::find(function ($query) use ($server, $conf) {
+        return self::find(function ($query) use ($server) {
             /** @var Database_Query_Builder_Select $query */
             return $query
-                ->select('movie.*', DB::expr('COUNT(' . $conf['default']['table_prefix'] . 'movie.type) AS count'))
+                ->select('movie.*', DB::expr('COUNT(' . DB::table_prefix('movie') . '.type) AS count'))
                 ->join('season', 'LEFT')
                 ->on('movie.season_id', '=', 'season.id')
                 ->join('tvshow', 'LEFT')
@@ -472,7 +471,7 @@ class Model_Movie extends Model_Overwrite
                 ->where('server.id', $server->id)
                 ->and_where('movie.type', 'episode')
                 ->order_by('movie.addedAt', 'DESC')
-                ->order_by(DB::expr('MAX(' . $conf['default']['table_prefix'] .'movie.addedAt)'), 'DESC ')//'movie.addedAt', 'DESC')
+                ->order_by(DB::expr('MAX(' . DB::table_prefix('movie') .'.addedAt)'), 'DESC ')//'movie.addedAt', 'DESC')
                 ->group_by('movie.season_id')
                 ->limit(30)
             ;

@@ -20,7 +20,6 @@ class Controller_Admin_Libraries extends Controller_Admin
 
     public function action_permissions()
     {
-        $this->template->js_bottom = ['plex_alert.js'];
 
         $body = View::forge('admin/libraries/permissions');
 

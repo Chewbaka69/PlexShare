@@ -2,6 +2,8 @@
 
 use Fuel\Core\Controller_Rest;
 use Fuel\Core\FuelException;
+use Fuel\Core\Input;
+use Fuel\Core\Request;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 
@@ -9,7 +11,7 @@ class Controller_Rest_Settings extends Controller_Rest
 {
     public function get_modal_server()
     {
-        $view = View::forge('modal/modal');
+        $view = View::forge('modal/server');
 
         return $this->response($view->render());
     }
@@ -50,9 +52,9 @@ class Controller_Rest_Settings extends Controller_Rest
             ]);
             $server->save();
 
-            return $this->response(array('error' => false));
+            return $this->response(['error' => false]);
         } catch (FuelException $e) {
-            return $this->response(array('error' => true, 'message' => $e->getMessage() ?: 'Wrong parameters'), $e->getCode());
+            return $this->response(['error' => true, 'message' => $e->getMessage() ?: 'Wrong parameters'], $e->getCode() > 100 ? $e->getCode() : null);
         }
     }
 

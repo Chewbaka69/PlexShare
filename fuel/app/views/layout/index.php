@@ -11,5 +11,4 @@
         'MenuServer'    => isset($MenuServer) ? $MenuServer : null,
         'js_bottom' => isset($js_bottom) ? $js_bottom : null,
 ]); ?>
-<!-- Created By Chewbaka69 // https://github.com/Chewbaka69/PlexShare -->
 </html>

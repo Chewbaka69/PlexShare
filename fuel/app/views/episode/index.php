@@ -87,21 +87,21 @@
                             </div>
                         </div>
                     </div>
-                    <?php if((int)$episode->getMetaData()['Media']['@attributes']['videoResolution'] >= 720) : ?>
+                    <?php if(isset($episode->getMetaData()['Media']['@attributes']) && (int)$episode->getMetaData()['Media']['@attributes']['videoResolution'] >= 720) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-hd"></i></div>
                     <?php else: ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-sd"></i></div>
                     <?php endif; ?>
 
-                    <?php if($episode->getMetaData()['Stream']['Audio'][0]['codec'] === 'ac3') : ?>
+                    <?php if(isset($episode->getMetaData()['Stream']['Audio'][0]) && $episode->getMetaData()['Stream']['Audio'][0]['codec'] === 'ac3') : ?>
                         <div class="col-sm-4 text-center" title="Dolby Digital" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-dolby"></i></div>
                     <?php endif; ?>
 
-                    <?php if(preg_match('/7\.1(\([a-z]*\))?/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php if(isset($episode->getMetaData()['Stream']['Audio'][0]) && preg_match('/7\.1(\([a-z]*\))?/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-7-1"></i></div>
-                    <?php elseif (preg_match('/5\.1(\([a-z]*\))?/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php elseif (isset($episode->getMetaData()['Stream']['Audio'][0]) && preg_match('/5\.1(\([a-z]*\))?/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-5-1"></i></div>
-                    <?php elseif (preg_match('/stereo/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php elseif (isset($episode->getMetaData()['Stream']['Audio'][0]) && preg_match('/stereo/',$episode->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
                         <div class="col-sm-4 text-center" title="Stereo" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-stereo"></i></div>
                     <?php endif; ?>
                 </div>

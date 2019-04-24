@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html data-cast-api-enabled="true" lang="en">
 <head>
     <title>PlexShare :: Settings</title>
     <meta charset="utf-8">
@@ -5,10 +7,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <?php
     echo \Asset::css(['normalize.css', 'plex.css', 'settings.css']);
+    echo \Asset::css(isset($css) ? $css : null);
     echo \Asset::js('jquery.min.js');
     ?>
-    <link rel="shortcut icon"
-          href="//assets.plex.tv/deploys/desktop/env-eb2798cc3c7d9533df5b563963d5c394/3.34.1-b51c37a/favicon.ico">
+    <link rel="shortcut icon" href="/favicon.ico">
 </head>
 <body>
 <div id="plex" class="application">
@@ -39,7 +41,7 @@
 </div>
 <script>
     $(window).on('load', function() {
-        $('[data-toggle="tooltip"]').tooltip({ container: 'body'});
+        $('[data-toggle="tooltip"]').tooltip({ container: 'body', template: '<div class="tooltip Tooltip-tooltipPortal-1IUlb"><div class="tooltip-arrow"></div><div class="tooltip-inner Tooltip-tooltip-2AL-W"></div></div>'});
     });
 </script>
 <?php

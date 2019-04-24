@@ -75,24 +75,6 @@
                                                                            aria-hidden="true"></i></div>
                                                                 </button>
                                                             </a>
-                                                            <button id="id-3281" tabindex="-1"
-                                                                    aria-label="More Actions"
-                                                                    aria-haspopup="true"
-                                                                    data-qa-id="metadataPosterMoreButton"
-                                                                    role="button"
-                                                                    class="MetadataPosterCardOverlay-moreButton-3FK-K MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
-                                                                    type="button">
-                                                                <i class="plex-icon-more-560"
-                                                                   aria-hidden="true"></i>
-                                                            </button>
-                                                            <button aria-label="Select 1-800-799-7233"
-                                                                    id="id-3282" tabindex="-1" role="button"
-                                                                    class="MetadataPosterCardOverlay-selectButton-3rwSV SelectButton-selectButton-3Kbjm MetadataPosterCardOverlay-button-M43H-  Link-link-2XYrU Link-default-32xSO      "
-                                                                    type="button">
-                                                                <div class="MetadataPosterCardOverlay-selectCircle-3ql8S SelectButton-selectCircle-3tdvG">
-                                                                    <i class="plex-icon-selected-560 SelectButton-selectedIcon-3-SAL"
-                                                                       aria-hidden="true"></i></div>
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -202,24 +184,6 @@
                                                                     <i class="plex-icon-play-560 PlayButton-playIcon-dt3sk"
                                                                        aria-hidden="true"></i></div>
                                                             </button>
-                                                            <button id="id-3044" tabindex="-1"
-                                                                    aria-label="More Actions"
-                                                                    aria-haspopup="true"
-                                                                    data-qa-id="metadataPosterMoreButton"
-                                                                    role="button"
-                                                                    class="MetadataPosterCardOverlay-moreButton-3FK-K MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO      "
-                                                                    type="button">
-                                                                <i class="plex-icon-more-560"
-                                                                   aria-hidden="true"></i>
-                                                            </button>
-                                                            <button aria-label="Select Hercules"
-                                                                    id="id-3045" tabindex="-1" role="button"
-                                                                    class="MetadataPosterCardOverlay-selectButton-3rwSV SelectButton-selectButton-3Kbjm MetadataPosterCardOverlay-button-M43H-  Link-link-2XYrU Link-default-32xSO      "
-                                                                    type="button">
-                                                                <div class="MetadataPosterCardOverlay-selectCircle-3ql8S SelectButton-selectCircle-3tdvG">
-                                                                    <i class="plex-icon-selected-560 SelectButton-selectedIcon-3-SAL"
-                                                                       aria-hidden="true"></i></div>
-                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -266,7 +230,8 @@
             }).done(function (view) {
                 launchPlayer(view);
             }).fail(function (data) {
-                console.error(data);
+                console.error(data.responseText);
+                show_alert('error', data.responseText);
             });
         });
         /** LOADING PICTURE **/

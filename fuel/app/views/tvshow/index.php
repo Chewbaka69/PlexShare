@@ -172,27 +172,6 @@
                                                                 <i class="plex-icon-play-560 PlayButton-playIcon-dt3sk"
                                                                    aria-hidden="true"></i></div>
                                                         </button>
-                                                        <button tabindex="-1" aria-label="Éditer Saison 1"
-                                                                data-qa-id="metadataPosterEditButton" role="button"
-                                                                class="MetadataPosterCardOverlay-editButton-7oR-Q MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
-                                                                type="button"><i class="plex-icon-edit-560"
-                                                                                 aria-hidden="true"></i></button>
-                                                        <button data-qa-id="metadataPosterMoreButton" id="id-577"
-                                                                tabindex="-1" aria-label="Plus d'actions"
-                                                                aria-haspopup="true" role="button"
-                                                                class="MetadataPosterCardOverlay-moreButton-3FK-K MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
-                                                                type="button"><i class="plex-icon-more-560"
-                                                                                 aria-hidden="true"></i>
-                                                            </button>
-                                                        <button aria-label="Sélectionner Saison 1" id="id-576"
-                                                                tabindex="-1" role="button"
-                                                                class="MetadataPosterCardOverlay-selectButton-3rwSV SelectButton-selectButton-3Kbjm MetadataPosterCardOverlay-button-M43H-  Link-link-2XYrU Link-default-32xSO      "
-                                                                type="button">
-                                                            <div class="MetadataPosterCardOverlay-selectCircle-3ql8S SelectButton-selectCircle-3tdvG"
-                                                                 data-qa-id="multipleSelectButton"><i
-                                                                        class="plex-icon-selected-560 SelectButton-selectedIcon-3-SAL"
-                                                                        aria-hidden="true"></i></div>
-                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

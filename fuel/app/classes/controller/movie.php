@@ -25,12 +25,6 @@ class Controller_Movie extends Controller_Home
 
         $this->template->title = $movie->title;
 
-        $movie->getMetaData();
-
-        $movie->getTrailer();
-
-        $body = View::forge('movie/index');
-
         $body->set('movie', $movie);
 
         $this->template->body = $body;

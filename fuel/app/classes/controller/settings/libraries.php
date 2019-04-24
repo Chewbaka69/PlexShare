@@ -8,6 +8,7 @@ class Controller_Settings_Libraries extends Controller_Settings
     public function action_index()
     {
         $this->template->js_bottom = ['plex_alert.js', 'server_refresh.js'];
+        $this->template->css = ['settings.css'];
 
         $body = View::forge('settings/libraries');
 
