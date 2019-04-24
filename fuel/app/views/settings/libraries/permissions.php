@@ -1,35 +1,49 @@
 <div class="settings-container">
     <div class="filter-bar"></div>
-    <div class="devices-container row">
-        <div class="device-list-container col-sm-12 col-md-12">
-            <div class="PrePlayList-container-WZ86O HubCell-hubCell-3Ys17">
-                <div class="PrePlayDescendantList-descendantHubCellHeader-2qK3U HubCellHeader-hubCellHeader-2pvYN">
-                    <div class="HubCellTitle-hubCellTitle-2abIn">SAISONS</div>
+    <?php if ($permissions) : ?>
+    <?php foreach ($permissions as $permission) : ?>
+    <div class="SettingsFormSection-sectionWrapper-1-gPg" style="background-color: rgba(0,0,0,0.15); margin-bottom: 15px; border-bottom: 1px solid rgb(97,97,97)">
+        <div class="SettingsFormSection-section-1zYMP">
+            <div class="FormGroup-group-15o1H">
+                <?php echo $permission->name; ?>
+                <div style="float: right;">
+                    <label class="switch">
+                        <input type="checkbox" data-name="<?php echo $permission->name; ?>" <?php echo isset($library_permissions[$permission->id]) && $library_permissions[$permission->id]->disable === '0' ? 'checked' : ''; ?> />
+                        <span class="slider round"></span>
+                    </label>
                 </div>
-                <div class="PrePlayListTopDivider-topDivider-3c8uz PrePlayDivider-divider-1qvbj"></div>
-                <div>
-                    <div class="" style="height: <?php echo count($permissions) * 40; ?>px;">
-                        <?php foreach ($permissions as $permission) : ?>
-                        <div class="MetadataTableRow-item-11DH-" style="position: relative; height: 40px;">
-                            <div class="MetadataTableRow-overlay-1RiId">
-                                <div class="MetadataTableCell-tableCell-35117" style="flex: 1 1 350px;">
-                                    <span class="MetadataTableCell-title-3KMG0">
-                                        <div class="MetadataTableTitle-titleContainer-3sPQC">
-                                            <span class="MetadataTableTitle-title-2WmEM"><?php echo $permission->name; ?></span>
-                                            <span></span>
-                                        </div>
-                                    </span>
-                                </div>
-                                <div class="MetadataTableCell-tableCell-35117" style="flex: 0 1 150px;">
-                                    <span class="MetadataTableCell-title-3KMG0">13 épisodes</span>
-                                </div>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="PrePlayListBottomDivider-bottomDivider-3XSnc PrePlayDivider-divider-1qvbj"></div>
+                <p class="FormHelp-help-2-ppP">Description of the right, will come here!</p>
+                <?php if((int)$permission->parameters === 1) : ?>
+                    <p><input class="form-control" style="max-width: 400px;" type="text" data-permission-name="<?php echo $permission->name; ?>" value="<?php echo isset($library_permissions[$permission->id]) ? $library_permissions[$permission->id]->value : ''; ?>" /></p>
+                <?php endif; ?>
             </div>
         </div>
     </div>
+    <?php endforeach; ?>
+    <?php endif; ?>
 </div>
+<script type="text/javascript">
+    $(window).on('load', function() {
+        $('input[type="checkbox"]').on('click', function (event) {
+            $.ajax({
+                url: '/rest/library/permission',
+                method: 'post',
+                data: {
+                    library_id: '<?php echo $library_id; ?>',
+                    right_name: $(this).data('name'),
+                    checked: $(this).is(':checked'),
+                    parameter: $('input[data-permission-name="' + $(this).data('name') + '"]').val()
+                },
+                dataType: 'json'
+            }).done(function (view) {
+                if(view.error === false)
+                    show_alert('success', view.message);
+                else
+                    show_alert('error', view.message);
+            }).fail(function (data) {
+                console.error(data);
+                show_alert('error', data.responseText);
+            });
+        });
+    });
+</script>
