@@ -23,7 +23,7 @@ function show_alert(type, message) {
 
     document.body.appendChild(div_container);
 
-    setTimeout(hide_alert, 10000);
+    setTimeout(hide_alert, 1000);
 }
 
 function hide_alert() {
