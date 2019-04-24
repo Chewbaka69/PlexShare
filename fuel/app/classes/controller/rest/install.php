@@ -109,6 +109,7 @@ class Controller_Rest_Install extends Controller_Rest
                 array(
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
                     'user_id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'https' => array('constraint' => 1, 'type' => 'int'),
                     'url' => array('constraint' => 255, 'type' => 'varchar'),
                     'port' => array('constraint' => 2, 'type' => 'int', 'null' => true),
                     'token' => array('constraint' => 255, 'type' => 'varchar'),

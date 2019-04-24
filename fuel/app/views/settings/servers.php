@@ -78,13 +78,14 @@
         // ADD OR EDIT SERVER
         $(document).on('click', '#add-plex button', function () {
             var server_id = $('#add-plex #server_id').val();
+            var https = $('#add-plex #https').is(':checked');
             var url = $('#add-plex #url').val();
             var port = $('#add-plex #port').val();
             var token = $('#add-plex #token').val();
             $.ajax({
                 method: 'post',
                 url: '/rest/settings/server.json',
-                data: {server_id: server_id, url: url, port: port, token: token}
+                data: {server_id: server_id,https: https, url: url, port: port, token: token}
             }).done(function (data) {
                 show_alert('success', 'Server save succesfully!');
                 $('.media-server-modal button.close').click();
@@ -124,6 +125,8 @@
                     $('body').append(modal);
                     setTimeout(function(){
                         $('#add-plex #server_id').val(server[0].id);
+                        if(parseInt(server[0].https) === 1)
+                            $('#add-plex #https').attr('checked', 'checked');
                         $('#add-plex #url').val(server[0].url);
                         $('#add-plex #port').val(server[0].port);
                         $('#add-plex #token').val(server[0].token);

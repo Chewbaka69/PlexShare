@@ -11,6 +11,7 @@ class Model_Server extends Model_Overwrite
     protected static $_properties = array(
         'id',
         'user_id',
+        'https',
         'url',
         'port',
         'token',
@@ -61,7 +62,15 @@ class Model_Server extends Model_Overwrite
                 if($server->disable)
                     continue;
 
-                $curl = Request::forge('http://' . $server->url . ($server->port? ':' . $server->port : '') . '/?X-Plex-Token=' . $server->token, 'curl');
+                $curl = Request::forge(($server->https ? 'https' : 'http').'://' . $server->url . ($server->port? ':' . $server->port : '') . '/?X-Plex-Token=' . $server->token, 'curl');
+
+                if($server->https) {
+                    $curl->set_options([
+                        CURLOPT_SSL_VERIFYPEER => false,
+                        CURLOPT_SSL_VERIFYHOST => false
+                    ]);
+                }
+
                 $curl->execute();
 
                 $dataServer = Format::forge($curl->response()->body, 'xml')->to_array();

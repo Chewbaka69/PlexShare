@@ -129,11 +129,22 @@ class Model_Movie extends Model_Overwrite
         $curl = null;
 
         if (!$width && !$height)
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $path . '?X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https === '1' ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $path . '?X-Plex-Token=' . $this->_server->token, 'curl');
         else
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width=' . $width . '&height=' . $height . '&minSize=1&url=' . $path . '&X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https === '1' ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width=' . $width . '&height=' . $height . '&minSize=1&url=' . $path . '&X-Plex-Token=' . $this->_server->token, 'curl');
 
-        $curl->execute();
+        if($this->_server->https === '1') {
+            $curl->set_options([
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false
+            ]);
+        }
+
+        try {
+            $curl->execute();
+        } catch (Exception $exception) {
+            Cache::set($this->id . $path_cache, null);
+        }
 
         if ($curl->response()->status !== 200)
             return false;
@@ -178,7 +189,15 @@ class Model_Movie extends Model_Overwrite
             if(!$this->_server)
                 $this->getServer();
 
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $this->plex_key . '?X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https === '1' ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $this->plex_key . '?X-Plex-Token=' . $this->_server->token, 'curl');
+
+            if($this->_server->https === '1') {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
             $curl->execute();
 
             $array = Format::forge($curl->response()->body, 'xml')->to_array();
@@ -258,7 +277,8 @@ class Model_Movie extends Model_Overwrite
             $subtitleSize = isset($user_settings->subtitle) ? $user_settings->subtitle : 100;
             $language = isset($user_settings->language) ? $user_settings->language : false;
 
-            $request = 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '');
+            $request = $this->_server->https === '1' ? 'https' : 'http';
+            $request .= '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '');
             //$request .= '/video/:/transcode/universal/decision?hasMDE=1'; // DASH
             $request .= '/video/:/transcode/universal/start.m3u8'; // HLS
             $request .= '?identifier=[PlexShare]';
@@ -281,6 +301,13 @@ class Model_Movie extends Model_Overwrite
 
             $curl = Request::forge($request, 'curl');
 
+            if($this->_server->https === '1') {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
             $curl->execute();
 
             if ($curl->response()->status !== 200)
@@ -298,9 +325,50 @@ class Model_Movie extends Model_Overwrite
 
             $this->_session = $split[1];
 
-            return 'http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
+            return ($this->_server->https === '1' ? 'https' : 'http') . '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
         } catch (Exception $exception) {
-            throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!',$exception->getCode());
+            if($exception->getCode() === 403)
+                throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!',$exception->getCode());
+            else
+                throw new FuelException($exception->getMessage(),$exception->getCode());
+        }
+    }
+
+    public function getDownloadLink()
+    {
+        try {
+            $this->download = Cache::get($this->id . '.download');
+            if ($this->download)
+                return $this->download;
+        } catch (CacheNotFoundException $e) {
+            if(!$this->_server)
+                $this->getServer();
+
+            $this->getMetaData();
+
+            if((!isset($this->metadata['Media']) && !isset($this->metadata['Media'][0]))
+                || (!isset($this->metadata['Media']['Part']) && !isset($this->metadata['Media'][0]['Part']))
+                || (!isset($this->metadata['Media']['Part']['@attributes']) && !isset($this->metadata['Media'][0]['Part']['@attributes']))
+                || (!isset($this->metadata['Media']['Part']['@attributes']['key'])  && !isset($this->metadata['Media'][0]['Part']['@attributes']['key'])) ) {
+                Cache::set($this->id . '.download', null);
+                return null;
+            }
+
+            $key = '';
+
+            if(isset($this->metadata['Media'][0]))
+                $key = $this->metadata['Media'][0]['Part']['@attributes']['key'];
+            else
+                $key = $this->metadata['Media']['Part']['@attributes']['key'];
+
+            $curl = ($this->_server->https === '1' ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $key . '?X-Plex-Token=' . $this->_server->token;
+
+            $this->download = $curl;
+
+            Cache::set($this->id . '.download', $curl);
+            return $this->download;
+        } catch (Exception $exception) {
+            throw new FuelException($exception->getMessage(),$exception->getCode());
         }
     }
 

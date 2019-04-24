@@ -88,9 +88,16 @@ class Model_Season extends Model_Overwrite
         $curl = null;
 
         if(!$width && !$height)
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $path . '?X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $path . '?X-Plex-Token=' . $this->_server->token, 'curl');
         else
-            $curl = Request::forge('http://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width='.$width.'&height='.$height.'&minSize=1&url='.$path.'&X-Plex-Token='.$this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/photo/:/transcode?width='.$width.'&height='.$height.'&minSize=1&url='.$path.'&X-Plex-Token='.$this->_server->token, 'curl');
+
+        if($this->_server->https) {
+            $curl->set_options([
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false
+            ]);
+        }
 
         $curl->execute();
 
@@ -164,7 +171,15 @@ class Model_Season extends Model_Overwrite
     public static function getMovies($server, $season)
     {
         try {
-            $curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . $season->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
+            $curl = Request::forge(($server->https ? 'https' : 'http').'://' . $server->url . ($server->port ? ':' . $server->port : '') . $season->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
+
+            if($server->https) {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
             $curl->execute();
 
             if ($curl->response()->status !== 200)
