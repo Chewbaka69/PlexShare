@@ -1,0 +1,22 @@
+<?php return [
+    'refresh' => 'Refresh',
+    'refresh_servers' => 'Refresh Servers',
+    'refresh_libraries' => 'Refresh Libraries',
+    'edit' => 'Edit',
+    'save_modification' => 'Save Modification',
+    'disable' => 'Disable',
+    'enabled' => 'Enabled',
+    'disabled' => 'Disabled',
+    'delete' => 'Delete',
+    'play' => 'Play',
+    'random_order' => 'Random Order',
+    'add_to_queue' => 'Add to the playing queue',
+    'more' => 'More',
+    'mark_as_read' => 'Mark as read',
+    'show_poster' => 'Show poster',
+    'read_more' => 'Read more',
+    'download' => 'Download',
+    'online' => 'Online',
+    'offline' => 'Offline',
+    'none' => 'None'
+];

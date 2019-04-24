@@ -1,5 +1,9 @@
 <?php
 
+use Fuel\Core\Lang;
+use Fuel\Core\Response;
+use Fuel\Core\View;
+
 class Controller_Tvshow extends Controller_Home
 {
     public function action_index()
@@ -11,11 +15,15 @@ class Controller_Tvshow extends Controller_Home
         if(!$tvshow)
             Response::redirect('/home');
 
+        Lang::load('movie');
+        Lang::load('season');
+        Lang::load('action');
+
+        $body = View::forge('tvshow/index');
+
         $this->template->title = $tvshow->title;
 
         $tvshow->getMetaData();
-
-        $body = View::forge('tvshow/index');
 
         $body->set('tvshow', $tvshow);
 

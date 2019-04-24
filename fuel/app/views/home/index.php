@@ -15,7 +15,7 @@
                  style="visibility: visible;">
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
                     <div class="HubCellTitle-hubCellTitle-2abIn">
-                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO">RECENTLY ADDED TV</a>
+                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO"><?php echo strtoupper(__('recently.tv_shows')); ?></a>
                         <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo count($episodes); ?></span>
                     </div>
                     <div class="HubCell-hubActions-28w1- tv-shows-hubcell">
@@ -117,7 +117,7 @@
                                                    href="/season/<?php echo $episode->getSeason()->id; ?>"
                                                    role="link"
                                                    class=" Link-link-2XYrU Link-default-32xSO">
-                                                    <?php echo 1 == $episode->count ? 'S' : 'Saison'; ?>
+                                                    <?php echo 1 == $episode->count ? 'S' : __('season'); ?>
                                                     <?php echo $episode->getSeason()->number; ?>
                                                 </a>
                                                     <?php if (1 == $episode->count) : ?>
@@ -148,7 +148,7 @@
                  style="visibility: visible;">
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
                     <div class="HubCellTitle-hubCellTitle-2abIn">
-                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO">RECENTLY ADDED MOVIES</a>
+                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO"><?php echo strtoupper(__('recently.movies')); ?></a>
                         <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo count($movies); ?></span>
                     </div>
                     <div class="HubCell-hubActions-28w1- movies-hubcell">

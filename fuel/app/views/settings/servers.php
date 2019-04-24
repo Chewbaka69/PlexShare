@@ -2,7 +2,7 @@
     <div class="filter-bar">
         <button class="toggle-advanced-btn btn btn-sm Button-primary-2LQVw pull-left add"
                 data-placement="top" data-toggle="tooltip" data-original-title="Add server"><i class="glyphicon circle-plus"></i></button>
-        <button class="toggle-advanced-btn btn btn-sm btn-default pull-right refresh">Refresh Servers &nbsp;<i class="glyphicon refresh"></i></button>
+        <button class="toggle-advanced-btn btn btn-sm btn-default pull-right refresh"><?php echo __('refresh_servers'); ?> &nbsp;<i class="glyphicon refresh"></i></button>
     </div>
     <div class="devices-container row">
         <div class="device-list-container col-sm-12 col-md-12">
@@ -14,25 +14,25 @@
                         <img class="card-poster device-icon" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTEwIDExMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGZpbGw9IiNlNWEwMGQiIGQ9Im0wIDBoMTEwdjExMGgtMTEweiIvPjxwYXRoIGQ9Im0zMCA2MGMxNi41NjkgMCAzMC0xMy40MzEgMzAtMzAgMC0xNi41NjktMTMuNDMxLTMwLTMwLTMwLTE2LjU2OSAwLTMwIDEzLjQzMS0zMCAzMCAwIDE2LjU2OSAxMy40MzEgMzAgMzAgMzBtLS41NzEtNDguNzJsMTIuMTQ5IDE4Ljc0OS0xMi4xNSAxOC43NWgtNS41MDQtNS41MDR2LS4wMDRsMTIuMTQ3LTE4Ljc0Ni0xMi4xNDctMTguNzQ2di0uMDAyaDExLjAxIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNSAyNSkiIGZpbGw9IiMxZjFmMWYiLz48L2c+PC9zdmc+">
                         <div class="card-actions">
                             <button class="refresh-server-btn card-action-btn btn-info" data-server-id="<?php echo $server->id; ?>"
-                                    data-placement="top" data-toggle="tooltip" data-original-title="Refresh">
+                                    data-placement="top" data-toggle="tooltip" data-original-title="<?php echo __('refresh'); ?>">
                                 <i class="glyphicon refresh"></i>
                             </button>
                             <button class="edit-server-btn card-action-btn" data-server-id="<?php echo $server->id; ?>"
-                                    data-placement="top" data-toggle="tooltip" data-original-title="Edit">
+                                    data-placement="top" data-toggle="tooltip" data-original-title="<?php echo __('edit'); ?>">
                                 <i class="glyphicon pencil"></i>
                             </button>
                             <button class="disable-server-btn card-action-btn btn-danger" data-server-id="<?php echo $server->id; ?>"
-                                    data-placement="top" data-toggle="tooltip" data-original-title="Disable">
+                                    data-placement="top" data-toggle="tooltip" data-original-title="<?php echo __('disable'); ?>">
                                 <i class="glyphicon ban"></i>
                             </button>
                             <?php if($user->admin) : ?>
                             <button class="remove-server-btn card-action-btn btn-danger" data-server-id="<?php echo $server->id; ?>"
-                                    data-placement="top" data-toggle="tooltip" data-original-title="Delete">
+                                    data-placement="top" data-toggle="tooltip" data-original-title="<?php echo __('delete'); ?>">
                                 <i class="glyphicon remove-2"></i>
                             </button>
                             <?php endif; ?>
                         </div>
-                        <h4 class="name"><?php echo $server->name; ?> <span data-placement="top" data-toggle="tooltip" data-original-title="<?php echo $server->online ? 'online' : 'offline' ; ?>" class="glyphicon <?php echo $server->online ? 'server text-success' : 'server-ban text-danger' ; ?>"></span></h4>
+                        <h4 class="name"><?php echo $server->name; ?> <span data-placement="top" data-toggle="tooltip" data-original-title="<?php echo $server->online ? __('online') : __('offline') ; ?>" class="glyphicon <?php echo $server->online ? 'server text-success' : 'server-ban text-danger' ; ?>"></span></h4>
                         <div class="card-details">
                             <div class="pull-right">
                                 <div class="last-seen text-muted"><i class="plex-icon-watch-later-560"></i> <?php echo $server->getLastCheck(); ?></div>

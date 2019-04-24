@@ -11,17 +11,17 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-22" title="Play" data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-22" title="<?php echo __('play'); ?>" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560"></i></button>
-                <button id="id-23" title="Ordre aléatoire." data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-23" title="<?php echo __('random_order'); ?>" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-shuffle-560"></i></button>
-                <button id="id-24" title="Ajouter à la liste de lecture" data-toggle="tooltip" data-placement="bottom"
+                <button id="id-24" title="<?php echo __('add_to_queue'); ?>" data-toggle="tooltip" data-placement="bottom"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-add-to-playlist-560"></i></button>
-                <button id="id-21" title="Plus..." data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-21" title="<?php echo __('more'); ?>..." data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-more-560"></i></button>
             </div>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-15" title="Montrer les affiches" data-toggle="tooltip" data-placement="bottom" role="button"
+        <button id="id-15" title="<?php echo __('show_poster'); ?>" data-toggle="tooltip" data-placement="bottom" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
         <div class="PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
@@ -92,7 +92,7 @@
                             </div>
                             <div class="PrePlaySecondaryTitle-secondaryTitle-YJRGC PrePlayPrimaryTitle-primaryTitle-1r9P9"
                                  data-qa-id="preplaySecondTitle">
-                                <div class="PrePlayLeftTitle-leftTitle-Ev1KG">Saison <?php echo $season->number; ?></div>
+                                <div class="PrePlayLeftTitle-leftTitle-Ev1KG"><?php echo __('season'); ?> <?php echo $season->number; ?></div>
                             </div>
                         </div>
                         <div class="PrePlayDivider-divider-1qvbj"></div>
@@ -107,7 +107,7 @@
                         <div class="PrePlayList-container-WZ86O HubCell-hubCell-3Ys17"
                              data-qa-id="preplayContainer--episode">
                             <div class="PrePlayDescendantList-descendantHubCellHeader-2qK3U HubCellHeader-hubCellHeader-2pvYN">
-                                <div class="HubCellTitle-hubCellTitle-2abIn"><?php echo $season->leafCount; ?> EPISODES
+                                <div class="HubCellTitle-hubCellTitle-2abIn"><?php echo $season->leafCount; ?> <?php echo strtoupper(__('episodes')); ?>
                                 </div>
                             </div>
                             <div style="margin-top: 15px">
@@ -161,7 +161,7 @@
                                                     class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
                                                 <?php echo $episode->title; ?>
                                             </a>
-                                            <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY ">Episode <?php echo $episode->number; ?></span>
+                                            <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY "><?php echo __('episode'); ?> <?php echo $episode->number; ?></span>
                                         </div>
                                     </div>
                                     <?php endforeach; ?>

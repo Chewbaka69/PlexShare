@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\View;
 
@@ -17,14 +18,16 @@ class Controller_Episode extends Controller_Home
         if(!$episode)
             Response::redirect('/home');
 
-        $this->template->title = $episode->getTvShow()->title . ' S' . $episode->getSeason()->number . ' - E' .$episode->number . ' ' . $episode->title;
+        Lang::load('movie');
+        Lang::load('action');
 
-        $episode->getMetaData();
+        $body = View::forge('episode/index');
+
+        $this->template->title = $episode->getTvShow()->title . ' S' . $episode->getSeason()->number . ' - E' .$episode->number . ' ' . $episode->title;
 
         $seasons = $episode->getTvShow()->getSeasons();
         $episodes = $episode->getSeason()->getEpisodes();
 
-        $body = View::forge('episode/index');
         $body->set('episode', $episode);
         $body->set('seasons', $seasons);
         $body->set('episodes', $episodes);

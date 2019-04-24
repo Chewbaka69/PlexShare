@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\View;
 
@@ -11,6 +12,11 @@ class Controller_Movie extends Controller_Home
 
         if(!$movie_id)
             Response::redirect('/home');
+
+        Lang::load('movie');
+        Lang::load('action');
+
+        $body = View::forge('movie/index');
 
         $movie = Model_Movie::find_by_pk($movie_id);
 
@@ -37,9 +43,11 @@ class Controller_Movie extends Controller_Home
         if(!$movies)
             Response::redirect('/home');
 
-        $this->template->title = 'Movie List';
+        Lang::load('movie');
 
         $body = View::forge('movie/list');
+
+        $this->template->title = 'Movie List';
 
         $body->set('movies', $movies);
 

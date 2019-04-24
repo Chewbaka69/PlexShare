@@ -17,11 +17,19 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-16" data-original-title="Play" data-toggle="tooltip" data-placement="bottom" data-id="<?php echo $episode->id; ?>" role="button"
+                <a title="<?php echo __('download'); ?>" href="<?php echo $episode->getDownloadLink(); ?>" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                    <i class="plex-icon-toolbar-sync-560" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
+        <div class="Measure-container-2XznZ">
+            <div class="pageHeaderToolbar-toolbar-1lW-M">
+                <button id="id-16" title="<?php echo __('play'); ?>" data-toggle="tooltip" data-placement="bottom" data-id="<?php echo $episode->id; ?>" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
                 </button>
-                <button id="id-15" data-original-title="More..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
+                <button id="id-15" title="<?php echo __('more'); ?>..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-more-560" aria-hidden="true"></i>
@@ -35,7 +43,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-235" data-original-title="Show poster" data-placement="bottom" data-toggle="tooltip" role="button"
+        <button id="id-235" title="<?php echo __('show_poster'); ?>" data-placement="bottom" data-toggle="tooltip" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO      " type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
@@ -156,7 +164,7 @@
                             <div class="PrePlayDetailsGroup-group-3i0Tj" data-qa-id="preplayDetailsContainer">
                                 <?php if ($episode->metadata['Director']) : ?>
                                     <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                        <div class="PrePlayDetailsGroupItem-label-2Ee43">Directed by</div>
+                                        <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('directed'); ?></div>
                                         <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
                                             <?php foreach ($episode->metadata['Director'] as $director) : ?>
@@ -177,7 +185,7 @@
                                 <?php endif; ?>
                                 <?php if ($episode->metadata['Writer']) : ?>
                                     <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                        <div class="PrePlayDetailsGroupItem-label-2Ee43">Writed by</div>
+                                        <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('writed'); ?></div>
                                         <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
                                             <?php foreach ($episode->metadata['Writer'] as $writer) : ?>
@@ -199,27 +207,29 @@
                             </div>
                             <div class="PrePlayDetailsGroup-group-3i0Tj" data-qa-id="preplayDetailsContainer">
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Vidéo</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('video'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span data-qa-id="videoStream">
+                                            <?php if (isset($episode->metadata['Media']['@attributes'])) : ?>
                                             <?php echo strtoupper($episode->metadata['Media']['@attributes']['videoResolution']); ?>
                                             <span class="DashSeparator-separator-2a3yn">—</span>
                                             <?php echo strtoupper($episode->metadata['Media']['@attributes']['videoCodec']); ?>
+                                            <?php endif; ?>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Audio</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('audio'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
                                             <?php echo isset($episode->getMetaData()['Stream']['Audio'][0]['language']) ? $episode->getMetaData()['Stream']['Audio'][0]['language'] : ''; ?>
                                             <span class="DashSeparator-separator-2a3yn">—</span>
-                                            <?php echo isset($episode->getMetaData()['Stream']['Audio'][0]['displayTitle']) ? $episode->getMetaData()['Stream']['Audio'][0]['displayTitle'] : (isset($episode->getMetaData()['Stream']['Audio'][0]['title']) ? $episode->getMetaData()['Stream']['Audio'][0]['title'] : $episode->getMetaData()['Stream']['Audio'][0]['language']); ?>
+                                            <?php echo isset($episode->getMetaData()['Stream']['Audio'][0]['displayTitle']) && isset($episode->getMetaData()['Stream']['Audio'][0]['displayTitle']) ? $episode->getMetaData()['Stream']['Audio'][0]['displayTitle'] : (isset($episode->getMetaData()['Stream']['Audio'][0]['title']) ? $episode->getMetaData()['Stream']['Audio'][0]['title'] : (isset($episode->getMetaData()['Stream']['Audio'][0]['language']) ? $episode->getMetaData()['Stream']['Audio'][0]['language'] : '')); ?>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Sous-titres</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('subtitles'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
                                             <?php if(count($episode->getMetaData()['Stream']['SubTitle']) > 0): ?>
@@ -227,7 +237,7 @@
                                                 <span class="DashSeparator-separator-2a3yn">—</span>
                                                 <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle'] : $movie->getMetaData()['Stream']['SubTitle'][0]['title']; ?>
                                             <?php else: ?>
-                                                Aucun
+                                                <?php echo __('none'); ?>
                                             <?php endif;?>
                                         </span>
                                     </div>
@@ -246,7 +256,7 @@
                                 </div>
                                 <button aria-haspopup="true" role="button"
                                         class="CollapsibleText-readMore-1bRJm DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37 Link-link-2XYrU Link-default-32xSO"
-                                        type="button">Show more
+                                        type="button"><?php echo __('read_more'); ?>
                                     <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
                                 </button>
                             </div>

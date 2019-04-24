@@ -4,17 +4,17 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-22" title="Play" data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-22" title="<?php echo __('play'); ?>" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560"></i></button>
-                <button id="id-23" title="Ordre aléatoire." data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-23" title="<?php echo __('random_roder'); ?>" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-shuffle-560"></i></button>
-                <button id="id-24" title="Ajouter à la liste de lecture" data-toggle="tooltip" data-placement="bottom"
+                <button id="id-24" title="<?php echo __('add_to_queue'); ?>" data-toggle="tooltip" data-placement="bottom"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-add-to-playlist-560"></i></button>
-                <button id="id-21" title="Plus..." data-toggle="tooltip" data-placement="bottom" role="button"
+                <button id="id-21" title="<?php echo __('more'); ?>..." data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-more-560"></i></button>
             </div>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-15" title="Montrer les affiches" data-toggle="tooltip" data-placement="bottom" role="button"
+        <button id="id-15" title="<?php echo __('show_poster'); ?>" data-toggle="tooltip" data-placement="bottom" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
             <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
     </div>
@@ -104,7 +104,7 @@
                         <div class="PrePlayMetadataInnerContent-innerContent-1BPzw">
                             <div class="PrePlayDetailsGroup-group-3i0Tj">
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Studio</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('studio'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU"><span><span>
                                                 <a href="#" role="link"
                                                         class="PrePlayTagList-tagsListLink-Z6lfX Link-link-2XYrU Link-link-2XYrU Link-default-32xSO"><?php echo $tvshow->studio; ?>
@@ -127,7 +127,7 @@
                                 </div>
                                 <button aria-haspopup="true" role="button"
                                         class="CollapsibleText-readMore-1bRJm DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37  Link-link-2XYrU Link-default-32xSO"
-                                        type="button">Read more
+                                        type="button"><?php echo __('read_more'); ?>
                                     <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
                                 </button>
                             </div>
@@ -143,7 +143,7 @@
                         <div class="PrePlayList-container-WZ86O HubCell-hubCell-3Ys17"
                              data-qa-id="preplayContainer--season">
                             <div class="PrePlayDescendantList-descendantHubCellHeader-2qK3U HubCellHeader-hubCellHeader-2pvYN">
-                                <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle">SAISONS</div>
+                                <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle"><?php echo strtoupper(__('seasons')); ?></div>
                             </div>
                             <div>
                                 <div class=" " style="width: 100%;">
@@ -200,8 +200,8 @@
                                         <div data-qa-id="metadataTitleContainer"
                                              class="MetadataPosterCell-titleContainer-24DI6">
                                             <a title="Saison <?php echo $season->number; ?>" href="/season/<?php echo $season->id; ?>" role="link"
-                                                    class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">Saison <?php echo $season->number; ?></a>
-                                            <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY "><?php echo $season->leafCount; ?> episodes</span>
+                                                    class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO"><?php echo __('season'); ?> <?php echo $season->number; ?></a>
+                                            <span class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY "><?php echo $season->leafCount; ?> <?php echo __('episodes'); ?></span>
                                         </div>
                                     </div>
                                     <?php endforeach; ?>
@@ -213,7 +213,7 @@
                                 <div class="PrePlayCastList-castList-3dQB5">
                                     <div class="HubCell-hubCell-3Ys17" style="visibility: visible;" data-qa-id="hub--cast">
                                         <div class="HubCellHeader-hubCellHeader-2pvYN">
-                                            <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle">ACTEURS</div>
+                                            <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle"><?php echo strtoupper(__('actors')); ?></div>
                                             <div class="HubCell-hubActions-28w1-">
                                                 <button data-qa-id="hubPreviousButton" role="button" class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO isDisabled " type="button" disabled="">
                                                     <i class="plex-icon-hub-prev-560" aria-hidden="false" aria-label="Page précédente"></i>

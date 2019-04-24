@@ -3,6 +3,7 @@
 use Fuel\Core\Config;
 use Fuel\Core\Controller_Template;
 use Fuel\Core\Input;
+use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Fuel\Core\View;
@@ -16,10 +17,14 @@ class Controller_Settings extends Controller_Template
     public function before()
     {
         parent::before();
+
         $this->_user = Session::get('user');
 
         if(!$this->_user)
             Response::redirect('/login');
+
+        Lang::load('settings');
+        Lang::load('action');
 
         $user_id = $this->_user->id;
 
@@ -55,6 +60,8 @@ class Controller_Settings extends Controller_Template
 
     public function action_index()
     {
+        $body = View::forge('settings/index');
+
         $default_settings = Config::load('user_settings');
 
         $settings = Model_Settings::find_one_by('user_id', Session::get('user')->id);
@@ -74,7 +81,6 @@ class Controller_Settings extends Controller_Template
             $settings->save();
         }
 
-        $body = View::forge('settings/index');
         $body->set('default_settings', $default_settings);
         $body->set('settings', $settings);
 
@@ -83,6 +89,8 @@ class Controller_Settings extends Controller_Template
 
     public function action_servers()
     {
+        Lang::load('settings');
+
         $this->template->js_bottom = ['plex_alert.js', 'server_refresh.js'];
 
         $body = View::forge('settings/servers');

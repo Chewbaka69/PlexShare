@@ -1,6 +1,7 @@
 <?php
 
 use Fuel\Core\Controller_Template;
+use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Fuel\Core\View;
@@ -24,6 +25,9 @@ class Controller_Home extends Controller_Template
         if(!$server)
             Response::redirect('/login');
 
+        Lang::load('menu');
+        Lang::load('settings');
+
         $this->template->title = 'Home';
 
         $libraries = $server->getLibraries();
@@ -38,11 +42,14 @@ class Controller_Home extends Controller_Template
         $this->template->MenuServer = $server;
         $this->template->MenuLibraries = $libraries;
 
-        $this->template->js_bottom = ['clappr.min.js', 'player.js'];
+        $this->template->js_bottom = ['clappr.min.js', 'player.js', 'plex_alert.js'];
     }
 
     public function action_index()
     {
+        Lang::load('home');
+        Lang::load('season');
+
         $body = View::forge('home/index');
 
         $server_id = $this->param('server_id');

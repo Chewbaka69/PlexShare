@@ -26,11 +26,11 @@
     <div id="content" class="scroll-container dark-scrollbar">
         <div class="container">
             <ul class="nav nav-header pull-right">
-                <li class="web-nav-item"><a class="web-btn btn-gray" href="/settings">General</a></li>
-                <li class="server-nav-item "><a class="server-btn btn-gray" href="/settings/servers">My Servers<span class="badge"><?php echo $countServers; ?></span></a></li>
-                <li class="users-nav-item "><a class="users-btn btn-gray" href="/settings/libraries">My Libraries<span class="badge"><?php echo $countLibraries; ?></span></a></li>
+                <li class="web-nav-item"><a class="web-btn btn-gray" href="/settings"><?php echo __('general'); ?></a></li>
+                <li class="server-nav-item "><a class="server-btn btn-gray" href="/settings/servers"><?php echo __('my_servers'); ?><span class="badge"><?php echo $countServers; ?></span></a></li>
+                <li class="users-nav-item "><a class="users-btn btn-gray" href="/settings/libraries"><?php echo __('my_libraries'); ?><span class="badge"><?php echo $countLibraries; ?></span></a></li>
             </ul>
-            <h2>Settings</h2>
+            <h2><?php echo __('settings'); ?></h2>
             <?php echo $body; ?>
         </div>
     </div>

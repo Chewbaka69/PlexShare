@@ -1,7 +1,7 @@
 <div class="settings-container">
     <div class="filter-bar">
         <div class="filter-bar-right">
-            <button class="toggle-advanced-btn btn btn-sm btn-default refresh">Refresh Libraries &nbsp;<i class="glyphicon refresh"></i></button>
+            <button class="toggle-advanced-btn btn btn-sm btn-default refresh"><?php echo __('refresh_libraries'); ?> &nbsp;<i class="glyphicon refresh"></i></button>
         </div>
         <span id="primary-server-dropdown" class="dropdown">
             <a class="dropdown-toggle" href="#primary-server-dropdown" data-toggle="dropdown">
@@ -32,35 +32,35 @@
                         <div class="card-actions">
                             <a href="/settings/libraries/premissions/<?php echo $library->id; ?>">
                                 <button class="permissions-library-btn card-action-btn" data-library-id="<?php echo $library->id; ?>"
-                                        data-toggle="tooltip" data-original-title="Permissions">
+                                        data-toggle="tooltip" data-original-title="<?php echo __('permissions'); ?>">
                                     <i class="glyphicon unlock"></i>
                                 </button>
                             </a>
                             <button class="refresh-library-btn card-action-btn btn-info" data-library-id="<?php echo $library->id; ?>"
-                                    data-toggle="tooltip" data-original-title="Refresh">
+                                    data-toggle="tooltip" data-original-title="<?php echo __('refresh'); ?>">
                                 <i class="glyphicon refresh"></i>
                             </button>
                             <?php if($library->disable) : ?>
                             <button class="enable-library-btn card-action-btn btn-success" data-library-id="<?php echo $library->id; ?>"
-                                    data-toggle="tooltip" data-original-title="Enable">
+                                    data-toggle="tooltip" data-original-title="<?php echo __('enable'); ?>">
                                 <i class="glyphicon ok-2"></i>
                             </button>
                             <?php else: ?>
                             <button class="disable-library-btn card-action-btn btn-danger" data-library-id="<?php echo $library->id; ?>"
-                                    data-toggle="tooltip" data-original-title="Disable">
+                                    data-toggle="tooltip" data-original-title="<?php echo __('disable'); ?>">
                                 <i class="glyphicon ban"></i>
                             </button>
                             <?php endif; ?>
                             <?php if($user->admin) : ?>
                             <button class="remove-library-btn card-action-btn btn-danger" data-library-id="<?php echo $library->id; ?>"
-                                    data-toggle="tooltip" data-original-title="Delete">
+                                    data-toggle="tooltip" data-original-title="<?php echo __('delete'); ?>">
                                 <i class="glyphicon remove-2"></i>
                             </button>
                             <?php endif; ?>
                         </div>
                         <h4 class="name">
                             <?php echo $library->name; ?>
-                            <span class="glyphicon <?php echo $library->disable ? 'ban text-danger' : 'ok-2 text-success'; ?>" data-toggle="tooltip" data-original-title="<?php echo $library->disable ? 'Disabled' : 'Enabled'; ?>"></span>
+                            <span class="glyphicon <?php echo $library->disable ? 'ban text-danger' : 'ok-2 text-success'; ?>" data-toggle="tooltip" data-original-title="<?php echo $library->disable ? __('disabled') : __('enabled'); ?>"></span>
                         </h4>
                         <div class="card-details">
                             <div class="pull-right">

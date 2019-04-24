@@ -1,23 +1,31 @@
 <div class="PrePlayPageHeader-altPageHeader-3bZbS PrePlayPageHeader-pageHeader-2o14F PageHeader-pageHeader-18RSw">
-    <div class="PageHeaderLeft-pageHeaderLeft-2TxSo"><span
-                class="PageHeaderBreadcrumbButton-link-1N0DD"><?php echo $movie->title; ?></span>
+    <div class="PageHeaderLeft-pageHeaderLeft-2TxSo">
+        <span class="PageHeaderBreadcrumbButton-link-1N0DD"><?php echo $movie->title; ?></span>
     </div>
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <button id="id-16" title="Play" data-toggle="tooltip" data-placement="bottom" data-id="<?php echo $movie->id; ?>" role="button"
+                <a title="<?php echo __('download'); ?>" href="<?php echo $movie->getDownloadLink() ?>" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                    <i class="plex-icon-toolbar-sync-560" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
+        <div class="Measure-container-2XznZ">
+            <div class="pageHeaderToolbar-toolbar-1lW-M">
+                <button id="id-16" title="<?php echo __('play'); ?>" data-toggle="tooltip" data-placement="bottom" data-id="<?php echo $movie->id; ?>" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
                 </button>
                 <?php if($movie->trailer !== null) : ?>
-                <button id="id-362" title="Watch trailer" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                <button id="id-362" title="<?php echo __('watch_trailer'); ?>" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-play-trailer-560" aria-hidden="true"></i>
                 </button>
                 <?php endif; ?>
-                <button id="id-21" title="Mark as read" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                <button id="id-21" title="<?php echo __('mark_as_read'); ?>" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-played-toggle-560" aria-hidden="true"></i>
                 </button>
-                <button id="id-15" title="More..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
+                <button id="id-15" title="<?php echo __('more'); ?>..." aria-haspopup="true" data-placement="bottom" data-toggle="tooltip"
                         role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-more-560" aria-hidden="true"></i>
@@ -31,9 +39,10 @@
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>
-        <button id="id-14" title="Show poster" data-placement="bottom" data-toggle="tooltip" role="button"
+        <button id="id-14" title="<?php echo __('show_poster'); ?>" data-placement="bottom" data-toggle="tooltip" role="button"
                 class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
-            <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i></button>
+            <i class="plex-icon-toolbar-artwork-560" aria-hidden="true"></i>
+        </button>
     </div>
 </div>
 <div class="PrePlayPageContent-prePlayPageContentContainer-1ckaM PageContent-pageContent-16mK6">
@@ -69,11 +78,11 @@
                     <?php if($movie->trailer !== null) : ?>
                     <div style="font-size: 20px;padding: 0;" class="col-sm-12 text-center">
                         <button id="id-362" class="Link-link-2XYrU Link-default-32xSO" style="background: #dc3535;border-radius: 3px;padding: 0 7px;width: 100%;margin-top: 15px;">
-                            <i class="glyphicon video-hd"></i> Watch Trailer
+                            <i class="glyphicon video-hd"></i> <?php echo __('watch_trailer'); ?>
                         </button>
                     </div>
                     <?php endif; ?>
-                    <?php if(isset($movie->getMetaData()['Media']['@attributes']) && (int)$movie->getMetaData()['Media']['@attributes']['videoResolution'] >= 720) : ?>
+                    <?php if(isset($movie->getMetaData()['Media']['@attributes']) && isset($movie->getMetaData()['Media']['@attributes']['videoResolution']) && (int)$movie->getMetaData()['Media']['@attributes']['videoResolution'] >= 720) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-hd"></i></div>
                     <?php else: ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon video-sd"></i></div>
@@ -155,7 +164,7 @@
                             <div class="PrePlayDetailsGroup-group-3i0Tj">
                                 <?php if ($movie->metadata['Director']) : ?>
                                     <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                        <div class="PrePlayDetailsGroupItem-label-2Ee43">Directed by</div>
+                                        <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('directed'); ?></div>
                                         <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
                                             <?php foreach ($movie->metadata['Director'] as $director) : ?>
@@ -175,7 +184,7 @@
                                     </div>
                                 <?php endif; ?>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Writed by</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('writed'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
                                             <?php if(isset($movie->metadata['Writer'])) :?>
@@ -196,7 +205,7 @@
                                     </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Studio</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('studio'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
                                             <span>
@@ -211,9 +220,9 @@
                             </div>
                             <div class="PrePlayDetailsGroup-group-3i0Tj">
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Vidéo</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('video'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
-                                        <?php if (isset($movie->getMetaData()['Media']['@attributes'])) : ?>
+                                        <?php if (isset($movie->getMetaData()['Media']['@attributes']) && isset($movie->getMetaData()['Media']['@attributes']['videoResolution'])) : ?>
                                         <span data-qa-id="videoStream">
                                             <?php echo $movie->getMetaData()['Media']['@attributes']['videoResolution']; ?>p
                                             <span class="DashSeparator-separator-2a3yn">—</span>
@@ -223,7 +232,7 @@
                                     </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Audio</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('audio'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <?php if (isset($movie->getMetaData()['Stream']['Audio'][0])) : ?>
                                         <span>
@@ -235,7 +244,7 @@
                                     </div>
                                 </div>
                                 <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
-                                    <div class="PrePlayDetailsGroupItem-label-2Ee43">Sous-titres</div>
+                                    <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('subtitles'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
                                             <?php if(count($movie->getMetaData()['Stream']['SubTitle']) > 0): ?>
@@ -243,7 +252,7 @@
                                                 <span class="DashSeparator-separator-2a3yn">—</span>
                                                 <?php echo isset($movie->getMetaData()['Stream']['SubTitle'][0]['displayTitle']) ? $movie->getMetaData()['Stream']['SubTitle'][0]['displayTitle'] : $movie->getMetaData()['Stream']['SubTitle'][0]['title']; ?>
                                             <?php else: ?>
-                                                Aucun
+                                                <?php echo __('none'); ?>
                                             <?php endif;?>
                                         </span>
                                     </div>
@@ -263,7 +272,7 @@
                                 </div>
                                 <button aria-haspopup="true" role="button"
                                         class="CollapsibleText-readMore-1bRJm DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37  Link-link-2XYrU Link-default-32xSO"
-                                        type="button">Show more
+                                        type="button"><?php echo __('read_more'); ?>
                                     <div class="CollapsibleText-readMoreArrow-34BdB DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
                                 </button>
                             </div>
@@ -274,7 +283,7 @@
                                 <div class="PrePlayCastList-castList-3dQB5">
                                     <div class="HubCell-hubCell-3Ys17" style="visibility: visible;" data-qa-id="hub--cast">
                                         <div class="HubCellHeader-hubCellHeader-2pvYN">
-                                            <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle">ACTEURS</div>
+                                            <div class="HubCellTitle-hubCellTitle-2abIn" data-qa-id="hubCellTitle"><?php echo __('actors'); ?></div>
                                             <div class="HubCell-hubActions-28w1-">
                                                 <button data-qa-id="hubPreviousButton" role="button" class="HubCell-hubScrollButton-2Y7ri Link-link-2XYrU Link-default-32xSO isDisabled " type="button" disabled="">
                                                     <i class="plex-icon-hub-prev-560" aria-hidden="false" aria-label="Page précédente"></i>

@@ -20,7 +20,7 @@
                 <div role="navigation" data-qa-id="sidebarLibrariesList">
                     <div class="SidebarServerLibraries-librariesListHeader-33wsS SidebarList-sidebarListHeader-m1Kth"
                          role="header">
-                        <div class="SidebarServerLibraries-librariesTitle-3iqmv">Links</div>
+                        <div class="SidebarServerLibraries-librariesTitle-3iqmv"><?php echo __('links'); ?></div>
                     </div>
                     <div class="SidebarLibraryItem-libraryListItem-2cmmj SidebarListItem-sidebarListItem-3ijGg">
                         <a data-qa-id="sidebarLibraryItem--11"
@@ -31,13 +31,13 @@
                                 <div class="SidebarLink-icon-3AlP8">
                                     <i class="plex-icon-movies-560"
                                        aria-hidden="true"></i></div>
-                                <div class="SidebarLink-title-7WfGt">All movies</div>
+                                <div class="SidebarLink-title-7WfGt"><?php echo __('all_movies'); ?></div>
                             </div>
                         </a>
                     </div>
                     <div class="SidebarServerLibraries-librariesListHeader-33wsS SidebarList-sidebarListHeader-m1Kth"
                          role="header">
-                        <div class="SidebarServerLibraries-librariesTitle-3iqmv">Libraries</div>
+                        <div class="SidebarServerLibraries-librariesTitle-3iqmv"><?php echo __('libraries'); ?></div>
                     </div>
                     <?php if (isset($MenuLibraries)) : ?>
                         <?php foreach ($MenuLibraries as $library) : ?>
