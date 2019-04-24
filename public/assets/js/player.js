@@ -13,19 +13,35 @@ function toHHMMSS(num) {
     return times + minutes + ':' + seconds;
 }
 
-var player = null;
+let player = null;
+let sliderTrack = null;
+let sliderSound = null;
 
 function launchPlayer(view) {
-    var lastTimeMouseMoved = null;
-    var timeout = null;
-    var buffered = null;
-    var totaltime = null;
+    let lastTimeMouseMoved = null;
+    let timeout = null;
+    let buffered = null;
+    let totaltime = null;
 
-    var data_movie = $(view)[0];
-    var movie_src = $(data_movie).data('src');
+    let left = null;
 
-    var videoControles = document.getElementById('video_controls');
+    let data_movie = $(view)[0];
+    let movie_src = $(data_movie).data('src');
+    let movie_type = $(data_movie).data('movie-type');
+    let data_movie_id = $(view)[2];
+    let movie_id = $(data_movie_id).data('movie-id');
+
+    let movie_stream = document.querySelector('#movie_stream');
+    movie_stream.innerHTML = '';
+    let videoControles = document.querySelector('#video_controls');
+    videoControles.innerHTML = '';
     videoControles.innerHTML += view;
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+    document.querySelector('#divVideo').style.backgroundImage = 'url("/cover/movie?movie_id=' + movie_id + '&width=' + width + '&height=' + height + '&art=true")';
+    document.querySelector('#divVideo').style.backgroundColor = '#000000';
 
     initSliders();
 
@@ -43,19 +59,33 @@ function launchPlayer(view) {
         },
         events: {
             onReady: function () {
-                $('#movie_stream').find('.media-control, .player-poster').remove();
+                $(document).find('#movie_stream .player-poster').remove();
+                // PREVENT PLAY IF THE PLAYER IS NOT VISIBLE
+                setTimeout(function (event) {
+                    $('button[role="playCenter"]').click();
+                }, 10);
+                left = parseInt($(sliderTrack.domNode).css('left').replace('px',''));
             },
             onPause: function () {
-                $('button[data-qa-id="resumeButton"] i').toggleClass('plex-icon-player-play-560 plex-icon-player-pause-560');
+                $('button[data-qa-id="resumeButton"] i').toggleClass('plex-icon-player-pause-560 plex-icon-player-play-560');
                 $('button[role="playCenter"]').show();
             },
             onTimeUpdate: function(progress) {
-                var timeplay = progress.current;
-                var percent = timeplay / totaltime;
+                let timeplay = progress.current;
+                let percent = timeplay / totaltime;
 
                 $('.media-time').html(toHHMMSS(timeplay));
 
                 $('.SeekBar-seekBarFill-1Lcu0').css('transform', 'scaleX('+ percent +')');
+                $(sliderTrack.railDomNode).css('transform', 'translateX(-' + parseFloat(100 - percent*100) + '%)');
+
+                percent = parseInt(percent * 100);
+
+                if(movie_type === 'episode' && percent > 97) {
+                    showNext();
+                } else {
+                    removeNext();
+                }
             }
         }
     });
@@ -63,27 +93,27 @@ function launchPlayer(view) {
     player.on(Clappr.Events.PLAYER_PLAY, function(){player.core.mediaControl.disable()});
 
     /** EVENT PLAYER WHEN LOADED GET TOTATL TIME **/
-    player.core.getCurrentContainer().on(Clappr.Events.CONTAINER_LOADEDMETADATA, function(metadata) {
+    player.core.activeContainer.on(Clappr.Events.CONTAINER_LOADEDMETADATA, function(metadata) {
         totaltime = metadata.duration;
     });
 
     /** EVENT PLAYER TO GET CURRENT TIME **/
     /** BUFFER BAR PROGRESS **/
-    player.core.getCurrentContainer().on(Clappr.Events.CONTAINER_PROGRESS, function(progress) {
+    player.core.activeContainer.on(Clappr.Events.CONTAINER_PROGRESS, function(progress) {
         var buffer = progress.current / progress.total;
         $('.SeekBar-seekBarBuffer-3bUz9').css('transform', 'scaleX('+ buffer +')');
     });
 
     /** PLAY CENTER **/
     $(document).on('click', 'button[role="playCenter"]', function () {
-        $('button[role="playCenter"]').hide();
-        $(document).find('button[data-qa-id="resumeButton"] > i').toggleClass('plex-icon-player-play-560 plex-icon-player-pause-560');
+        $(document).find('button[role="playCenter"]').hide();
+        $(document).find('button[data-qa-id="resumeButton"] i').toggleClass('plex-icon-player-pause-560 plex-icon-player-play-560');
         player.play();
     });
     /** RESUME **/
     $(document).on('click', 'button[data-qa-id="resumeButton"]', function () {
         if(!player.isPlaying())
-            $('button[role="playCenter"]').click();
+            $(document).find('button[role="playCenter"]').click();
         else
             player.pause();
     });
@@ -118,31 +148,74 @@ function launchPlayer(view) {
     });
 
     /** HOVER PLAYER, BUTTON CENTER AND NAVBAR SHOW NAVBAR **/
-    $(document).on('mouseover', '#movie_stream , button[role="playCenter"], .AudioVideoFullPlayer-topBar-2XUGM, .AudioVideoFullPlayer-bottomBar-2yixi, .AudioVideoPlaybackSettings-container-2pTAj.AudioVideoStripeContainer-container-MI02O', function (event) {
+    $(document).on('mouseover', '#divVideo, #movie_stream , button[role="playCenter"], .AudioVideoFullPlayer-topBar-2XUGM, .AudioVideoFullPlayer-bottomBar-2yixi, .AudioVideoPlaybackSettings-container-2pTAj.AudioVideoStripeContainer-container-MI02O', function (event) {
         clearTimeout(timeout);
         $('.AudioVideoFullPlayer-topBar-2XUGM').css('transform', 'translateY(60px)');
         $('.AudioVideoFullPlayer-bottomBar-2yixi').css('transform', 'translateY(-86px)');
     });
     /** BUTTON CENTER AND NAVBAR HIDE NAVBAR **/
-    $(document).on('mouseleave', '#movie_stream, #video_controls', function (event) {
+    $(document).on('mouseleave', '#divVideo, #movie_stream, #video_controls', function (event) {
         $('.AudioVideoFullPlayer-topBar-2XUGM').css('transform', '');
         $('.AudioVideoFullPlayer-bottomBar-2yixi').css('transform', '');
         $('.AudioVideoPlaybackSettings-container-2pTAj.AudioVideoStripeContainer-container-MI02O').css('transform', 'translateY(246px)');
     });
     /** MOUSE MOVE ON PLAYER KEEP VISIBLE NAVBAR **/
-    $(document).on('mousemove', '#movie_stream, button[role="playCenter"]', function () {
-        $('button[role="playCenter"], #movie_stream').css('cursor', 'pointer');
+    $(document).on('mousemove', '#divVideo, #movie_stream, button[role="playCenter"]', function () {
+        $('button[role="playCenter"], #movie_stream, video').css('cursor', 'pointer');
         $('button[role="playCenter"], .AudioVideoFullPlayer-topBar-2XUGM, .AudioVideoFullPlayer-bottomBar-2yixi').mouseover();
         lastTimeMouseMoved = new Date().getTime();
         timeout = setInterval(function() {
             var currentTime = new Date().getTime();
             if ((currentTime - lastTimeMouseMoved) > 1000) {
-                $('button[role="playCenter"], #movie_stream').css('cursor', 'none');
+                $('button[role="playCenter"], #movie_stream, video').css('cursor', 'none');
                 $('#movie_stream, #video_controls').mouseleave();
                 clearTimeout(timeout);
             }
         }, 1000);
     });
+
+    /** NEXT EPISODE **/
+    $(document).on('click', '#next', function () {
+        var movie_id = $(this).data('id');
+        if (movie_id === '')
+            return;
+
+        event.stopPropagation();
+
+        $.ajax({
+            url: '/rest/movie/stream',
+            method: 'GET',
+            data: {movie_id: movie_id},
+            dataType: 'html'
+        }).done(function (view) {
+            launchPlayer(view);
+        }).fail(function (data) {
+            console.error(data.responseText);
+            show_alert('error', data.responseText);
+        });
+    })
+}
+
+function showNext() {
+    $('#movie_stream').css({
+        'position': 'relative',
+        'height': '240px',
+        'width': '380px',
+        'top': '100px',
+        'left': '200px'
+    });
+    $('.Next').removeClass('hidden');
+}
+
+function removeNext() {
+    $('#movie_stream').css({
+        'position': 'relative',
+        'height': '100%',
+        'width': '100%',
+        'top': 0,
+        'left': 0
+    });
+    $('.Next').addClass('hidden');
 }
 
 // Enter full screen
@@ -205,14 +278,14 @@ function exitFullScreen() {
 // Initialise Sliders on the page
 function initSliders () {
 
-    var slider1 = new Slider($('.Slider-thumbTrack-21hGV .Slider-thumb-2QGiU').get(0));
-    slider1.clickElementBefore = $('.SeekBar-seekBarTrack-3Gu5R').get(0);
-    slider1.init();
+    sliderTrack = new Slider($('.Slider-thumbTrack-21hGV .Slider-thumb-2QGiU').get(0));
+    sliderTrack.clickElementBefore = $('.SeekBar-seekBarTrack-3Gu5R').get(0);
+    sliderTrack.init();
 
-    var slider2 = new Slider($('.VolumeSlider-slider-1QXdT .Slider-thumb-2QGiU').get(0));
-    slider2.clickElementBefore = $('.VolumeSlider-fill-3XkYy').get(0);
-    slider2.clickElementAfter = $('.VolumeSlider-track-2WJDz').get(0);
-    slider2.init();
+    sliderSound = new Slider($('.VolumeSlider-slider-1QXdT .Slider-thumb-2QGiU').get(0));
+    sliderSound.clickElementBefore = $('.VolumeSlider-fill-3XkYy').get(0);
+    sliderSound.clickElementAfter = $('.VolumeSlider-track-2WJDz').get(0);
+    sliderSound.init();
 
 };
 
@@ -293,7 +366,7 @@ Slider.prototype.moveSliderTo = function (value) {
 
     if(this.domNode.id === 'buttonTrack') {
         document.getElementsByClassName('SeekBar-seekBarFill-1Lcu0')[0].style.transform = 'scaleX(' + percent / 100 + ')';
-        if(player && player.isPlaying()) {
+        if(player) {
             player.seekPercentage(percent);
         }
     }
@@ -312,12 +385,20 @@ Slider.prototype.handleKeyDown = function (event) {
 
     switch (event.keyCode) {
         case this.keyCode.left:
+            this.moveSliderTo(this.valueNow - 1);
+            flag = true;
+            break;
+
         case this.keyCode.down:
             this.moveSliderTo(this.valueNow - 1);
             flag = true;
             break;
 
         case this.keyCode.right:
+            this.moveSliderTo(this.valueNow + 1);
+            flag = true;
+            break;
+
         case this.keyCode.up:
             this.moveSliderTo(this.valueNow + 1);
             flag = true;
