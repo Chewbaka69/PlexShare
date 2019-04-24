@@ -16,13 +16,16 @@ class Controller_Cover extends Controller_Home
         $height = Input::get('height');
 
         $thumb = Input::get('thumb') ?: null;
+        $art = Input::get('art') ?: null;
 
         $movie = Model_Movie::find_by_pk($movie_id);
 
         if(!$movie)
             throw new FuelException();
 
-        if(!$thumb)
+        if($thumb === null && $art)
+            $images = $movie->getArt($width, $height);
+        else if($thumb === null && $art === null)
             $images = $movie->getCover($width, $height);
         else
             $images = $movie->getThumb($width, $height);

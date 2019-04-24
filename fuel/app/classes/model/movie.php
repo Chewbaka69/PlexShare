@@ -176,6 +176,29 @@ class Model_Movie extends Model_Overwrite
         }
     }
 
+    public function getArt($width = null, $height = null)
+    {
+        $path_cache = null;
+        $art = null;
+
+        if(!$width && !$height)
+            $path_cache = '.art';
+        else
+            $path_cache = '.art_' . $width . '_' . $height;
+
+        try {
+            $art = Cache::get($this->id . $path_cache);
+
+            if ($art)
+                return $art;
+        } catch (CacheNotFoundException $e) {
+            $this->getPicture($this->art, $path_cache, $width, $height);
+
+            $art = Cache::get($this->id . $path_cache);
+            return $art;
+        }
+    }
+
     /**
      * @return array|mixed
      * @throws FuelException
