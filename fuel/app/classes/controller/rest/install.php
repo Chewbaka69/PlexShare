@@ -229,6 +229,7 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
+            DBUtil::create_index('movie', 'title', 'searchTitle', 'fulltext');
             $logs .= 'Movie table create!'."\r\n";
 
             $logs .= 'Creation table configuration'."\r\n";
