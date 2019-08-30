@@ -1,5 +1,5 @@
 ![PHP](https://img.shields.io/badge/PHP->=_5.6-738bd7.svg?style=flat-square)
-![PHP](https://img.shields.io/badge/FuelPhp-1.8.1-8304d7.svg?style=flat-square)
+![PHP](https://img.shields.io/badge/FuelPhp-1.8.2-8304d7.svg?style=flat-square)
 ![Extension](https://img.shields.io/badge/Needed-Curl-blue.svg?style=flat-square)
 ![Database](https://img.shields.io/badge/Needed-MySQL-blue.svg?style=flat-square)
 ![PlexServer](https://img.shields.io/badge/Needed-PlexServer-yellow.svg?style=flat-square)
