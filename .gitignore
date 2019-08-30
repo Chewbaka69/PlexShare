@@ -25,5 +25,7 @@
 /fuel/app/config/crypt.php
 /fuel/app/config/lock.php
 
+/packages
+/vendor
 /.idea
 composer.lock
