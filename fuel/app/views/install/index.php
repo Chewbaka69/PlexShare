@@ -417,9 +417,6 @@
         var mysqlLoading = document.querySelector('#mysql .loading');
         mysqlLoading.classList.remove('hidden');
 
-        var mysqliLoading = document.querySelector('#mysqli .loading');
-        mysqliLoading.classList.remove('hidden');
-
         var pdosqlLoading = document.querySelector('#pdo_sql .loading');
         pdosqlLoading.classList.remove('hidden');
 
@@ -473,23 +470,6 @@
                     element.style.margin = 'auto';
 
                     mysqlLoading.after(element);
-                }
-
-                element = document.createElement('i');
-
-                mysqliLoading.classList.add('hidden');
-                if (result['mysqli'] === true) {
-                    element.classList.add('glyphicon', 'circle-ok', 'glyphicon-2x');
-                    element.style.color = color_agree;
-                    element.style.margin = 'auto';
-
-                    mysqliLoading.after(element);
-                } else {
-                    element.classList.add('glyphicon', 'circle-exclamation-mark', 'glyphicon-2x');
-                    element.style.color = color_error;
-                    element.style.margin = 'auto';
-
-                    mysqliLoading.after(element);
                 }
 
                 element = document.createElement('i');
