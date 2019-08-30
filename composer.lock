@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "composer/installers",
-            "version": "v1.5.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/installers.git",
-                "reference": "049797d727261bf27f2690430d935067710049c2"
+                "reference": "141b272484481432cda342727a427dc1e206bfa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/049797d727261bf27f2690430d935067710049c2",
-                "reference": "049797d727261bf27f2690430d935067710049c2",
+                "url": "https://api.github.com/repos/composer/installers/zipball/141b272484481432cda342727a427dc1e206bfa0",
+                "reference": "141b272484481432cda342727a427dc1e206bfa0",
                 "shasum": ""
             },
             "require": {
@@ -73,6 +73,7 @@
                 "RadPHP",
                 "SMF",
                 "Thelia",
+                "Whmcs",
                 "WolfCMS",
                 "agl",
                 "aimeos",
@@ -95,6 +96,7 @@
                 "installer",
                 "itop",
                 "joomla",
+                "known",
                 "kohana",
                 "laravel",
                 "lavalite",
@@ -124,20 +126,20 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2017-12-29T09:13:20+00:00"
+            "time": "2019-08-12T15:00:31+00:00"
         },
         {
             "name": "fuel/auth",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fuel/auth.git",
-                "reference": "b19a63e27903760d41a8641b8a42b1ddaaa646f2"
+                "reference": "908ab91344875ec17e58458c1e48f0ce482a337b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuel/auth/zipball/b19a63e27903760d41a8641b8a42b1ddaaa646f2",
-                "reference": "b19a63e27903760d41a8641b8a42b1ddaaa646f2",
+                "url": "https://api.github.com/repos/fuel/auth/zipball/908ab91344875ec17e58458c1e48f0ce482a337b",
+                "reference": "908ab91344875ec17e58458c1e48f0ce482a337b",
                 "shasum": ""
             },
             "require": {
@@ -156,7 +158,7 @@
             ],
             "description": "FuelPHP 1.x Auth Package",
             "homepage": "https://github.com/fuel/auth",
-            "time": "2018-04-18T14:45:14+00:00"
+            "time": "2019-06-27T14:59:18+00:00"
         },
         {
             "name": "fuel/core",
@@ -192,16 +194,16 @@
         },
         {
             "name": "fuel/email",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fuel/email.git",
-                "reference": "a12df7db925c81f3ace52cdec3dfd925193c8e4b"
+                "reference": "b7fb81332d373594c370f12706cd7108ca1d01be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuel/email/zipball/a12df7db925c81f3ace52cdec3dfd925193c8e4b",
-                "reference": "a12df7db925c81f3ace52cdec3dfd925193c8e4b",
+                "url": "https://api.github.com/repos/fuel/email/zipball/b7fb81332d373594c370f12706cd7108ca1d01be",
+                "reference": "b7fb81332d373594c370f12706cd7108ca1d01be",
                 "shasum": ""
             },
             "require": {
@@ -220,20 +222,20 @@
             ],
             "description": "FuelPHP 1.x Email Package",
             "homepage": "https://github.com/fuel/email",
-            "time": "2018-04-18T14:49:14+00:00"
+            "time": "2019-06-27T14:58:38+00:00"
         },
         {
             "name": "fuel/oil",
-            "version": "1.8.1.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fuel/oil.git",
-                "reference": "548d0fc1c07793e21128ecd4ebf5badc36908865"
+                "reference": "8d3685c592e7a5161d29fc7a03ed61dacdada595"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuel/oil/zipball/548d0fc1c07793e21128ecd4ebf5badc36908865",
-                "reference": "548d0fc1c07793e21128ecd4ebf5badc36908865",
+                "url": "https://api.github.com/repos/fuel/oil/zipball/8d3685c592e7a5161d29fc7a03ed61dacdada595",
+                "reference": "8d3685c592e7a5161d29fc7a03ed61dacdada595",
                 "shasum": ""
             },
             "require": {
@@ -252,20 +254,20 @@
             ],
             "description": "FuelPHP 1.x Oil Package",
             "homepage": "https://github.com/fuel/oil",
-            "time": "2018-05-03T20:59:29+00:00"
+            "time": "2019-06-27T14:58:13+00:00"
         },
         {
             "name": "fuel/orm",
-            "version": "1.8.1.2",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fuel/orm.git",
-                "reference": "372a5ffbbef797c4532eaf0283c9483309809206"
+                "reference": "70deb9fbc5f42c364036cb4c27f9e1185019e657"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuel/orm/zipball/372a5ffbbef797c4532eaf0283c9483309809206",
-                "reference": "372a5ffbbef797c4532eaf0283c9483309809206",
+                "url": "https://api.github.com/repos/fuel/orm/zipball/70deb9fbc5f42c364036cb4c27f9e1185019e657",
+                "reference": "70deb9fbc5f42c364036cb4c27f9e1185019e657",
                 "shasum": ""
             },
             "require": {
@@ -284,20 +286,20 @@
             ],
             "description": "FuelPHP 1.x ORM Package",
             "homepage": "https://github.com/fuel/orm",
-            "time": "2018-04-22T10:09:22+00:00"
+            "time": "2019-06-27T14:57:32+00:00"
         },
         {
             "name": "fuel/parser",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fuel/parser.git",
-                "reference": "c8725e112ef59f70f73ddff754a9fe762229fa88"
+                "reference": "1e4c52b60dec72a4df6d3757db74904ab7cda9ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuel/parser/zipball/c8725e112ef59f70f73ddff754a9fe762229fa88",
-                "reference": "c8725e112ef59f70f73ddff754a9fe762229fa88",
+                "url": "https://api.github.com/repos/fuel/parser/zipball/1e4c52b60dec72a4df6d3757db74904ab7cda9ef",
+                "reference": "1e4c52b60dec72a4df6d3757db74904ab7cda9ef",
                 "shasum": ""
             },
             "require": {
@@ -316,7 +318,7 @@
             ],
             "description": "FuelPHP 1.x Parser Package",
             "homepage": "https://github.com/fuel/parser",
-            "time": "2018-04-18T14:52:18+00:00"
+            "time": "2019-06-27T14:57:06+00:00"
         },
         {
             "name": "fuelphp/upload",
@@ -571,16 +573,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
                 "shasum": ""
             },
             "require": {
@@ -614,22 +616,22 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2018-11-20T15:27:04+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "fuel/docs",
-            "version": "1.8.1",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fuel/docs.git",
-                "reference": "819d65d744ef29cacec96649a6f39be28c854038"
+                "reference": "b158e44c619378ec3d38fb66bcf0839798f46f63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuel/docs/zipball/819d65d744ef29cacec96649a6f39be28c854038",
-                "reference": "819d65d744ef29cacec96649a6f39be28c854038",
+                "url": "https://api.github.com/repos/fuel/docs/zipball/b158e44c619378ec3d38fb66bcf0839798f46f63",
+                "reference": "b158e44c619378ec3d38fb66bcf0839798f46f63",
                 "shasum": ""
             },
             "require": {
@@ -648,7 +650,7 @@
             ],
             "description": "FuelPHP 1.x Documenataion",
             "homepage": "https://github.com/fuel/docs",
-            "time": "2018-04-17T16:29:24+00:00"
+            "time": "2019-06-27T14:54:29+00:00"
         }
     ],
     "aliases": [],

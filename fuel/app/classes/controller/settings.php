@@ -23,6 +23,7 @@ class Controller_Settings extends Controller_Template
         if(!$this->_user)
             Response::redirect('/login');
 
+        Lang::load('menu');
         Lang::load('settings');
         Lang::load('action');
 

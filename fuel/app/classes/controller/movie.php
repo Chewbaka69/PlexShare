@@ -23,6 +23,8 @@ class Controller_Movie extends Controller_Home
         if(!$movie)
             Response::redirect('/home');
 
+        $movie->getTrailer();
+
         $this->template->title = $movie->title;
 
         $body->set('movie', $movie);
