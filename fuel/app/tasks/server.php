@@ -25,7 +25,7 @@ class Server
                     CURLOPT_CONNECTTIMEOUT => 1
                 ]);
 
-                if($this->_server->https === '1') {
+                if($server->https === '1') {
                     $curl->set_options([
                         CURLOPT_SSL_VERIFYPEER => false,
                         CURLOPT_SSL_VERIFYHOST => false
@@ -93,10 +93,10 @@ class Server
             Model_Library::getSectionsContent($server, $library);
         }
 
-        $this->browseSeasons($server);
+        $this->browseTvShows($server);
     }
 
-    private function browseSeasons($server)
+    private function browseTvShows($server)
     {
         $server_id = $server->id;
 
@@ -113,10 +113,10 @@ class Server
             Model_Tvshow::getTvShowSeasons($server,$tv_show);
         }
 
-        $this->browseMovies($server);
+        $this->browseSeasons($server);
     }
 
-    private function browseMovies($server)
+    private function browseSeasons($server)
     {
         $server_id = $server->id;
 
@@ -134,5 +134,7 @@ class Server
         foreach ($seasons as $season) {
             Model_Season::getMovies($server,$season);
         }
+
+        //$this->browseMovies($server);
     }
 }
