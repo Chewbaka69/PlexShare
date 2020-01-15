@@ -95,7 +95,7 @@ class Model_Library extends Model_Overwrite
                     'server_id' => $server->id,
                     'name' => $library['@attributes']['title'],
                     'type' => $library['@attributes']['type'],
-                    'updatedAt' => $library['@attributes']['updatedAt'],
+                    'updatedAt' => time(),
                     'createdAt' => $library['@attributes']['createdAt'],
                     'scannedAt' => $library['@attributes']['scannedAt']
                 ));
@@ -120,7 +120,7 @@ class Model_Library extends Model_Overwrite
      * @return bool
      * @throws FuelException
      */
-    public static function getSectionsContent($server, $library)
+    public static function getLibraryContents($server, $library)
     {
         $curl = Request::forge(($server->https ? 'https' : 'http').'://' . $server->url . ($server->port? ':' . $server->port : '') . '/library/sections/' . $library->plex_key . '/all?X-Plex-Token=' . $server->token, 'curl');
 

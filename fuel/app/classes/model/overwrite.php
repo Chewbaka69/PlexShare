@@ -11,6 +11,10 @@ abstract class Model_Overwrite extends Model_Crud
         return isset(static::$_disable) ? 'disabled' : null;
     }
 
+    /**
+     * All deletion is fake and change just an attribute in database
+     * @return int|mixed
+     */
     public function delete()
     {
         static::disable() ? $query = DB::update(static::$_table_name)
@@ -23,6 +27,10 @@ abstract class Model_Overwrite extends Model_Crud
         return $this->post_delete($result);
     }
 
+    /**
+     * Use it to force to use UUID to primary key
+     * @param \Fuel\Core\Database_Query $query
+     */
     protected function pre_save(&$query)
     {
         if($this->is_new()) {

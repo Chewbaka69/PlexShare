@@ -15,7 +15,7 @@
                 type="button">Par Titre
             <div class="DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
         </button>
-        <span class="PageHeaderBadge-badge-sOmD- Badge-badge-1VCQ1 Badge-default-1XnzT"><?php echo count($movies); ?></span>
+        <span class="PageHeaderBadge-badge-sOmD- Badge-badge-1VCQ1 Badge-default-1XnzT"><?php echo $movies ? count($movies) : 0; ?></span>
     </div>
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
@@ -50,6 +50,7 @@
 <div class="MetadataListPageContent-metadataListPageContent-s56y9 PageContent-pageContent-16mK6">
     <div class="MetadataListPageContent-metadataListScroller-1uFgY Scroller-scroller-d5-b- Scroller-vertical-1bgGS ">
         <div class=" " style="width: 100%; height: auto;">
+            <?php if($movies) : ?>
             <?php foreach ($movies as $movie) : ?>
                 <div class=" virtualized-cell-3KPHx " data-qa-id="cellItem"
                      style="display: inline-block; margin-left: 25px; margin-top: 15px;">
@@ -77,8 +78,8 @@
                                     <?php if(get_class($movie) === Model_Movie::class) : ?>
                                         <a href="/movie/<?php echo $movie->id; ?>"
                                     <?php elseif(get_class($movie) === Model_Tvshow::class) : ?>
-                                    <a href="/tvshow/<?php echo $movie->id; ?>"
-                                        <?php endif; ?>
+                                        <a href="/tvshow/<?php echo $movie->id; ?>"
+                                    <?php endif; ?>
                                        role="link"
                                        class="MetadataPosterCardOverlay-link-1Swhl Link-link-2XYrU Link-default-32xSO"></a>
                                     <button tabindex="-1" data-id="<?php echo $movie->id; ?>"
@@ -110,8 +111,8 @@
                         <?php if(get_class($movie) === Model_Movie::class) : ?>
                             <a title="<?php echo $movie->title; ?>" href="/movie/<?php echo $movie->id; ?>"
                         <?php elseif(get_class($movie) === Model_Tvshow::class) : ?>
-                        <a title="<?php echo $movie->title; ?>" href="/tvshow/<?php echo $movie->id; ?>"
-                            <?php endif; ?>
+                            <a title="<?php echo $movie->title; ?>" href="/tvshow/<?php echo $movie->id; ?>"
+                        <?php endif; ?>
                            role="link" style="width: 130px;"
                            class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F   Link-link-2XYrU Link-default-32xSO">
                             <?php echo $movie->title; ?>
@@ -120,12 +121,13 @@
                             <?php if(get_class($movie) === Model_Movie::class) : ?>
                                 <?php echo $movie->year; ?>
                             <?php elseif(get_class($movie) === Model_Tvshow::class) : ?>
-                                <?php echo count($movie->getSeasons()) > 1 ? count($movie->getSeasons()) . ' season' : count($movie->getSeasons()) . ' seasons'; ?>
+                                <?php echo ($movie->getSeasons() ? count($movie->getSeasons()) : 0) . (($movie->getSeasons() ? count($movie->getSeasons()) : 0) > 1 ? ' season' : ' seasons'); ?>
                             <?php endif; ?>
                         </span>
                     </div>
                 </div>
             <?php endforeach; ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>

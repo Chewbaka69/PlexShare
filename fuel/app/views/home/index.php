@@ -16,7 +16,7 @@
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
                     <div class="HubCellTitle-hubCellTitle-2abIn">
                         <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO"><?php echo strtoupper(__('recently.tv_shows')); ?></a>
-                        <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo count($episodes); ?></span>
+                        <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo $episodes !== null ? count($episodes) : 0; ?></span>
                     </div>
                     <div class="HubCell-hubActions-28w1- tv-shows-hubcell">
                         <button role="button" data-hubcell-action="previous"
@@ -131,7 +131,7 @@
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
                     <div class="HubCellTitle-hubCellTitle-2abIn">
                         <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO"><?php echo strtoupper(__('recently.movies')); ?></a>
-                        <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo count($movies); ?></span>
+                        <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo $movies !== null ? count($movies) : 0; ?></span>
                     </div>
                     <div class="HubCell-hubActions-28w1- movies-hubcell">
                         <button role="button" data-hubcell-action="previous"
@@ -256,7 +256,7 @@
                     if ($('#' + select + '_list').scrollLeft() === 0) {
                         $(previous).addClass('isDisabled');
                     }
-                }, 200);
+                }, 100);
             }
             if ($(this).data('hubcell-action') === 'next') {
                 $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() + 152 * 2}, 300);
@@ -272,7 +272,7 @@
                     if ($('#' + select + '_list').scrollLeft() === 0) {
                         $(next).addClass('isDisabled');
                     }
-                }, 300);
+                }, 100);
             }
         });
     });

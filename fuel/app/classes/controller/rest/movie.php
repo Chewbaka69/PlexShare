@@ -26,7 +26,7 @@ class Controller_Rest_Movie extends Controller_Rest
             else
                 $episodes = [$movie];
 
-            $view = View::forge('stream/index');
+            $view = View::forge('player/index');
 
             $view->set('user_settings', $user_settings);
             $view->set('movie', $movie);

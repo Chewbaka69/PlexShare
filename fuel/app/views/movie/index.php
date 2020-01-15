@@ -306,7 +306,7 @@
                                                                         <div class="TagPosterCard-card-RVD0D MetadataPosterCardFace-poster-L2P6r TagPosterCard-isPerson-1ez1h" style="width: 118px; height: 118px;">
                                                                             <?php if (isset($role['@attributes']['thumb'])) : ?>
                                                                                 <div class="PosterCardImg-imageContainer-1Ar4M">
-                                                                                    <div style="background-image: url('<?php echo $role['@attributes']['thumb']; ?>'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;" class=""></div>
+                                                                                    <div class="actor_img" data-background="<?php echo $role['@attributes']['thumb']; ?>" style="background-image: url(''); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;" class=""></div>
                                                                                 </div>
                                                                             <?php else : ?>
                                                                                 <div style="font-size: 30px; line-height: 118px;" class="Anagram-anagram-2KZ_Z">
@@ -403,6 +403,10 @@
             event.target.remove();
         });
         /** LOAD IMG **/
+        $('.actor_img').each(function (index, element) {
+            var actor_img = $(element).data('background');
+            $(element).css('background-image', 'url("' + actor_img + '")');
+        });
         $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
             var movie_id = $(element).data('movie-id');
             $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 325 +'&height='+ 488 +'")');

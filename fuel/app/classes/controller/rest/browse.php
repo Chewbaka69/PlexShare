@@ -117,7 +117,7 @@ class Controller_Rest_Browse extends Controller_Rest
         if(!$library)
             return $this->response(array('error' => true, 'message' => 'No library found!'));
 
-        return Model_Library::getSectionsContent($server, $library);
+        return Model_Library::getLibraryContents($server, $library);
     }
 
     public function get_seasons()

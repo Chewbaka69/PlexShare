@@ -129,16 +129,15 @@ class Model_Season extends Model_Overwrite
                 $tvshow_id = $tvshow->id;
 
                 $season = Model_Season::find(function ($query) use ($XMLseason, $tvshow_id) {
-                    /** @var Database_Query_Builder_Select $query */
                     return $query
                         ->select('*')
-                        ->where('plex_key', $XMLseason['@attributes']['key'])
+                        ->where('plex_key', $XMLseason['@attributes']['ratingKey'])
                         ->and_where('tv_show_id', $tvshow_id);
                 })[0] ?: Model_Season::forge();
 
                 $season->set([
                     'tv_show_id' => $tvshow->id,
-                    'plex_key' => $XMLseason['@attributes']['key'],
+                    'plex_key' => $XMLseason['@attributes']['ratingKey'],
                     'number' => $XMLseason['@attributes']['index'],
                     'title' => $XMLseason['@attributes']['title'],
                     'thumb' => isset($XMLseason['@attributes']['thumb']) ? $XMLseason['@attributes']['thumb'] : null,
@@ -171,7 +170,7 @@ class Model_Season extends Model_Overwrite
     public static function getMovies($server, $season)
     {
         try {
-            $curl = Request::forge(($server->https ? 'https' : 'http').'://' . $server->url . ($server->port ? ':' . $server->port : '') . $season->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
+            $curl = Request::forge(($server->https ? 'https' : 'http').'://' . $server->url . ($server->port ? ':' . $server->port : '') . '/library/metadata/' . $season->plex_key . '/children?X-Plex-Token=' . $server->token, 'curl');
 
             if($server->https) {
                 $curl->set_options([

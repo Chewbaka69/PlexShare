@@ -215,7 +215,7 @@
                                                                         <div class="TagPosterCard-card-RVD0D MetadataPosterCardFace-poster-L2P6r TagPosterCard-isPerson-1ez1h" style="width: 118px; height: 118px;">
                                                                             <?php if (isset($role['@attributes']['thumb'])) : ?>
                                                                                 <div class="PosterCardImg-imageContainer-1Ar4M">
-                                                                                    <div style="background-image: url('<?php echo $role['@attributes']['thumb']; ?>'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;" class=""></div>
+                                                                                    <div class="actor_img" data-background="<?php echo $role['@attributes']['thumb']; ?>" style="background-image: url(''); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;" class=""></div>
                                                                                 </div>
                                                                             <?php else : ?>
                                                                                 <div style="font-size: 30px; line-height: 118px;" class="Anagram-anagram-2KZ_Z">
@@ -277,6 +277,11 @@
                 $(this).find('div').removeClass('DisclosureArrow-up-1U7WW').addClass('DisclosureArrow-down-1U7WW');
                 summary.css('max-height', '78px');
             }
+        });
+        /** LOAD IMG **/
+        $('.actor_img').each(function (index, element) {
+            var actor_img = $(element).data('background');
+            $(element).css('background-image', 'url("' + actor_img + '")');
         });
         $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]').each(function (index, element) {
             var tvshow_id = $(element).data('tvshow-id');

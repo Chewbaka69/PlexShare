@@ -17,10 +17,14 @@ class Controller_Home extends Controller_Template
         $user = Session::get('user');
         $sessionServer = Session::get('server');
 
-        if(!$user)
+        if(is_null($user))
             Response::redirect('/login');
 
-        $server = $sessionServer ? Model_Server::find_by_pk($sessionServer->id) : Model_Server::find_one_by('user_id', $user->id);
+        $server = $sessionServer ? Model_Server::find_by_pk($sessionServer->id) : (Model_Server::find_one_by('user_id', $user->id) ?: Model_Server::find_by([
+                ['online', '=', 1],
+                ['disable', '=', 0],
+            ], null, null, 10)[0]
+        );
 
         if(!$server)
             Response::redirect('/login');

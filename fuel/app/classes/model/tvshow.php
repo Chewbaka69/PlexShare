@@ -117,9 +117,7 @@ class Model_Tvshow extends Model_Overwrite
             if(!$this->_server)
                 $this->getServer();
 
-            $plex_key = preg_split('/\/children/', $this->plex_key)[0];
-
-            $curl = Request::forge(($this->_server->https ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . $plex_key . '?X-Plex-Token=' . $this->_server->token, 'curl');
+            $curl = Request::forge(($this->_server->https ? 'https' : 'http').'://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/library/metadata/' . $this->plex_key . '?X-Plex-Token=' . $this->_server->token, 'curl');
 
             if($this->_server->https) {
                 $curl->set_options([
@@ -161,16 +159,15 @@ class Model_Tvshow extends Model_Overwrite
                 $library_id = $library->id;
 
                 $tvshow = Model_Tvshow::find(function ($query) use ($subsection, $library_id) {
-                    /** @var Database_Query_Builder_Select $query */
                     return $query
                         ->select('*')
-                        ->where('plex_key', $subsection['@attributes']['key'])
+                        ->where('plex_key', $subsection['@attributes']['ratingKey'])
                         ->and_where('library_id', $library_id);
                 })[0] ?: Model_Tvshow::forge();
 
                 $tvshow->set([
                     'library_id' => $library->id,
-                    'plex_key' => $subsection['@attributes']['key'],
+                    'plex_key' => $subsection['@attributes']['ratingKey'],
                     'studio' => isset($subsection['@attributes']['studio']) ? $subsection['@attributes']['studio'] : null,
                     'title' => $subsection['@attributes']['title'],
                     'contentRating' => isset($subsection['@attributes']['contentRating']) ? $subsection['@attributes']['contentRating'] : null,
@@ -212,7 +209,7 @@ class Model_Tvshow extends Model_Overwrite
     public static function getTvShowSeasons($server, $tvshow)
     {
         try {
-            $curl = Request::forge(($server->https ? 'https' : 'http').'://' . $server->url . ($server->port ? ':' . $server->port : '') . $tvshow->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
+            $curl = Request::forge(($server->https ? 'https' : 'http').'://' . $server->url . ($server->port ? ':' . $server->port : '') . '/library/metadata/' . $tvshow->plex_key . '/children?X-Plex-Token=' . $server->token, 'curl');
 
             if($server->https) {
                 $curl->set_options([

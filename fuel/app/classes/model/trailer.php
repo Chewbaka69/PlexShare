@@ -10,7 +10,7 @@ class Model_Trailer
 
     private $_url;
 
-    public $trailer;
+    private $_trailer;
 
     public function __construct($title, $year, $type)
     {
@@ -26,16 +26,24 @@ class Model_Trailer
 
             $this->getMovieTrailer();
 
-            if(!$this->trailer)
+            if(!$this->_trailer)
                 $this->getMovieTeaser();
-
-            return $this->trailer;
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTrailer()
+    {
+        return $this->_trailer;
     }
 
     private function getUrl()
     {
         $html = Request::forge('https://www.themoviedb.org/search/movie?query=' . urlencode($this->_title) . '+y%3A' . $this->_year . '&language=us', 'curl');
+        $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
+
         $html->execute();
 
         if ($html->response()->status !== 200)
@@ -56,6 +64,7 @@ class Model_Trailer
     private function getMovieTrailer()
     {
         $html = Request::forge('https://www.themoviedb.org' . $this->_url . '/videos?active_nav_item=Trailers&video_language=en-US&language=en-US', 'curl');
+        $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
         $html->set_options(array(
                 CURLOPT_FOLLOWLOCATION => true,
             )
@@ -76,12 +85,13 @@ class Model_Trailer
 
         $youtube = '//www.youtube.com/embed/'.$youtube[1].'?enablejsapi=1&autoplay=0&hl=en-US&modestbranding=1&fs=1';
 
-        $this->trailer = $youtube;
+        $this->_trailer = $youtube;
     }
 
     private function getMovieTeaser()
     {
         $html = Request::forge('https://www.themoviedb.org' . $this->_url . '/videos?active_nav_item=Teasers&video_language=en-US&language=en-US', 'curl');
+        $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
         $html->set_options(array(
                 CURLOPT_FOLLOWLOCATION => true,
             )
@@ -102,6 +112,6 @@ class Model_Trailer
 
         $youtube = preg_replace('/\&origin\=https%3A%2F%2Fwww\.themoviedb\.org/i', '', $youtube[1]);
 
-        $this->trailer = $youtube;
+        $this->_trailer = $youtube;
     }
 }

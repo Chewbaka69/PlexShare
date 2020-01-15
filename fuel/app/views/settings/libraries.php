@@ -90,7 +90,7 @@
 </div>
 <script type="text/javascript">
     $(window).on('load', function() {
-        // LIBRARY BUTTON ACTION
+        // LIBRARY BUTTON REFRESH
         $('button.refresh-library-btn').on('click', function () {
             var library_id = $(this).data('library-id');
             ajax += 1;

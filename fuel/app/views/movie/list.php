@@ -59,7 +59,7 @@
                             <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
                                 <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 30px; line-height: 189px;"></i>
                                 <div class="PosterCardImg-imageContainer-1Ar4M" data-movie-id="<?php echo $movie->id; ?>">
-                                    <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
+                                    <div style="background-image: none; background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                          class=""></div>
                                 </div>
                                 <div class=" MetadataPosterCardOverlay-overlay-1uMpL">
@@ -330,12 +330,36 @@
             });
         });
         /** LOAD IMAGES **/
-        $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
-            /** IF USING CLOUDFLARE TOO MANY REQUEST **/
-            setTimeout(function(){
-                var movie_id = $(element).data('movie-id');
-                $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id='+ movie_id +'&width='+ 160 +'&height='+ 236 +'")');
-            }, 10 * index);
+        $('.MetadataListPageContent-metadataListScroller-1uFgY.MetadataListPageContent-hasGutter-1EfyE.Scroller-scroller-d5-b-.Scroller-vertical-1bgGS').scroll(function() {
+
+            let number = 1;
+
+            $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
+
+                let movie_id = $(element).data('movie-id');
+                let position = element.getBoundingClientRect();
+                let movie = document.querySelector('[data-movie-id="' + movie_id + '"] > div');
+
+                if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !movie.classList.contains('hasBackground') ) {
+                    console.log(movie, position.top, window.innerHeight, !movie.classList.contains('hasBackground'));
+                    movie.classList.add('hasBackground');
+                    console.log(movie, position.top, window.innerHeight, !movie.classList.contains('hasBackground'));
+                    /** IF USING CLOUDFLARE TOO MANY REQUEST **/
+                    setTimeout(function () {
+                        $('[data-movie-id="' + movie_id + '"] > div')
+                            .css('opacity', 0)
+                            .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 160 + '&height=' + 236 + '")')
+                            .animate({opacity: 1}, 500);
+                    }, 50 +( 50 * number));
+                    number++;
+                } else if( ( position.top < 0 || position.top > (window.innerHeight || document.documentElement.clientHeight) ) && movie.classList.contains('hasBackground') ) {
+                    $('[data-movie-id="' + movie_id + '"] > div').css('background-image', '')
+                        .removeClass('hasBackground')
+                        .animate({opacity: 0}, 500);
+                }
+            });
         });
+
+        $('.MetadataListPageContent-metadataListScroller-1uFgY.MetadataListPageContent-hasGutter-1EfyE.Scroller-scroller-d5-b-.Scroller-vertical-1bgGS').scroll();
     });
 </script>

@@ -44,6 +44,7 @@ class Model_Movie extends Model_Overwrite
     private $_season = null;
     private $_tv_show = null;
     private $_library = null;
+    /** @var Model_Server */
     private $_server = null;
 
     public $trailer = null;
@@ -82,6 +83,9 @@ class Model_Movie extends Model_Overwrite
         return $this->_library;
     }
 
+    /**
+     * @return Model_Server
+     */
     public function getServer()
     {
         if(!$this->_server) {
@@ -463,20 +467,6 @@ class Model_Movie extends Model_Overwrite
         return $movies_id_array;
     }
 
-    public static function getMovieMetadata($server, $movie)
-    {
-        /*$curl = Request::forge('http://' . $server->url . ($server->port ? ':' . $server->port : '') . $movie->plex_key . '?X-Plex-Token=' . $server->token, 'curl');
-            $curl->execute();
-
-            if ($curl->response()->status !== 200)
-                return false;
-
-            $media = Format::forge($curl->response()->body, 'xml')->to_array();
-
-            if(isset($movies['Video']))
-                $this->getMovies($server, $movies['Video']);*/
-    }
-
     public static function getThirtyLastedTvShows($server)
     {
         return self::find(function ($query) use ($server) {
@@ -492,6 +482,12 @@ class Model_Movie extends Model_Overwrite
                 ->join('server', 'LEFT')
                 ->on('library.server_id', '=', 'server.id')
                 ->where('server.id', $server->id)
+                ->and_where('server.online', 1)
+                ->and_where('server.disable', 0)
+                ->and_where('library.disable', 0)
+                ->and_where('tvshow.disable', 0)
+                ->and_where('season.disable', 0)
+                ->and_where('movie.disable', 0)
                 ->and_where('movie.type', 'episode')
                 ->order_by('movie.addedAt', 'DESC')
                 ->order_by(DB::expr('MAX(' . DB::table_prefix('movie') .'.addedAt)'), 'DESC ')//'movie.addedAt', 'DESC')
@@ -512,6 +508,7 @@ class Model_Movie extends Model_Overwrite
                 ->join('server', 'LEFT')
                 ->on('library.server_id', '=', 'server.id')
                 ->where('server.id', $server->id)
+                ->and_where('movie.disable', 0)
                 ->and_where('movie.type', 'movie')
                 ->order_by('movie.addedAt', 'DESC')
                 ->limit(30)
@@ -526,6 +523,7 @@ class Model_Movie extends Model_Overwrite
             return $query
                 ->select('*')
                 ->where('type', 'movie')
+                ->group_by('originalTitle', 'title', 'year', 'studio')
                 ->order_by('title', 'ASC')
                 ;
         });
@@ -534,6 +532,6 @@ class Model_Movie extends Model_Overwrite
     public function getTrailer()
     {
         $trailer = new Model_Trailer($this->originalTitle ?: $this->title, $this->year, $this->type);
-        $this->trailer = $trailer->trailer;
+        $this->trailer = $trailer->getTrailer();
     }
 }

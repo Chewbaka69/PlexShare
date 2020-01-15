@@ -140,7 +140,7 @@
                                         </div>
                                         <div data-qa-id="metadataTitleContainer"
                                              class="MetadataPosterCell-titleContainer-24DI6">
-                                            <a title="<?php echo $episode->title; ?>" href="/tvshow/<?php echo $episode->id; ?>"
+                                            <a title="<?php echo $episode->title; ?>" href="/episode/<?php echo $episode->id; ?>"
                                                     role="link" style="width: 192px;"
                                                     class=" MetadataPosterTitle-singleLineTitle-24_DN MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
                                                 <?php echo $episode->title; ?>

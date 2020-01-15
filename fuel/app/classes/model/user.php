@@ -47,7 +47,7 @@ class Model_User extends Model_Overwrite
                 ;
         });
 
-        if(count($result) > 0)
+        if($result !== null)
             return $result[0];
         else
             return false;
