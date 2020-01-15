@@ -66,7 +66,7 @@
                                         data-tvshow-id="<?php echo $movie->id; ?>"
                                     <?php endif; ?>
                                 >
-                                    <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
+                                    <div style="background-image: none; background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                          class=""></div>
                                 </div>
                                 <div class=" MetadataPosterCardOverlay-overlay-1uMpL">
@@ -249,19 +249,58 @@
             });
         });
         /** LOAD IMAGES **/
-        $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
-            /** IF USING CLOUDFLARE TOO MANY REQUEST **/
-            setTimeout(function() {
-                var movie_id = $(element).data('movie-id');
-                $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 160 + '&height=' + 236 + '")');
-            }, 10 * index);
+        $('.MetadataListPageContent-metadataListScroller-1uFgY.Scroller-scroller-d5-b-.Scroller-vertical-1bgGS').scroll(function() {
+
+            let number = 1;
+
+            $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
+
+                let movie_id = $(element).data('movie-id');
+                let position = element.getBoundingClientRect();
+                let movie = document.querySelector('[data-movie-id="' + movie_id + '"] > div');
+
+                if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !movie.classList.contains('hasBackground') ) {
+                    movie.classList.add('hasBackground');
+                    /** IF USING CLOUDFLARE TOO MANY REQUEST **/
+                    setTimeout(function () {
+                        $('[data-movie-id="' + movie_id + '"] > div')
+                            .css('opacity', 0)
+                            .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 160 + '&height=' + 236 + '")')
+                            .animate({opacity: 1}, 500);
+                    }, 50 +( 50 * number));
+                    number++;
+                } else if( ( position.top < 0 || position.top > (window.innerHeight || document.documentElement.clientHeight) ) && movie.classList.contains('hasBackground') ) {
+                    $('[data-movie-id="' + movie_id + '"] > div').css('background-image', '')
+                        .removeClass('hasBackground')
+                        .animate({opacity: 0}, 500);
+                }
+            });
+
+            $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]').each(function (index, element) {
+
+                let tvshow_id = $(element).data('tvshow-id');
+                let position = element.getBoundingClientRect();
+                let tvshow = document.querySelector('[data-tvshow-id="' + tvshow_id + '"] > div');
+
+                if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !tvshow.classList.contains('hasBackground') ) {
+                    tvshow.classList.add('hasBackground');
+                    /** IF USING CLOUDFLARE TOO MANY REQUEST **/
+                    setTimeout(function () {
+                        $('[data-tvshow-id="' + tvshow_id + '"] > div')
+                            .css('opacity', 0)
+                            .css('background-image', 'url("/cover/tvshow?tvshow_id=' + tvshow_id + '&width=' + 160 + '&height=' + 236 + '")')
+                            .animate({opacity: 1}, 500);
+                    }, 50 +( 50 * number));
+                    number++;
+                } else if( ( position.top < 0 || position.top > (window.innerHeight || document.documentElement.clientHeight) ) && tvshow.classList.contains('hasBackground') ) {
+                    $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', '')
+                        .removeClass('hasBackground')
+                        .animate({opacity: 0}, 500);
+                }
+            });
         });
-        $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]').each(function (index, element) {
-            /** IF USING CLOUDFLARE TOO MANY REQUEST **/
-            setTimeout(function() {
-                var tvshow_id = $(element).data('tvshow-id');
-                $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', 'url("/cover/tvshow?tvshow_id='+ tvshow_id +'&width='+ 160 +'&height='+ 236 +'")');
-            }, 10 * index);
-        });
+
+        $('.MetadataListPageContent-metadataListScroller-1uFgY.Scroller-scroller-d5-b-.Scroller-vertical-1bgGS').scroll();
+
     });
 </script>

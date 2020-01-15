@@ -341,9 +341,7 @@
                 let movie = document.querySelector('[data-movie-id="' + movie_id + '"] > div');
 
                 if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !movie.classList.contains('hasBackground') ) {
-                    console.log(movie, position.top, window.innerHeight, !movie.classList.contains('hasBackground'));
                     movie.classList.add('hasBackground');
-                    console.log(movie, position.top, window.innerHeight, !movie.classList.contains('hasBackground'));
                     /** IF USING CLOUDFLARE TOO MANY REQUEST **/
                     setTimeout(function () {
                         $('[data-movie-id="' + movie_id + '"] > div')
