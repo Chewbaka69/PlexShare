@@ -22,8 +22,8 @@ class Controller_Admin extends Controller_Template
             Response::redirect('/home');
 
         Lang::load('menu');
-	    Lang::load('action');
-	    
+        Lang::load('action');
+
         $this->template->user = Session::get('user');
 
         $this->template->js_bottom = ['plex_alert.js'];
