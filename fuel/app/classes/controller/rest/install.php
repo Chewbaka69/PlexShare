@@ -306,11 +306,11 @@ class Controller_Rest_Install extends Controller_Rest
                 'user_watching',
                 array(
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
-                    'file_id' => array('constraint' => 11, 'type' => 'int'),
-                    'user_id' => array('constraint' => 36, 'type' => 'varchar'),
+                    'user_id' => array('constraint' => 11, 'type' => 'int'),
+                    'movie_id' => array('constraint' => 36, 'type' => 'varchar'),
                     'watching_time' => array('constraint' => 11, 'type' => 'int'),
-                    'ended' => array('constraint' => 1, 'type' => 'int', 'default' => 0),
-                    'disable' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
+                    'ended_time' => array('constraint' => 11, 'type' => 'int', 'default' => 0),
+                    'isFinish' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
@@ -318,7 +318,7 @@ class Controller_Rest_Install extends Controller_Rest
 
             $logs .= 'Creation table user settings'."\r\n";
             /**
-             * CREATE TABLE USER'S WATCHING
+             * CREATE TABLE USER'S SETTINGS
              */
             DBUtil::create_table(
                 'user_settings',
@@ -439,6 +439,26 @@ class Controller_Rest_Install extends Controller_Rest
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
             ));
+            DBUtil::add_foreign_key('user_watching', array(
+                'constraint' => 'constraintMovieWatching',
+                'key' => 'movie_id',
+                'reference' => array(
+                    'table' => 'movie',
+                    'column' => 'id',
+                ),
+                'on_update' => 'NO ACTION',
+                'on_delete' => 'NO ACTION',
+            ));
+            DBUtil::add_foreign_key('user_setting', array(
+                'constraint' => 'constraintUserSetting',
+                'key' => 'user_id',
+                'reference' => array(
+                    'table' => 'user',
+                    'column' => 'id',
+                ),
+                'on_update' => 'NO ACTION',
+                'on_delete' => 'NO ACTION',
+            ));
             DBUtil::add_foreign_key('library', array(
                 'constraint' => 'constraintServerLibrary',
                 'key' => 'server_id',
@@ -485,7 +505,7 @@ class Controller_Rest_Install extends Controller_Rest
 
             $logs .= 'All Tables and Foreign Key successfully!'."\r\n";
 
-            return $this->response(array('error' => false, 'message' => $logs));
+            return $this->response(['error' => false, 'message' => $logs]);
         } catch (FuelException $e) {
             try {
                 DBUtil::drop_table('user_watching');

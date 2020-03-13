@@ -65,12 +65,12 @@ class Controller_Settings extends Controller_Template
 
         $default_settings = Config::load('user_settings');
 
-        $settings = Model_Settings::find_one_by('user_id', Session::get('user')->id);
+        $settings = Model_Setting::find_one_by('user_id', Session::get('user')->id);
 
         $is_submit = Input::post('submit');
 
         if(isset($is_submit)) {
-            $settings = !empty($settings) ? $settings : new Model_Settings();
+            $settings = !empty($settings) ? $settings : new Model_Setting();
             $settings->set([
                 'user_id'   => $this->_user->id,
                 'language'  => Input::post('language'),

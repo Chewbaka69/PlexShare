@@ -1,6 +1,8 @@
 <?php
 
 use Fuel\Core\Controller_Rest;
+use Fuel\Core\Input;
+use Fuel\Core\Session;
 use Fuel\Core\View;
 use Fuel\Core\FuelException;
 

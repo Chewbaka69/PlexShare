@@ -1,7 +1,9 @@
 <?php
+
 use Fuel\Core\Controller;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
+
 class Controller_Index extends Controller
 {
     public function before()

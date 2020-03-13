@@ -5,7 +5,7 @@
         <div data-reactroot="" class="FullPage-container-3qanw">
             <div>
                 <div>
-                    <div style="background-image: url('//assets.plex.tv/deploys/desktop/env-eb2798cc3c7d9533df5b563963d5c394/3.34.1-b51c37a/common/img/backgrounds/preset-light.770a0981b66e038d3ffffbcc4f5a26a4.png'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
+                    <div style="background-image: url('https://plex.hack-free.org/web/common/img/backgrounds/preset-light2.ead08af5122abea1ab8f7d601fd93d6a.png'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                          class=""></div>
                 </div>
                 <div style="position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0) url('//assets.plex.tv/deploys/desktop/env-eb2798cc3c7d9533df5b563963d5c394/3.34.1-b51c37a/common/img/backgrounds/noise.8b05ce45d0df59343e206bc9ae78d85d.png') repeat scroll 0% 0%; z-index: 2;"></div>

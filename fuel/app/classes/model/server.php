@@ -1,8 +1,11 @@
 <?php
 
+use Fuel\Core\Database_Query_Builder_Select;
 use Fuel\Core\DB;
+use Fuel\Core\Debug;
 use Fuel\Core\Request;
 use Fuel\Core\Format;
+use Fuel\Core\Response;
 
 class Model_Server extends Model_Overwrite
 {
@@ -114,5 +117,120 @@ class Model_Server extends Model_Overwrite
         });
 
         return $libraries;
+    }
+
+    public function getThirtyLastedTvShows()
+    {
+        try {
+            $curl = Request::forge(($this->https === '1' ? 'https' : 'http').'://' . $this->url . ($this->port ? ':' . $this->port : '') . '/hubs/home/recentlyAdded?type=2&X-Plex-Token=' . $this->token, 'curl');
+
+            if($this->https) {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
+            $curl->set_header('Accept', 'application/json');
+
+            $curl->execute();
+
+            $body = json_decode($curl->response()->body);
+
+            $datas = $body->MediaContainer->Metadata;
+            $datas = array_slice($datas, 0,50);
+
+            $tvshows = [];
+
+            foreach ($datas as $tvshow) {
+                if($tvshow->type === 'season') {
+                    $tvshows[] = Model_Season::find_one_by('plex_key', $tvshow->ratingKey) ?: new Model_Season();
+
+                } else if($tvshow->type === 'episode') {
+                    $tvshows[] = Model_Movie::find_one_by('plex_key', $tvshow->key) ?: new Model_Movie();
+                }
+            }
+
+            return $tvshows;
+
+        }catch (Exception $exception){
+            Debug::dump($exception);
+        }
+
+        //return self::find(function ($query) use ($server) {
+        /** @var Database_Query_Builder_Select $query */
+        /*return $query
+            ->select('movie.*', DB::expr('COUNT(' . DB::table_prefix('movie') . '.type) AS count'))
+            ->join('season', 'LEFT')
+            ->on('movie.season_id', '=', 'season.id')
+            ->join('tvshow', 'LEFT')
+            ->on('season.tv_show_id', '=', 'tvshow.id')
+            ->join('library', 'LEFT')
+            ->on('tvshow.library_id', '=', 'library.id')
+            ->join('server', 'LEFT')
+            ->on('library.server_id', '=', 'server.id')
+            ->where('server.id', $server->id)
+            ->and_where('server.online', 1)
+            ->and_where('server.disable', 0)
+            ->and_where('library.disable', 0)
+            ->and_where('tvshow.disable', 0)
+            ->and_where('season.disable', 0)
+            ->and_where('movie.disable', 0)
+            ->and_where('movie.type', 'episode')
+            ->order_by('movie.addedAt', 'DESC')
+            ->order_by(DB::expr('MAX(' . DB::table_prefix('movie') .'.addedAt)'), 'DESC ')//'movie.addedAt', 'DESC')
+            ->group_by('movie.season_id')
+            ->limit(30)
+        ;
+    });*/
+    }
+
+    public function getThirtyLastedMovies()
+    {
+        try {
+            $curl = Request::forge(($this->https === '1' ? 'https' : 'http').'://' . $this->url . ($this->port ? ':' . $this->port : '') . '/hubs/home/recentlyAdded?type=1&X-Plex-Token=' . $this->token, 'curl');
+
+            if($this->https) {
+                $curl->set_options([
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => false
+                ]);
+            }
+
+            $curl->set_header('Accept', 'application/json');
+
+            $curl->execute();
+
+            $body = json_decode($curl->response()->body);
+
+            $datas = $body->MediaContainer->Metadata;
+            $datas = array_slice($datas, 0,50);
+
+            $movies = [];
+
+            foreach ($datas as $movie) {
+                $movies[] = Model_Movie::find_one_by('plex_key', $movie->key) ?: new Model_Movie();
+            }
+
+            return $movies;
+
+        }catch (Exception $exception){
+            Debug::dump($exception);
+        }
+        //return Model_Movie::find(function ($query) use ($server) {
+            /** @var Database_Query_Builder_Select $query */
+            /*return $query
+                ->select('movie.*')
+                ->join('library', 'LEFT')
+                ->on('movie.library_id', '=', 'library.id')
+                ->join('server', 'LEFT')
+                ->on('library.server_id', '=', 'server.id')
+                ->where('server.id', $server->id)
+                ->and_where('movie.disable', 0)
+                ->and_where('movie.type', 'movie')
+                ->order_by('movie.addedAt', 'DESC')
+                ->limit(30)
+                ;
+        });*/
     }
 }

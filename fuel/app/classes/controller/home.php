@@ -1,6 +1,7 @@
 <?php
 
 use Fuel\Core\Controller_Template;
+use Fuel\Core\Debug;
 use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
@@ -17,7 +18,7 @@ class Controller_Home extends Controller_Template
         $user = Session::get('user');
         $sessionServer = Session::get('server');
 
-        if(is_null($user))
+        if(null === $user)
             Response::redirect('/login');
 
         $server = $sessionServer ? Model_Server::find_by_pk($sessionServer->id) : (Model_Server::find_one_by('user_id', $user->id) ?: Model_Server::find_by([
@@ -58,10 +59,10 @@ class Controller_Home extends Controller_Template
 
         $server_id = $this->param('server_id');
 
-        if($server_id !== NULL) {
+        if ($server_id !== NULL) {
             $server = Model_Server::find_by_pk($server_id);
 
-            if($server)
+            if ($server)
                 $this->template->MenuServer = $server;
         }
 
@@ -70,9 +71,9 @@ class Controller_Home extends Controller_Template
 
         $this->template->MenuLibraries = $this->template->MenuServer->getLibraries();
 
-        $episodes = Model_Movie::getThirtyLastedTvShows($this->template->MenuServer);
+        $episodes = $this->template->MenuServer->getThirtyLastedTvShows();
 
-        $movies = Model_Movie::getThirtyLastedMovies($this->template->MenuServer);
+        $movies = $this->template->MenuServer->getThirtyLastedMovies($this->template->MenuServer);
 
         $body->set('episodes', $episodes);
         $body->set('movies', $movies);

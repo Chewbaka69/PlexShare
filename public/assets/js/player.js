@@ -55,7 +55,11 @@ function launchPlayer(view) {
         playback: {
             preload: 'metadata',
             controls: false,
-            recycleVideo: Clappr.Browser.isMobile
+            recycleVideo: Clappr.Browser.isMobile,
+            hlsjsConfig:  {
+                maxBufferLength : 2000,
+                maxMaxBufferLength : 2000
+            }
         },
         events: {
             onReady: function () {
@@ -88,6 +92,10 @@ function launchPlayer(view) {
                 }
             }
         }
+    });
+
+    player.on(Clappr.Events.PLAYBACK_ERROR, function(error) {
+        console.log(error);
     });
 
     player.on(Clappr.Events.PLAYER_PLAY, function(){player.core.mediaControl.disable()});

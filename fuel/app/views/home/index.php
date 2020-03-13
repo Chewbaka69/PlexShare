@@ -49,23 +49,26 @@
                                                     <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
                                                         <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 32px; line-height: 191px;"></i>
                                                         <div class="PosterCardImg-imageContainer-1Ar4M"
-                                                             data-movie-id="<?php echo $episode->id; ?>">
+                                                             data-<?php echo ($episode instanceof Model_Movie) ? 'movie' : 'season'; ?>-id="<?php echo $episode->id; ?>">
                                                             <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
                                                                  class=""></div>
                                                         </div>
                                                         <div class=" MetadataPosterCardOverlay-overlay-1uMpL         ">
                                                             <div class="MetadataPosterCardOverlay-background-2EwyB"></div>
                                                             <div class="MetadataPosterCardOverlay-unwatchedTagContainer-1lcEn">
-                                                                <div class="MetadataPosterCardOverlay-unwatchedBadge-Qn1fv MetadataPosterCardOverlay-badge-1FU-p"><?php echo $episode->count > 1 ? $episode->count : ''; ?></div>
-                                                            </div>
-                                                            <?php if ($episode->count > 1) : ?>
-                                                                <a href="/season/<?php echo $episode->getSeason()->id; ?>"
-                                                            <?php else: ?>
-                                                            <a href="/episode/<?php echo $episode->id; ?>"
+                                                                <?php if ($episode instanceof Model_Season) : ?>
+                                                                    <div class="MetadataPosterCardOverlay-unwatchedBadge-Qn1fv MetadataPosterCardOverlay-badge-1FU-p"><?php echo $episode->leafCount; ?>
+                                                                    </div>
                                                                 <?php endif; ?>
+                                                            </div>
+                                                            <?php if ($episode instanceof Model_Season) : ?>
+                                                                <a href="/season/<?php echo $episode->id; ?>"
+                                                            <?php else: ?>
+                                                                <a href="/episode/<?php echo $episode->id; ?>"
+                                                            <?php endif; ?>
                                                                role="link"
                                                                class="MetadataPosterCardOverlay-link-1Swhl Link-link-2XYrU Link-default-32xSO">
-                                                                <button data-id="<?php echo $episode->count <= 1 ? $episode->id : ''; ?>"
+                                                                <button data-id="<?php echo ($episode instanceof Model_Movie) ? $episode->id : ''; ?>"
                                                                         tabindex="-1"
                                                                         role="button"
                                                                         class="MetadataPosterCardOverlay-playButton-1fjhk PlayButton-playButton-3WX8X MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
@@ -86,7 +89,7 @@
                                                    class=" MetadataPosterTitle-title-3tU5F Link-link-2XYrU Link-default-32xSO">
                                                     <?php echo $episode->getTvShow()->title; ?>
                                                 </a>
-                                                <?php if (1 == $episode->count) : ?>
+                                                <?php if ($episode instanceof Model_Movie) : ?>
                                                     <a title="<?php echo $episode->title; ?>"
                                                        href="/episode/<?php echo $episode->id; ?>"
                                                        role="link"
@@ -95,14 +98,14 @@
                                                     </a>
                                                 <?php endif; ?>
                                                 <span class=" MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY  ">
-                                                <a title="<?php echo $episode->getSeason()->title; ?>"
-                                                   href="/season/<?php echo $episode->getSeason()->id; ?>"
+                                                <a title="<?php echo ($episode instanceof Model_Movie) ? $episode->getSeason()->title : $episode->title; ?>"
+                                                   href="/season/<?php echo ($episode instanceof Model_Movie) ? $episode->getSeason()->id : $episode->id; ?>"
                                                    role="link"
                                                    class=" Link-link-2XYrU Link-default-32xSO">
-                                                    <?php echo 1 == $episode->count ? 'S' : __('season'); ?>
-                                                    <?php echo $episode->getSeason()->number; ?>
+                                                    <?php echo ($episode instanceof Model_Movie) ? 'S' : __('season'); ?>
+                                                    <?php echo ($episode instanceof Model_Movie) ? $episode->getSeason()->number : $episode->number; ?>
                                                 </a>
-                                                    <?php if (1 == $episode->count) : ?>
+                                                    <?php if ($episode instanceof Model_Movie) : ?>
                                                         <span class="DashSeparator-separator-2a3yn">·</span>
                                                         <a title="<?php echo $episode->title; ?>"
                                                            href="/episode/<?php echo $episode->id; ?>"
@@ -235,9 +238,12 @@
             });
         });
         /** LOADING PICTURE **/
-        $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
-            var movie_id = $(element).data('movie-id');
-            $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 158 + '&height=' + 233 + '")');
+        $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id], .PosterCardImg-imageContainer-1Ar4M[data-season-id]').each(function (index, element) {
+            let movie_id = $(element).data('movie-id');
+            movie_id ? $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")') : null;
+
+            let season_id = $(element).data('season-id');
+            season_id ? $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id='+ season_id +'&width='+ 175 +'&height='+ 263 +'")') : null;
         });
         /** SCROLL LIST TV SHOWS AND MOVIES **/
         $('.HubCell-hubActions-28w1- button').on('click', function () {

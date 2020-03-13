@@ -11,8 +11,8 @@ class Controller_Rest_Library extends Controller_Rest
         try {
             $library_id = Input::post('library_id');
             $right_name = Input::post('right_name');
-            $checked = Input::post('checked');
-            $parameter = Input::post('parameter');
+            $checked    = Input::post('checked');
+            $parameter  = Input::post('parameter');
 
             if ($library_id === null || $right_name === null || $checked === null)
                 throw new FuelException('Missing parameters');

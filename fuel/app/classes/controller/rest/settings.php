@@ -19,11 +19,11 @@ class Controller_Rest_Settings extends Controller_Rest
     public function post_server()
     {
         try {
-            $server_id = Input::post('server_id');
-            $url = Input::post('url');
-            $port = Input::post('port');
-            $token = Input::post('token');
-            $https = Input::post('https') === 'true' ? true : false;
+            $server_id  = Input::post('server_id');
+            $url        = Input::post('url');
+            $port       = Input::post('port');
+            $token      = Input::post('token');
+            $https      = Input::post('https') === 'true' ? true : false;
 
             //@TODO CHECK AND REMOVE HTTP AND HTTPS
 

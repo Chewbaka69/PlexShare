@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\Lang;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 
@@ -21,6 +22,8 @@ class Controller_Settings_Libraries extends Controller_Settings
     public function action_permissions()
     {
         $this->template->js_bottom = ['plex_alert.js'];
+
+        Lang::load('permissions');
 
         $body = View::forge('settings/libraries/permissions');
 

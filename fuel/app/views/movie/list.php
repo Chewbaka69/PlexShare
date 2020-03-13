@@ -346,7 +346,7 @@
                     setTimeout(function () {
                         $('[data-movie-id="' + movie_id + '"] > div')
                             .css('opacity', 0)
-                            .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 160 + '&height=' + 236 + '")')
+                            .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")')
                             .animate({opacity: 1}, 500);
                     }, 50 +( 50 * number));
                     number++;

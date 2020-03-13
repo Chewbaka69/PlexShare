@@ -1,14 +1,11 @@
 <?php
 
-use Fuel\Core\Config;
-use Fuel\Core\DB;
 use Fuel\Core\Format;
 use Fuel\Core\Request;
 use Fuel\Core\Cache;
 use Fuel\Core\CacheNotFoundException;
 use Fuel\Core\Database_Query_Builder_Select;
 use Fuel\Core\FuelException;
-use Fuel\Core\RequestStatusException;
 
 class Model_Movie extends Model_Overwrite
 {
@@ -465,55 +462,6 @@ class Model_Movie extends Model_Overwrite
         }
 
         return $movies_id_array;
-    }
-
-    public static function getThirtyLastedTvShows($server)
-    {
-        return self::find(function ($query) use ($server) {
-            /** @var Database_Query_Builder_Select $query */
-            return $query
-                ->select('movie.*', DB::expr('COUNT(' . DB::table_prefix('movie') . '.type) AS count'))
-                ->join('season', 'LEFT')
-                ->on('movie.season_id', '=', 'season.id')
-                ->join('tvshow', 'LEFT')
-                ->on('season.tv_show_id', '=', 'tvshow.id')
-                ->join('library', 'LEFT')
-                ->on('tvshow.library_id', '=', 'library.id')
-                ->join('server', 'LEFT')
-                ->on('library.server_id', '=', 'server.id')
-                ->where('server.id', $server->id)
-                ->and_where('server.online', 1)
-                ->and_where('server.disable', 0)
-                ->and_where('library.disable', 0)
-                ->and_where('tvshow.disable', 0)
-                ->and_where('season.disable', 0)
-                ->and_where('movie.disable', 0)
-                ->and_where('movie.type', 'episode')
-                ->order_by('movie.addedAt', 'DESC')
-                ->order_by(DB::expr('MAX(' . DB::table_prefix('movie') .'.addedAt)'), 'DESC ')//'movie.addedAt', 'DESC')
-                ->group_by('movie.season_id')
-                ->limit(30)
-            ;
-        });
-    }
-
-    public static function getThirtyLastedMovies($server)
-    {
-        return self::find(function ($query) use ($server) {
-            /** @var Database_Query_Builder_Select $query */
-            return $query
-                ->select('movie.*')
-                ->join('library', 'LEFT')
-                ->on('movie.library_id', '=', 'library.id')
-                ->join('server', 'LEFT')
-                ->on('library.server_id', '=', 'server.id')
-                ->where('server.id', $server->id)
-                ->and_where('movie.disable', 0)
-                ->and_where('movie.type', 'movie')
-                ->order_by('movie.addedAt', 'DESC')
-                ->limit(30)
-                ;
-        });
     }
 
     public static function getList()

@@ -1,6 +1,7 @@
 <?php
 
 use Fuel\Core\Controller_Template;
+use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Fuel\Core\View;
@@ -21,8 +22,8 @@ class Controller_Admin extends Controller_Template
             Response::redirect('/home');
 
         Lang::load('menu');
-	Lang::load('action');
-
+	    Lang::load('action');
+	    
         $this->template->user = Session::get('user');
 
         $this->template->js_bottom = ['plex_alert.js'];

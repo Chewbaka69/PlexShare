@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\Debug;
 use Fuel\Core\Response;
 use Fuel\Core\FuelException;
 
@@ -65,31 +66,35 @@ class Controller_Cover extends Controller_Home
 
     public function get_season()
     {
-        $season_id = Input::get('season_id');
+        try {
+            $season_id = Input::get('season_id');
 
-        if(!$season_id)
-            throw new FuelException();
+            if (!$season_id)
+                throw new FuelException();
 
-        $width = Input::get('width');
-        $height = Input::get('height');
+            $width = Input::get('width');
+            $height = Input::get('height');
 
-        $thumb = Input::get('thumb') ?: null;
+            $thumb = Input::get('thumb') ?: null;
 
-        $season = Model_Season::find_by_pk($season_id);
+            $season = Model_Season::find_by_pk($season_id);
 
-        if(!$season)
-            throw new FuelException();
+            if (!$season)
+                throw new FuelException();
 
-        if(!$thumb)
-            $images = $season->getCover($width, $height);
-        else
-            $images = $season->getThumb($width, $height);
+            if (!$thumb)
+                $images = $season->getCover($width, $height);
+            else
+                $images = $season->getThumb($width, $height);
 
-        $response = new Response();
-        $response->set_header('Content-Type', 'image/jpeg');
-        $response->set_header('Content-Length',strlen($images));
-        $response->body($images);
+            $response = new Response();
+            $response->set_header('Content-Type', 'image/jpeg');
+            $response->set_header('Content-Length', strlen($images));
+            $response->body($images);
 
-        return $response;
+            return $response;
+        } catch (Exception $e) {
+            Debug::dump($e);die();
+        }
     }
 }
