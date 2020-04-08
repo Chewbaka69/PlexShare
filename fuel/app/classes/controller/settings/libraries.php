@@ -13,6 +13,7 @@ class Controller_Settings_Libraries extends Controller_Settings
 
         $body = View::forge('settings/libraries');
 
+        $body->set('countLibraries', $this->template->countLibraries);
         $body->set('libraries', $this->template->libraries);
         $body->set('user', Session::get('user'));
 
@@ -29,6 +30,11 @@ class Controller_Settings_Libraries extends Controller_Settings
 
         $library_id = $this->param('library_id');
 
+        $library = Model_Library::find_by_pk($library_id);
+
+        if($library === null)
+            Response::redirect('/settings/libraries');
+
         $permissions = Model_Permission::find_all();
 
         $library_permissions = Model_Library_Permission::find_by('library_id', $library_id);
@@ -44,7 +50,7 @@ class Controller_Settings_Libraries extends Controller_Settings
 
         $library_permissions = $temp;
 
-        $body->set('library_id', $library_id);
+        $body->set('library', $library);
         $body->set('permissions', $permissions);
         $body->set('library_permissions', $library_permissions);
         $body->set('user', Session::get('user'));

@@ -16,4 +16,5 @@
     'trailers_type' => 'Cinema Trailers Type',
     'trailers_number' => 'Cinema Trailers to Play Before Movies',
     'permissions' => 'Permissions',
+    'last_update' => 'Last Update',
 ];

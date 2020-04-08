@@ -1,7 +1,9 @@
 <div class="settings-container">
     <div class="filter-bar">
         <div class="filter-bar-right">
+            <?php if($countLibraries > 0) : ?>
             <button class="toggle-advanced-btn btn btn-sm btn-default refresh"><?php echo __('refresh_libraries'); ?> &nbsp;<i class="glyphicon refresh"></i></button>
+            <?php endif; ?>
         </div>
         <span id="primary-server-dropdown" class="dropdown">
             <a class="dropdown-toggle" href="#primary-server-dropdown" data-toggle="dropdown">
@@ -64,7 +66,9 @@
                         </h4>
                         <div class="card-details">
                             <div class="pull-right">
-                                <div class="last-seen text-muted"><i class="plex-icon-watch-later-560"></i> <?php echo $library->getLastUpdate(); ?></div>
+                                <div class="last-seen text-muted" data-toggle="tooltip" data-original-title="<?php echo __('last_update'); ?>">
+                                    <i class="plex-icon-watch-later-560"></i> <?php echo $library->getLastUpdate(); ?>
+                                </div>
                                 <span class="sync-info hidden">
                             <span class="glyphicon circle-arrow-down sync-icon"></span>
                             <span class="sync-count">123</span> / <span class="sync-size">456</span>
@@ -73,11 +77,6 @@
                             <span class="version text-muted"><?php echo $library->type; ?></span>
                             <div class="device-info-container">
                                 <div class="product"><?php echo $library->getServer()->name; ?></div>
-                                <div class="device text-muted"></div>
-                                <div class="platform-info text-muted">
-                                    <span class="platform">Linux</span>
-                                    <span class="platform-version">Debian 8</span>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -88,6 +87,7 @@
         </div>
     </div>
 </div>
+<?php if($countLibraries > 0) : ?>
 <script type="text/javascript">
     $(window).on('load', function() {
         // LIBRARY BUTTON REFRESH
@@ -160,3 +160,4 @@
         });
     });
 </script>
+<?php endif; ?>

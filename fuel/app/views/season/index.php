@@ -196,8 +196,9 @@
                 dataType: 'html'
             }).done(function(view) {
                 launchPlayer(view);
-            }).fail(function(data) {
-                console.error(data);
+            }).fail(function (data) {
+                console.error(data.responseText);
+                show_alert('error', data.responseText);
             });
         });
     });

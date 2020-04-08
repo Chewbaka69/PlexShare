@@ -145,13 +145,13 @@ class Model_Movie extends Model_Overwrite
         try {
             $curl->execute();
         } catch (Exception $exception) {
-            Cache::set($this->id . $path_cache, null);
+            Cache::set($this->id . $path_cache, null, 24 * 60 * 60);
         }
 
         if ($curl->response()->status !== 200)
             return false;
 
-        Cache::set($this->id . $path_cache, $curl->response()->body);
+        Cache::set($this->id . $path_cache, $curl->response()->body, 24 * 60 * 60);
     }
 
     public function getThumb($width = null, $height = null)
@@ -254,7 +254,7 @@ class Model_Movie extends Model_Overwrite
                 }
             }
 
-            Cache::set($this->id . '.metadata', $this->metadata);
+            Cache::set($this->id . '.metadata', $this->metadata, 7 * 24 * 60 * 60);
             return $this->metadata;
         } catch (Exception $exception) {
             throw new FuelException($exception->getMessage(),$exception->getCode());
@@ -375,7 +375,7 @@ class Model_Movie extends Model_Overwrite
                 || (!isset($this->metadata['Media']['Part']) && !isset($this->metadata['Media'][0]['Part']))
                 || (!isset($this->metadata['Media']['Part']['@attributes']) && !isset($this->metadata['Media'][0]['Part']['@attributes']))
                 || (!isset($this->metadata['Media']['Part']['@attributes']['key'])  && !isset($this->metadata['Media'][0]['Part']['@attributes']['key'])) ) {
-                Cache::set($this->id . '.download', null);
+                Cache::set($this->id . '.download', null,24 * 60 * 60);
                 return null;
             }
 
@@ -390,7 +390,7 @@ class Model_Movie extends Model_Overwrite
 
             $this->download = $curl;
 
-            Cache::set($this->id . '.download', $curl);
+            Cache::set($this->id . '.download', $curl, 24 * 60 * 60);
             return $this->download;
         } catch (Exception $exception) {
             throw new FuelException($exception->getMessage(),$exception->getCode());

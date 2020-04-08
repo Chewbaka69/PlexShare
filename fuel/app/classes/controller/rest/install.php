@@ -161,7 +161,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'title' => array('constraint' => 255, 'type' => 'varchar'),
                     'contentRating' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
                     'summary' => array('type' => 'text', 'null' => true),
-                    'rating' => array('constraint' => 3, 'type' => 'varchar', 'null' => true),
+                    'rating' => array('constraint' => 4, 'type' => 'varchar', 'null' => true),
                     'year' => array('constraint' => 11, 'type' => 'int', 'null' => true),
                     'thumb' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
                     'art' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
@@ -217,7 +217,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'title' => array('constraint' => 255, 'type' => 'varchar'),
                     'originalTitle' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
                     'summary' => array('type' => 'text', 'null' => true),
-                    'rating' => array('constraint' => 3, 'type' => 'varchar', 'null' => true),
+                    'rating' => array('constraint' => 4, 'type' => 'varchar', 'null' => true),
                     'year' => array('constraint' => 11, 'type' => 'int', 'null' => true),
                     'thumb' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
                     'art' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
@@ -273,7 +273,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
                     'permission_id' => array('constraint' => 36, 'type' => 'varchar'),
                     'library_id' => array('constraint' => 36, 'type' => 'varchar'),
-                    'value' => array('constraint' => 36, 'type' => 'varchar'),
+                    'value' => array('constraint' => 36, 'type' => 'varchar', 'null' => true),
                     'disable' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
@@ -493,11 +493,11 @@ class Controller_Rest_Install extends Controller_Rest
             $logs .= 'Foreign key create!'."\r\n";
 
             DB::insert('permission',['name', 'parameters'])
-                ->values(['RIGHT_WATCH'])
+                ->values(['RIGHT_WATCH_DISABLED'])
                 ->values(['RIGHT_MAX_WATCH', 1])
                 ->values(['RIGHT_MAX_QUALITY', 1])
                 ->values(['RIGHT_MAX_CONCURRENT_STREAM', 1])
-                ->values(['RIGHT_DOWNLOAD', 1])
+                ->values(['RIGHT_DOWNLOAD_DISABLED'])
                 ->values(['RIGHT_MAX_DOWNLOAD', 1])
             ;
 

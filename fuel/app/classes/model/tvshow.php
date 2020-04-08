@@ -1,6 +1,7 @@
 <?php
 
 use Fuel\Core\CacheNotFoundException;
+use Fuel\Core\Debug;
 use Fuel\Core\FuelException;
 
 class Model_Tvshow extends Model_Overwrite
@@ -103,7 +104,7 @@ class Model_Tvshow extends Model_Overwrite
         if ($curl->response()->status !== 200)
             return false;
 
-        Cache::set($this->id . $path_cache, $curl->response()->body);
+        Cache::set($this->id . $path_cache, $curl->response()->body, 24 * 60 * 60);
     }
 
     public function getMetaData()
@@ -135,7 +136,7 @@ class Model_Tvshow extends Model_Overwrite
             //ROLES
             $this->metadata['Role'] = isset($array['Directory']['Role']) ? $array['Directory']['Role'] : null;
 
-            Cache::set($this->id . '.metadata', $this->metadata);
+            Cache::set($this->id . '.metadata', $this->metadata, 7 * 24 * 60 * 60);
             return $this->metadata;
         }
     }

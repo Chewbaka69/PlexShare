@@ -357,7 +357,8 @@
             }).done(function (view) {
                 launchPlayer(view);
             }).fail(function (data) {
-                console.error(data);
+                console.error(data.responseText);
+                show_alert('error', data.responseText);
             });
         });
         $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {

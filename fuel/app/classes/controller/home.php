@@ -21,10 +21,10 @@ class Controller_Home extends Controller_Template
         if(null === $user)
             Response::redirect('/login');
 
-        $server = $sessionServer ? Model_Server::find_by_pk($sessionServer->id) : (Model_Server::find_one_by('user_id', $user->id) ?: Model_Server::find_by([
+        $server = $sessionServer ? Model_Server::find_by_pk($sessionServer->id) : (Model_Server::find_one_by('user_id', $user->id) ?: Model_Server::find_one_by([
                 ['online', '=', 1],
                 ['disable', '=', 0],
-            ], null, null, 10)[0]
+            ], null, null)[0]
         );
 
         if(!$server)
@@ -73,7 +73,7 @@ class Controller_Home extends Controller_Template
 
         $episodes = $this->template->MenuServer->getThirtyLastedTvShows();
 
-        $movies = $this->template->MenuServer->getThirtyLastedMovies($this->template->MenuServer);
+        $movies = $this->template->MenuServer->getThirtyLastedMovies();
 
         $body->set('episodes', $episodes);
         $body->set('movies', $movies);

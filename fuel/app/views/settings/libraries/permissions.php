@@ -1,5 +1,6 @@
 <div class="settings-container">
-    <div class="filter-bar"></div>
+    <div class="filter-bar"><?php echo $library->getServer()->name; ?> > <?php echo $library->name; ?></div>
+    <div class="filter-bar" style="color: darkgrey;">By default a user can do everything without restriction. Use -1 to unlimited and 0 to block.</div>
     <?php if ($permissions) : ?>
     <?php foreach ($permissions as $permission) : ?>
     <div class="SettingsFormSection-sectionWrapper-1-gPg" style="background-color: rgba(0,0,0,0.15); margin-bottom: 15px; border-bottom: 1px solid rgb(97,97,97)">
@@ -29,7 +30,7 @@
                 url: '/rest/library/permission',
                 method: 'post',
                 data: {
-                    library_id: '<?php echo $library_id; ?>',
+                    library_id: '<?php echo $library->id; ?>',
                     right_name: $(this).data('name'),
                     checked: $(this).is(':checked'),
                     parameter: $('input[data-permission-name="' + $(this).data('name') + '"]').val()

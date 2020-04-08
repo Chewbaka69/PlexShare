@@ -15,7 +15,9 @@
                  style="visibility: visible;">
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
                     <div class="HubCellTitle-hubCellTitle-2abIn">
-                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO"><?php echo strtoupper(__('recently.tv_shows')); ?></a>
+                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO"><?php use Fuel\Core\Debug;
+
+                            echo strtoupper(__('recently.tv_shows')); ?></a>
                         <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo $episodes !== null ? count($episodes) : 0; ?></span>
                     </div>
                     <div class="HubCell-hubActions-28w1- tv-shows-hubcell">
@@ -40,7 +42,7 @@
                                     <?php
                                     $translate = -150;
                                     foreach ($episodes as $episode) :
-                                        ?>
+                                    ?>
                                         <div class=" virtualized-cell-3KPHx "
                                              style="position: absolute; width: 127px; height: 260px; transform: translate3d(<?php echo $translate += 152; ?>px, 10px, 0px);">
                                             <div class="MetadataPosterCard-cardContainer-2gRcQ">
@@ -68,16 +70,18 @@
                                                             <?php endif; ?>
                                                                role="link"
                                                                class="MetadataPosterCardOverlay-link-1Swhl Link-link-2XYrU Link-default-32xSO">
-                                                                <button data-id="<?php echo ($episode instanceof Model_Movie) ? $episode->id : ''; ?>"
-                                                                        tabindex="-1"
-                                                                        role="button"
-                                                                        class="MetadataPosterCardOverlay-playButton-1fjhk PlayButton-playButton-3WX8X MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
-                                                                        type="button">
-                                                                    <div class="MetadataPosterCardOverlay-playCircle-M67q6 PlayButton-playCircle-3Evfd MetadataPosterCardOverlay-centerCircle-1Mg-s">
-                                                                        <i class="plex-icon-play-560 PlayButton-playIcon-dt3sk"
-                                                                           aria-hidden="true"></i></div>
-                                                                </button>
-                                                            </a>
+                                                                </a>
+                                                            <?php if ($episode instanceof Model_Movie) : ?>
+                                                            <button data-id="<?php echo ($episode instanceof Model_Movie) ? $episode->id : ''; ?>"
+                                                                    tabindex="-1"
+                                                                    role="button"
+                                                                    class="MetadataPosterCardOverlay-playButton-1fjhk PlayButton-playButton-3WX8X MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
+                                                                    type="button">
+                                                                <div class="MetadataPosterCardOverlay-playCircle-M67q6 PlayButton-playCircle-3Evfd MetadataPosterCardOverlay-centerCircle-1Mg-s">
+                                                                    <i class="plex-icon-play-560 PlayButton-playIcon-dt3sk"
+                                                                       aria-hidden="true"></i></div>
+                                                            </button>
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                 </div>

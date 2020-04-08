@@ -46,9 +46,9 @@ class Controller_Settings extends Controller_Template
             ;
         });
 
-        $this->template->countServers = count($servers);
+        $this->template->countServers = $servers ? count($servers) : 0;
 
-        $this->template->countLibraries = count($libraries);
+        $this->template->countLibraries = $libraries ? count($libraries): 0;
 
         $this->template->servers = $servers;
 
@@ -96,6 +96,7 @@ class Controller_Settings extends Controller_Template
 
         $body = View::forge('settings/servers');
 
+        $body->set('countServers',$this->template->countServers);
         $body->set('servers', $this->template->servers);
         $body->set('user', Session::get('user'));
 

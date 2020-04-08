@@ -2,7 +2,9 @@
     <div class="filter-bar">
         <button class="toggle-advanced-btn btn btn-sm Button-primary-2LQVw pull-left add"
                 data-placement="top" data-toggle="tooltip" data-original-title="Add server"><i class="glyphicon circle-plus"></i></button>
+        <?php if ($countServers > 0) : ?>
         <button class="toggle-advanced-btn btn btn-sm btn-default pull-right refresh"><?php echo __('refresh_servers'); ?> &nbsp;<i class="glyphicon refresh"></i></button>
+        <?php endif; ?>
     </div>
     <div class="devices-container row">
         <div class="device-list-container col-sm-12 col-md-12">
@@ -35,7 +37,9 @@
                         <h4 class="name"><?php echo $server->name; ?> <span data-placement="top" data-toggle="tooltip" data-original-title="<?php echo $server->online ? __('online') : __('offline') ; ?>" class="glyphicon <?php echo $server->online ? 'server text-success' : 'server-ban text-danger' ; ?>"></span></h4>
                         <div class="card-details">
                             <div class="pull-right">
-                                <div class="last-seen text-muted"><i class="plex-icon-watch-later-560"></i> <?php echo $server->getLastCheck(); ?></div>
+                                <div class="last-seen text-muted" data-toggle="tooltip" data-original-title="<?php echo __('last_update'); ?>">
+                                    <i class="plex-icon-watch-later-560"></i> <?php echo $server->getLastCheck(); ?>
+                                </div>
                                 <span class="sync-info hidden">
                                     <span class="glyphicon circle-arrow-down sync-icon"></span>
                                     <span class="sync-count">123</span> / <span class="sync-size">456</span>
@@ -95,6 +99,7 @@
                 setTimeout(function(){location.reload()}, 200);
             });
         });
+        <?php if ($countServers > 0) : ?>
         // SERVER BUTTON ACTION
         $('button.refresh-server-btn').on('click', function () {
             var server_id = $(this).data('server-id');
@@ -165,5 +170,6 @@
                 alert_status.html('Browse all your server is GOOD!');
             });
         });
+        <?php endif; ?>
     });
 </script>

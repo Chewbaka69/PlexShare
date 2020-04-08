@@ -1,5 +1,7 @@
 <?php
 
+use Fuel\Core\Debug;
+
 class Model_Trailer
 {
     private $_title;
@@ -51,9 +53,11 @@ class Model_Trailer
 
         $media = $html->response()->body;
 
-        $regex = '/<a id="[a-z0-9_]*" data-id="[a-z0-9]*" data-media-type="movie" data-media-adult="[a-z]*" class="[a-z]*" href="(\/movie\/[\d]*\?language\=us)" title=".*" alt=".*">/i';
+        $regex = '/<a data-id="[a-z0-9]*" data-media-type="movie" data-media-adult="[a-z]*" class="[a-z]*" href="(\/movie\/[\d]*\?language\=us)">/i';
 
         preg_match($regex, $media, $urls);
+
+        //Debug::dump($urls);die();
 
         if (!isset($urls[1]))
             return false;

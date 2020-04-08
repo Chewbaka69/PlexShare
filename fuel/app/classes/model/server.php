@@ -1,5 +1,7 @@
 <?php
 
+use Fuel\Core\Cache;
+use Fuel\Core\CacheNotFoundException;
 use Fuel\Core\Database_Query_Builder_Select;
 use Fuel\Core\DB;
 use Fuel\Core\Debug;
@@ -122,6 +124,13 @@ class Model_Server extends Model_Overwrite
     public function getThirtyLastedTvShows()
     {
         try {
+            $getThirtyLastedTvShows = Cache::get($this->id . '.getThirtyLastedTvShows');
+
+            if ($getThirtyLastedTvShows)
+                return $getThirtyLastedTvShows;
+
+        } catch (CacheNotFoundException $e) {
+
             $curl = Request::forge(($this->https === '1' ? 'https' : 'http').'://' . $this->url . ($this->port ? ':' . $this->port : '') . '/hubs/home/recentlyAdded?type=2&X-Plex-Token=' . $this->token, 'curl');
 
             if($this->https) {
@@ -151,9 +160,11 @@ class Model_Server extends Model_Overwrite
                 }
             }
 
+            Cache::set($this->id . '.getThirtyLastedTvShows', $tvshows, 6 * 60);
+
             return $tvshows;
 
-        }catch (Exception $exception){
+        } catch (Exception $exception){
             Debug::dump($exception);
         }
 
@@ -188,6 +199,14 @@ class Model_Server extends Model_Overwrite
     public function getThirtyLastedMovies()
     {
         try {
+
+            $getThirtyLastedMovies = Cache::get($this->id . '.getThirtyLastedMovies');
+
+            if ($getThirtyLastedMovies)
+                return $getThirtyLastedMovies;
+
+        } catch (CacheNotFoundException $e) {
+
             $curl = Request::forge(($this->https === '1' ? 'https' : 'http').'://' . $this->url . ($this->port ? ':' . $this->port : '') . '/hubs/home/recentlyAdded?type=1&X-Plex-Token=' . $this->token, 'curl');
 
             if($this->https) {
@@ -212,9 +231,11 @@ class Model_Server extends Model_Overwrite
                 $movies[] = Model_Movie::find_one_by('plex_key', $movie->key) ?: new Model_Movie();
             }
 
+            Cache::set($this->id . '.getThirtyLastedMovies', $movies, 6 * 60);
+
             return $movies;
 
-        }catch (Exception $exception){
+        } catch (Exception $exception){
             Debug::dump($exception);
         }
         //return Model_Movie::find(function ($query) use ($server) {

@@ -11,6 +11,7 @@ class Controller_Rest_Movie extends Controller_Rest
     public function get_stream()
     {
         try {
+
             $movie_id = Input::get('movie_id');
 
             if (!$movie_id)
@@ -20,6 +21,9 @@ class Controller_Rest_Movie extends Controller_Rest
 
             if (!$movie)
                 throw new FuelException('No movie found');
+
+            if(!Model_Permission::isGranted('RIGHT_WATCH_DISABLED', $movie))
+                throw new FuelException('You dont have the permission to watch in this library!');
 
             $user_settings = Model_Setting::find_one_by('user_id', Session::get('user')->id);
 
