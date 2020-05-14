@@ -25,7 +25,7 @@
             <a class="settings-btn dropdown-poster-container" href="/settings" data-toggle="tooltip"
                data-placement="bottom" title="<?php echo __('settings'); ?>">
                 <i class="glyphicon settings"></i>
-                <span class="total-badge badge" style="position: absolute;top: 34px;left: 5px">0</span>
+                <span class="total-badge badge hidden" style="position: absolute;top: 34px;left: 5px">0</span>
             </a>
         </li>
         <li id="nav-dropdown" class="nav-dropdown dropdown">
@@ -34,7 +34,7 @@
                     <div class="media-poster img-circle loaded"></div>
                     <i class="caret-icon"></i>
                 </div>
-                <span class="total-badge badge">0</span>
+                <span class="total-badge badge hidden">0</span>
             </a>
             <ul class="dropdown-menu signed-in full-user">
                 <li class="signed-in-item dropdown-header username-header"><?php echo $user->username; ?></li>

@@ -1,4 +1,4 @@
-function show_alert(type, message) {
+function show_alert(type, message, time = 1000) {
     var div_container = document.createElement('div');
     var button_close = document.createElement('button');
     var i_remove = document.createElement('i');
@@ -23,7 +23,7 @@ function show_alert(type, message) {
 
     document.body.appendChild(div_container);
 
-    setTimeout(hide_alert, 1000);
+    setTimeout(hide_alert, time);
 }
 
 function hide_alert() {

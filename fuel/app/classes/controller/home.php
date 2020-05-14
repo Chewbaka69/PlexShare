@@ -11,6 +11,8 @@ class Controller_Home extends Controller_Template
 {
     public $template = 'layout/index';
 
+    private $_user;
+
     public function before()
     {
         parent::before();
@@ -21,21 +23,19 @@ class Controller_Home extends Controller_Template
         if(null === $user)
             Response::redirect('/login');
 
-        $server = $sessionServer ? Model_Server::find_by_pk($sessionServer->id) : (Model_Server::find_one_by('user_id', $user->id) ?: Model_Server::find_one_by([
+        $this->_user = $user;
+
+        $server = $sessionServer ? Model_Server::find_by_pk($sessionServer->id) : Model_Server::find_one_by([
                 ['online', '=', 1],
                 ['disable', '=', 0],
-            ], null, null)[0]
-        );
-
-        if(!$server)
-            Response::redirect('/login');
+            ], null, null);
 
         Lang::load('menu');
         Lang::load('settings');
 
         $this->template->title = 'Home';
 
-        $libraries = $server->getLibraries();
+        $libraries = $server? $server->getLibraries() : null;
 
         $this->template->servers = Model_Server::find([
             'where' => [
@@ -69,12 +69,18 @@ class Controller_Home extends Controller_Template
         Session::delete('server');
         Session::set('server', $this->template->MenuServer);
 
-        $this->template->MenuLibraries = $this->template->MenuServer->getLibraries();
+        $this->template->MenuLibraries = $this->template->MenuServer ? $this->template->MenuServer->getLibraries() : null;
 
-        $episodes = $this->template->MenuServer->getThirtyLastedTvShows();
+        $watching_movies = Model_User_Watching::find_by([
+            ['user_id', '=', $this->_user->id],
+            ['isFinish', '=', 0]
+        ]);
 
-        $movies = $this->template->MenuServer->getThirtyLastedMovies();
+        $episodes = $this->template->MenuServer ? $this->template->MenuServer->getThirtyLastedTvShows() : null;
 
+        $movies = $this->template->MenuServer ? $this->template->MenuServer->getThirtyLastedMovies() : null;
+
+        $body->set('watching_movies', $watching_movies);
         $body->set('episodes', $episodes);
         $body->set('movies', $movies);
 

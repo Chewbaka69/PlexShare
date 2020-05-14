@@ -11,13 +11,114 @@
 <div class="PageContent-pageContent-16mK6 Scroller-scroller-d5-b- Scroller-vertical-1bgGS ">
     <div class="DashboardPage-dashboardPageContent-2rN8X PageContent-innerPageContent-3ktLT">
         <div style="opacity: 1; pointer-events: auto;">
+            <?php use Fuel\Core\Debug;
+
+            if ($watching_movies) : ?>
+            <div class="HubCell-hubCell-3Ys17" style="visibility: visible;" data-qa-id="hub--home.continue">
+                <div class="HubCellHeader-hubCellHeader-2pvYN HubCellHeader-hubCellHeader-2pvYN">
+                    <div class="MetadataHubCellHeader-title-3ngFlY HubCellTitle-hubCellTitle-2abIn"
+                         data-qa-id="hubCellTitle">CONTINUER À REGARDER<span
+                                class="MetadataHubCellHeader-titleSeparator-2XLwHj DashSeparator-separator-2a3yn">—</span><span
+                                class="MetadataHubCellHeader-sourceTitle-VjjOkx">Hack-Free</span></div>
+                </div>
+                <div style="height: 233px; overflow: hidden;">
+                    <div class="Measure-container-2XznZ">
+                        <div class="HubCell-hubScroller-2qgkrG VirtualListScroller-scroller-37EU_ Scroller-scroller-d5-b- Scroller-horizontal-1k8ET  ">
+                            <div class=" " style="width: auto; height: 233px;">
+                                <?php
+                                $translate = -292;
+                                foreach ($watching_movies as $watching_movie) :
+                                ?>
+                                <div style="position: absolute; width: 282px; height: 218px; transform: translate3d(<?php echo $translate += 294; ?>px, 10px, 0px); z-index: 0; transition: none 0s ease 0s;"
+                                     data-qa-id="cellItem">
+                                    <div class="MetadataPosterCard-cardContainer-2gRcQ">
+                                        <div class="MetadataPosterCard-card-3bztR" style="width: 282px; height: 159px;">
+                                            <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG">
+                                                <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 32px; line-height: 159px;"></i>
+                                                <div class="PosterCardImg-imageContainer-1Ar4M"
+                                                     data-watching-movie-id="<?php echo $watching_movie->movie_id; ?>" data-art="true">
+                                                    <div style="background-image: url(); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
+                                                         class=""></div>
+                                                </div>
+                                                <div class=" MetadataPosterCardOverlay-overlay-1uMpL         ">
+                                                    <div class="MetadataPosterCardOverlay-background-2EwyB"></div>
+                                                    <?php if ($watching_movie->getMovie()->type === 'movie') : ?>
+                                                        <a href="/movie/<?php echo $watching_movie->movie_id; ?>"
+                                                    <?php else: ?>
+                                                        <a href="/episode/<?php echo $watching_movie->movie_id; ?>"
+                                                    <?php endif; ?>
+                                                       role="link"
+                                                       class="MetadataPosterCardOverlay-link-1Swhl Link-link-2XYrU Link-default-32xSO">
+                                                    </a>
+                                                        <button data-id=""
+                                                                tabindex="-1"
+                                                                role="button"
+                                                                class="MetadataPosterCardOverlay-playButton-1fjhk PlayButton-playButton-3WX8X MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
+                                                                type="button">
+                                                            <div class="MetadataPosterCardOverlay-playCircle-M67q6 PlayButton-playCircle-3Evfd MetadataPosterCardOverlay-centerCircle-1Mg-s">
+                                                                <i class="plex-icon-play-560 PlayButton-playIcon-dt3sk"
+                                                                   aria-hidden="true"></i></div>
+                                                        </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div data-qa-id="metadataTitleContainer"
+                                         class="MetadataPosterCell-continueWatchingTitleContainer-3yCAY">
+                                        <div class="MetadataPosterCell-splitTitleContainer-RAVdFk">
+                                            <?php if($watching_movie->getMovie()->type === 'movie')
+                                                $title = $watching_movie->getMovie()->title;
+                                            else
+                                                $title = $watching_movie->getMovie()->getTvShow()->title
+                                            ?>
+                                            <a title="<?php echo $title; ?>" href="#" role="link" class="MetadataPosterTitle-singleLineTitle-24_DNu MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSplitLeft-1zfWS Link-link-2XYrU Link-default-32xSO">
+                                                <?php echo $title; ?>
+                                            </a><span class="MetadataPosterTitle-singleLineTitle-24_DNu MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY MetadataPosterTitle-isSplitRight-lf6Nx">
+                                                <?php echo (int)(($watching_movie->ended_time - $watching_movie->watching_time) / 60); ?> min restantes
+                                            </span>
+                                        </div>
+                                        <span class="MetadataPosterTitle-singleLineTitle-24_DNu MetadataPosterTitle-title-3tU5F MetadataPosterTitle-isSecondary-2VUxY">
+                                             <?php if ($watching_movie->getMovie()->type === 'movie') : ?>
+                                                 <span>
+                                                    <a title="<?php echo $watching_movie->getMovie()->year; ?>" href="#" role="link"
+                                                       class="Link-link-2n0yJn Link-default-2XA2bN"><?php echo $watching_movie->getMovie()->year; ?></a>
+                                                </span>
+                                             <?php else: ?>
+                                             <span>
+                                                <a title="Saison 1" href="/season/<?php echo $watching_movie->getMovie()->getSeason()->id; ?>" role="link" class="Link-link-2XYrU Link-default-32xSO">
+                                                    S<?php echo $watching_movie->getMovie()->getSeason()->number; ?>
+                                                </a>
+                                                <span class="DashSeparator-separator-4CyEFW">·</span>
+                                                 <a title="<?php echo $watching_movie->getMovie()->title; ?>" href="/episode/<?php echo $watching_movie->getMovie()->id; ?>" role="link" class="Link-link-2XYrU Link-default-32xSO">
+                                                     E<?php echo $watching_movie->getMovie()->number; ?>
+                                                 </a>
+                                            </span>
+                                             <span class="DashSeparator-separator-4CyEFW">—</span>
+                                             <a title="<?php echo $watching_movie->getMovie()->title; ?>" href="/episode/<?php echo $watching_movie->getMovie()->id; ?>" role="link" class="Link-link-2XYrU Link-default-32xSO">
+                                                 <?php echo $watching_movie->getMovie()->title; ?>
+                                             </a>
+                                             <?php endif; ?>
+                                        </span>
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="Measure-scrollContainer-1c6dyV">
+                            <div class="Measure-expandContent-zsLw6n"></div>
+                        </div>
+                        <div class="Measure-scrollContainer-1c6dyV">
+                            <div class="Measure-shrinkContent-303GSV Measure-expandContent-zsLw6n"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
             <div class="HubCell-hubCell-3Ys17" data-qa-id="tv_show"
                  style="visibility: visible;">
                 <div class="HubCellHeader-hubCellHeader-2pvYN">
                     <div class="HubCellTitle-hubCellTitle-2abIn">
-                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO"><?php use Fuel\Core\Debug;
-
-                            echo strtoupper(__('recently.tv_shows')); ?></a>
+                        <a href="#" role="link" class="Link-link-2XYrU Link-default-32xSO"><?php echo strtoupper(__('recently.tv_shows')); ?></a>
                         <span class="PrePlayStatusButton-statusButton-28XJ7 Button-button--JvPI Button-small-3Zwli"><?php echo $episodes !== null ? count($episodes) : 0; ?></span>
                     </div>
                     <div class="HubCell-hubActions-28w1- tv-shows-hubcell">
@@ -37,11 +138,13 @@
                     <div class="Measure-container-2XznZ">
                         <div id="tv_show_list"
                              class="VirtualListScroller-scroller-37EU_ Scroller-scroller-d5-b- Scroller-horizontal-1k8ET ">
-                            <div class=" " style="width: 4540px; height: 275px;">
+                            <div class=" " style="width: auto; height: 275px;">
                                 <?php if ($episodes) : ?>
                                     <?php
                                     $translate = -150;
                                     foreach ($episodes as $episode) :
+                                        if(!isset($episode->id))
+                                            continue;
                                     ?>
                                         <div class=" virtualized-cell-3KPHx "
                                              style="position: absolute; width: 127px; height: 260px; transform: translate3d(<?php echo $translate += 152; ?>px, 10px, 0px);">
@@ -161,6 +264,8 @@
                                     <?php
                                     $translate = -150;
                                     foreach ($movies as $movie) :
+                                        if(!isset($movie->id))
+                                            continue;
                                         ?>
                                         <div class=" virtualized-cell-3KPHx "
                                              style="position: absolute; width: 127px; height: 240px; transform: translate3d(<?php echo $translate += 152; ?>px, 10px, 0px);">
@@ -242,12 +347,15 @@
             });
         });
         /** LOADING PICTURE **/
-        $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id], .PosterCardImg-imageContainer-1Ar4M[data-season-id]').each(function (index, element) {
+        $('.PosterCardImg-imageContainer-1Ar4M[data-watching-movie-id], .PosterCardImg-imageContainer-1Ar4M[data-movie-id], .PosterCardImg-imageContainer-1Ar4M[data-season-id]').each(function (index, element) {
+            let watching_movie_id = $(element).data('watching-movie-id');
+            watching_movie_id ? $('[data-watching-movie-id="' + watching_movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id=' + watching_movie_id + '&width=' + 375 + '&height=' + 211 + '&art=true")') : null;
+
             let movie_id = $(element).data('movie-id');
             movie_id ? $('[data-movie-id="' + movie_id + '"] > div').css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")') : null;
 
             let season_id = $(element).data('season-id');
-            season_id ? $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id='+ season_id +'&width='+ 175 +'&height='+ 263 +'")') : null;
+            season_id ? $('[data-season-id="' + season_id + '"] > div').css('background-image', 'url("/cover/season?season_id='+ season_id +'&width=' + 175 + '&height=' + 263 + '")') : null;
         });
         /** SCROLL LIST TV SHOWS AND MOVIES **/
         $('.HubCell-hubActions-28w1- button').on('click', function () {
@@ -255,31 +363,33 @@
             var select = $(parent).data('qa-id');
             var previous = $(parent).find('button[data-hubcell-action="previous"]');
             var next = $(parent).find('button[data-hubcell-action="next"]');
+            var list = $('#' + select + '_list');
+            console.log(list.scrollLeft(), list.width());
 
             if ($(this).data('hubcell-action') === 'previous') {
-                $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() - 152 * 2}, 200);
+                list.animate({scrollLeft: list.scrollLeft() - list.width()}, 200);
                 setTimeout(function () {
-                    if ($('#' + select + '_list').scrollLeft() <= (150 * 19)) {
+                    if (list.scrollLeft() <= (150 * 19)) {
                         $(next).removeClass('isDisabled');
                     }
 
-                    if ($('#' + select + '_list').scrollLeft() === 0) {
+                    if (list.scrollLeft() === 0) {
                         $(previous).addClass('isDisabled');
                     }
                 }, 100);
             }
             if ($(this).data('hubcell-action') === 'next') {
-                $('#' + select + '_list').animate({scrollLeft: $('#' + select + '_list').scrollLeft() + 152 * 2}, 300);
+                list.animate({scrollLeft: list.scrollLeft() + list.width()}, 300);
                 setTimeout(function () {
-                    if ($('#' + select + '_list').scrollLeft() > 0) {
+                    if (list.scrollLeft() > 0) {
                         $(previous).removeClass('isDisabled');
                     }
 
-                    if ($('#' + select + '_list').scrollLeft() >= (150 * 19)) {
+                    if (list.scrollLeft() >= (150 * 19)) {
                         $(next).addClass('isDisabled');
                     }
 
-                    if ($('#' + select + '_list').scrollLeft() === 0) {
+                    if (list.scrollLeft() === 0) {
                         $(next).addClass('isDisabled');
                     }
                 }, 100);

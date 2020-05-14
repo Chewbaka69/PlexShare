@@ -5,9 +5,11 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
+                <?php if(Model_Permission::isGranted('RIGHT_DOWNLOAD_DISABLED', $movie->getLibrary())) : ?>
                 <a title="<?php echo __('download'); ?>" href="<?php echo $movie->getDownloadLink() ?>" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-sync-560" aria-hidden="true"></i>
                 </a>
+                <?php endif; ?>
             </div>
         </div>
         <div class="PrePlayPageHeader-divider-WQRk8 PageHeaderDivider-pageHeaderDivider-DvwUq"></div>

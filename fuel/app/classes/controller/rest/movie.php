@@ -43,4 +43,35 @@ class Controller_Rest_Movie extends Controller_Rest
             return $this->response($exception->getMessage(), 500);
         }
     }
+
+    public function post_watching()
+    {
+        try {
+            $user = Session::get('user');
+            $movie_id = Input::post('movie_id');
+            $totaltime = Input::post('totaltime');
+            $timeplay = Input::post('timeplay');
+            $isFinish = Input::post('isFinish');
+
+            $watching = Model_User_Watching::find_one_by([
+                            ['movie_id', '=', $movie_id],
+                            ['user_id', '=', $user->id]
+                        ]) ?: new Model_User_Watching();
+
+            $watching->set([
+                'user_id' => $user->id,
+                'movie_id' => $movie_id,
+                'ended_time' => $totaltime,
+                'watching_time' => $timeplay,
+                'isFinish' => ($isFinish === 'true' ? true : false)
+            ]);
+
+            $watching->save();
+
+            return $this->response('OK', 200);
+
+        } catch (Exception $exception) {
+            return $this->response($exception->getMessage(), 500);
+        }
+    }
 }

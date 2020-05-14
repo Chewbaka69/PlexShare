@@ -25,10 +25,10 @@
     <div>
     </div>
 </div>
+<?php if($servers > 0) : ?>
 <div class="Menu-menuPortal-2JtDz"
-     style="position: absolute; transform: translate3d(5px, 120px, 0px); top: 0px; left: 0px; will-change: transform; display: none"
-     x-placement="bottom-start">
-    <div data-reactroot="" id="id-1">
+     style="position: absolute; transform: translate3d(5px, 120px, 0px); top: 0px; left: 0px; will-change: transform; display: none" x-placement="bottom-start">
+    <div id="id-1">
         <div role="menu"
              class="ServerMenu-serverMenu-6KNnX MenuContainer-menu-3Gtlw MenuContainer-medium-2XOYJ">
             <div class="ServerMenu-serverMenuScroller-1nSX6 Menu-menuScroller-E0NwY Scroller-vertical-1bgGS Scroller-scroller-d5-b- Scroller-auto-3t4gM"
@@ -62,6 +62,7 @@
         </div>
     </div>
 </div>
+<?php endif; ?>
 <div id="divVideo" style="display: none">
     <div id="movie_stream" style="height: 100%"></div>
     <div id="video_controls" class="AudioVideoPlayerView-container-kWiFs"></div>

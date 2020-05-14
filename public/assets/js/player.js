@@ -13,6 +13,25 @@ function toHHMMSS(num) {
     return times + minutes + ':' + seconds;
 }
 
+async function updateWatching(movie_id, totaltime, timeplay, isFinish = false){
+    $.ajax({
+        url: '/rest/movie/watching',
+        method: 'POST',
+        data: {
+            movie_id: movie_id,
+            totaltime: totaltime,
+            timeplay: timeplay,
+            isFinish: isFinish
+        },
+        dataType: 'json'
+    }).done(function (data) {
+
+    }).fail(function (data) {
+        console.error(data.responseText);
+        show_alert('error', data.responseText);
+    });
+}
+
 let player = null;
 let sliderTrack = null;
 let sliderSound = null;
@@ -40,8 +59,12 @@ function launchPlayer(view) {
     let width = window.innerWidth;
     let height = window.innerHeight;
 
+    let lastUpdateTime = 0;
+
     document.querySelector('#divVideo').style.backgroundImage = 'url("/cover/movie?movie_id=' + movie_id + '&width=' + width + '&height=' + height + '&art=true")';
     document.querySelector('#divVideo').style.backgroundColor = '#000000';
+    document.querySelector('#divVideo').style.backgroundRepeat = 'no-repeat';
+    document.querySelector('#divVideo').style.backgroundSize = '100% 100%';
 
     initSliders();
 
@@ -90,6 +113,16 @@ function launchPlayer(view) {
                 } else {
                     removeNext();
                 }
+
+                let now = Date.now();
+
+                if(totaltime !== null && timeplay !== 0 && (lastUpdateTime === 0  || (lastUpdateTime + 10*1000) < now)) {
+                    lastUpdateTime = now;
+                    updateWatching(movie_id, totaltime, timeplay, (percent > 97));
+                }
+            },
+            onError: function (error) {
+                console.error(error);
             }
         }
     });

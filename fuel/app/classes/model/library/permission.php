@@ -13,5 +13,4 @@ class Model_Library_Permission extends Model_Overwrite
         'value',
         'disable'
     );
-
 }

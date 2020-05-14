@@ -153,14 +153,14 @@ class Model_Server extends Model_Overwrite
 
             foreach ($datas as $tvshow) {
                 if($tvshow->type === 'season') {
-                    $tvshows[] = Model_Season::find_one_by('plex_key', $tvshow->ratingKey) ?: new Model_Season();
+                    $tvshows[] = Model_Season::find_one_by('plex_key', $tvshow->ratingKey) ?: Model_Season::forge(['plex_key' => $tvshow->ratingKey]);
 
                 } else if($tvshow->type === 'episode') {
-                    $tvshows[] = Model_Movie::find_one_by('plex_key', $tvshow->key) ?: new Model_Movie();
+                    $tvshows[] = Model_Movie::find_one_by('plex_key', $tvshow->key) ?: Model_Movie::forge(['plex_key' => $tvshow->key]);
                 }
             }
 
-            Cache::set($this->id . '.getThirtyLastedTvShows', $tvshows, 6 * 60);
+            Cache::set($this->id . '.getThirtyLastedTvShows', $tvshows, 4 * 60);
 
             return $tvshows;
 
@@ -228,7 +228,8 @@ class Model_Server extends Model_Overwrite
             $movies = [];
 
             foreach ($datas as $movie) {
-                $movies[] = Model_Movie::find_one_by('plex_key', $movie->key) ?: new Model_Movie();
+                $tmp_movie = Model_Movie::find_one_by('plex_key', $movie->key);
+                $movies[] = $tmp_movie !== null ? $tmp_movie : Model_Movie::forge(['plex_key' => $movie->key]);
             }
 
             Cache::set($this->id . '.getThirtyLastedMovies', $movies, 6 * 60);

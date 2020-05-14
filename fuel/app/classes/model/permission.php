@@ -1,5 +1,7 @@
 <?php
 
+use Fuel\Core\Session;
+
 class Model_Permission extends Model_Overwrite
 {
     /**
@@ -24,12 +26,9 @@ class Model_Permission extends Model_Overwrite
      * @param Model_Movie $movie
      * @return bool
      */
-    public static function isGranted($permission, Model_Movie $movie)
+    public static function isGranted($permission, Model_Library $library = null, $data = null       )
     {
-        if ($movie === null)
-            return false;
-
-        $library = $movie->getLibrary();
+        $user = Session::get('user');
 
         if ($library === null)
             return false;
@@ -37,7 +36,7 @@ class Model_Permission extends Model_Overwrite
         $permission = Model_Permission::find_one_by('name', $permission);
 
         if ($permission === null)
-            return true;
+            return false;
 
         $library_permission = Model_Library_Permission::find_one_by([
             ['library_id', '=', $library->id],
@@ -45,17 +44,30 @@ class Model_Permission extends Model_Overwrite
             ['disable', '=', 0]
         ]);
 
-        if ($library_permission === null)
-            return true;
+        if ($permission->name === 'RIGHT_WATCH_DISABLED') {
+            if($library_permission !== null && $library_permission->value === 1)
+                return false;
+            else if($library_permission !== null && $library_permission->value === 0)
+                return true;
+            else if($library_permission === null)
+                return true;
+            else
+                return false;
+        }
 
-        if ($permission->name === 'RIGHT_WATCH_DISABLED')
-            return false;
-
-        if ($permission->name === 'RIGHT_DOWNLOAD_DISABLED')
-            return false;
+        if ($permission->name === 'RIGHT_DOWNLOAD_DISABLED') {
+            if($library_permission !== null && $library_permission->value === 1)
+                return false;
+            else if($library_permission !== null && $library_permission->value === 0)
+                return true;
+            else if($library_permission === null)
+                return true;
+            else
+                return false;
+        }
 
         if ($permission->name === 'RIGHT_MAX_DOWNLOAD') {
-            /** @TODO IF (NUMBER_DOWNLOAD <= MAX_DOWNLOAD)
+            /** @TODO IF (NUMBER_DOWNLOAD <= MAX_DOWNLOAD)  // in last 24h
              *  RETURN TRUE
              *  ELSE
              *  RETURN FALSE
@@ -64,7 +76,7 @@ class Model_Permission extends Model_Overwrite
         }
 
         if ($permission->name === 'RIGHT_MAX_WATCH') {
-            /** @TODO IF (NUMBER_WATCH <= MAX_WATCH)
+            /** @TODO IF (NUMBER_WATCH <= MAX_WATCH) // in last 24h
              *  RETURN TRUE
              *  ELSE
              *  RETURN FALSE
@@ -82,12 +94,14 @@ class Model_Permission extends Model_Overwrite
         }
 
         if ($permission->name === 'RIGHT_MAX_CONCURRENT_STREAM') {
-            /** @TODO IF (VIDEO SETTINGS QUALITY <= MAX_QUALITY)
+            /** @TODO IF (CURRENT STREAMING <= MAX_CONCURRENT_STREAM)
              *  RETURN TRUE
              *  ELSE
              *  RETURN FALSE
              */
             return true;
         }
+
+        return false;
     }
 }
