@@ -213,7 +213,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'plex_key' => array('constraint' => 36, 'type' => 'varchar'),
                     'type' => array('constraint' => 20, 'type' => 'varchar'),
                     'number' => array('constraint' => 11, 'type' => 'int', 'null' => true),
-                    'studio' => array('constraint' => 36, 'type' => 'varchar', 'null' => true),
+                    'studio' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
                     'title' => array('constraint' => 255, 'type' => 'varchar'),
                     'originalTitle' => array('constraint' => 255, 'type' => 'varchar', 'null' => true),
                     'summary' => array('type' => 'text', 'null' => true),

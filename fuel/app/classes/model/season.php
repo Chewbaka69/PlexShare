@@ -133,7 +133,9 @@ class Model_Season extends Model_Overwrite
                         ->select('*')
                         ->where('plex_key', $XMLseason['@attributes']['ratingKey'])
                         ->and_where('tv_show_id', $tvshow_id);
-                })[0] ?: Model_Season::forge();
+                });
+
+                $season = $season !== null ?  $season[0] : Model_Season::forge();
 
                 $season->set([
                     'tv_show_id' => $tvshow->id,

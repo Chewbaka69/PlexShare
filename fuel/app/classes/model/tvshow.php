@@ -164,7 +164,9 @@ class Model_Tvshow extends Model_Overwrite
                         ->select('*')
                         ->where('plex_key', $subsection['@attributes']['ratingKey'])
                         ->and_where('library_id', $library_id);
-                })[0] ?: Model_Tvshow::forge();
+                });
+
+                $tvshow = $tvshow !== null ? $tvshow[0] : Model_Tvshow::forge();
 
                 $tvshow->set([
                     'library_id' => $library->id,
@@ -226,7 +228,7 @@ class Model_Tvshow extends Model_Overwrite
 
             $seasons = Format::forge($curl->response()->body, 'xml')->to_array();
 
-            if (isset($seasons['Directory']))
+            if ($seasons !== null && isset($seasons['Directory']))
                 return Model_Season::BrowseSeason($server, $seasons['Directory'], $tvshow);
         } catch (Exception $exception) {
             throw new FuelException($exception->getMessage(),$exception->getCode());

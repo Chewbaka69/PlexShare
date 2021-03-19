@@ -11,8 +11,7 @@
 <div class="PageContent-pageContent-16mK6 Scroller-scroller-d5-b- Scroller-vertical-1bgGS ">
     <div class="DashboardPage-dashboardPageContent-2rN8X PageContent-innerPageContent-3ktLT">
         <div style="opacity: 1; pointer-events: auto;">
-            <?php use Fuel\Core\Debug;
-
+            <?php
             if ($watching_movies) : ?>
             <div class="HubCell-hubCell-3Ys17" style="visibility: visible;" data-qa-id="hub--home.continue">
                 <div class="HubCellHeader-hubCellHeader-2pvYN HubCellHeader-hubCellHeader-2pvYN">

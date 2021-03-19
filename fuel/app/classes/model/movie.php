@@ -66,6 +66,9 @@ class Model_Movie extends Model_Overwrite
         return $this->_tv_show;
     }
 
+    /**
+     * @return Model_Library|null
+     */
     public function getLibrary()
     {
         if(!$this->_library) {
@@ -428,7 +431,9 @@ class Model_Movie extends Model_Overwrite
                     ->and_where('library_id', $library_id)
                     ->and_where_close()
                     ;
-            })[0] ?: Model_Movie::forge();
+            });
+
+            $movie = $movie !== null ? $movie[0] : Model_Movie::forge();
 
             if($library === null && $season === null)
                 throw new FuelException('Missing Parameters for the movie');

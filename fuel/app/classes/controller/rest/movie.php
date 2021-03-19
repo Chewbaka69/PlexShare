@@ -17,12 +17,13 @@ class Controller_Rest_Movie extends Controller_Rest
             if (!$movie_id)
                 throw new FuelException('No movie id');
 
+            /** @var Model_Movie $movie */
             $movie = Model_Movie::find_by_pk($movie_id);
 
             if (!$movie)
                 throw new FuelException('No movie found');
 
-            if(!Model_Permission::isGranted('RIGHT_WATCH_DISABLED', $movie))
+            if (!Model_Permission::isGranted('RIGHT_WATCH_DISABLED', $movie->getLibrary()))
                 throw new FuelException('You dont have the permission to watch in this library!');
 
             $user_settings = Model_Setting::find_one_by('user_id', Session::get('user')->id);
