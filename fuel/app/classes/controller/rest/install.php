@@ -19,7 +19,7 @@ class Controller_Rest_Install extends Controller_Rest
         $version = version_compare(PHP_VERSION, 5.6, '>=');
         $result['version'] = $version ? true : false;
 
-        $result['mysql'] = extension_loaded('mysql') ? true : false;
+        $result['mysql'] = extension_loaded('mysql') || extension_loaded('mysqli') ? true : false;
         $result['pdo_mysql'] = extension_loaded('pdo_mysql') ? true : false;
         $result['simplexml'] = extension_loaded('SimpleXML') ? true : false;
         $result['curl'] = function_exists('curl_version') ? true : false;
