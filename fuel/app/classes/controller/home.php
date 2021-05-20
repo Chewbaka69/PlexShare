@@ -73,7 +73,7 @@ class Controller_Home extends Controller_Template
 
         $watching_movies = Model_User_Watching::find_by([
             ['user_id', '=', $this->_user->id],
-            ['isFinish', '=', 0]
+            ['is_ended', '=', 0]
         ]);
 
         $episodes = $this->template->MenuServer ? $this->template->MenuServer->getThirtyLastedTvShows() : null;

@@ -12,7 +12,7 @@ class Model_User_Watching extends Model_Overwrite
         'movie_id',
         'watching_time',
         'ended_time',
-        'isFinish'
+        'is_ended'
     );
 
     private $_movie = null;

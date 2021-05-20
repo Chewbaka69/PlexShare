@@ -64,7 +64,7 @@ class Controller_Rest_Movie extends Controller_Rest
                 'movie_id' => $movie_id,
                 'ended_time' => $totaltime,
                 'watching_time' => $timeplay,
-                'isFinish' => ($isFinish === 'true' ? true : false)
+                'is_ended' => ($isFinish === 'true' ? true : false)
             ]);
 
             $watching->save();
