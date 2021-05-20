@@ -588,7 +588,8 @@
 
                 var result = JSON.parse(xhr.responseText);
                 if(result.error === true) {
-                    show_alert('error', result.message);
+                    show_alert('error', result.message, 10 * 1000);
+                    document.getElementById('table').value = result.message;
                 } else {
                     document.getElementById('table').value = result.message;
                     button.classList.add('hidden');
