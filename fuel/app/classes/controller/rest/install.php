@@ -574,10 +574,14 @@ class Controller_Rest_Install extends Controller_Rest
             if(!$result)
                 throw new FuelException('Can not connect to your server!');
 
+	    $user = Model_User::find_one_by('admin', 1);
+
             $server = Model_Server::forge();
             $server->set([
+		'user_id'   => $user->id,
+		'https'     => 0,
                 'url'       => $url,
-                'port'      => $port,
+                'port'      => (int)$port,
                 'token'     => $token,
                 'lastcheck' => time()
             ]);
