@@ -37,12 +37,12 @@ class Controller_Install extends Controller
         $view->set('db_password', isset($config_db['connection']['password']) ? $config_db['connection']['password'] : null);
 
         try {
-            $config_plex = Model_Server::find()[0];
+	    $config_plex = Model_Server::find() ? Model_Server::find()[0] : null;
 
             if($config_plex) {
-                $view->set('plex_url', $config_plex->url);
-                $view->set('plex_port', $config_plex->port);
-                $view->set('plex_token', $config_plex->token);
+                $view->set('plex_url', $config_plex ? $config_plex->url : null);
+                $view->set('plex_port', $config_plex ? $config_plex->port : null);
+                $view->set('plex_token', $config_plex ? $config_plex->token : null);
             }
         }catch (FuelException $e){
             //@TODO

@@ -77,8 +77,6 @@ class Controller_Rest_Install extends Controller_Rest
         $logs = '';
 
         try {
-            DB::start_transaction();
-
             $logs .= 'Creation table user'."\r\n";
             /**
              * CREATE TABLE USER
@@ -310,7 +308,7 @@ class Controller_Rest_Install extends Controller_Rest
                     'movie_id' => array('constraint' => 36, 'type' => 'varchar'),
                     'watching_time' => array('constraint' => 11, 'type' => 'int'),
                     'ended_time' => array('constraint' => 11, 'type' => 'int', 'default' => 0),
-                    'isFinish' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
+                    'is_ended' => array('constraint' => 1, 'type' => 'int', 'default' => 0)
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
@@ -429,8 +427,8 @@ class Controller_Rest_Install extends Controller_Rest
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
             ));
-            DBUtil::add_foreign_key('user_watching', array(
-                'constraint' => 'constraintUserWatching',
+            /*DBUtil::add_foreign_key('user_watching', array(
+                'constraint' => 'constraintUserUserWatching',
                 'key' => 'user_id',
                 'reference' => array(
                     'table' => 'user',
@@ -438,7 +436,7 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
-            ));
+            ));*/
             DBUtil::add_foreign_key('user_watching', array(
                 'constraint' => 'constraintMovieWatching',
                 'key' => 'movie_id',
@@ -449,8 +447,8 @@ class Controller_Rest_Install extends Controller_Rest
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
             ));
-            DBUtil::add_foreign_key('user_setting', array(
-                'constraint' => 'constraintUserSetting',
+            DBUtil::add_foreign_key('user_settings', array(
+                'constraint' => 'constraintUserUserSetting',
                 'key' => 'user_id',
                 'reference' => array(
                     'table' => 'user',
@@ -501,23 +499,25 @@ class Controller_Rest_Install extends Controller_Rest
                 ->values(['RIGHT_MAX_DOWNLOAD', 1])
             ;
 
-            DB::commit_transaction();
-
             $logs .= 'All Tables and Foreign Key successfully!'."\r\n";
 
             return $this->response(['error' => false, 'message' => $logs]);
         } catch (FuelException $e) {
             try {
-                DBUtil::drop_table('user_watching');
+		DBUtil::drop_table('user_watching');
                 DBUtil::drop_table('user_permission');
-                DBUtil::drop_table('libraries_permission');
-                DBUtil::drop_table('permission');
-                DBUtil::drop_table('library');
+		DBUtil::drop_table('user_settings');
+		DBUtil::drop_table('library_permission');
+		DBUtil::drop_table('movie');
+		DBUtil::drop_table('season');
+		DBUtil::drop_table('tvshow');
+		DBUtil::drop_table('library');
                 DBUtil::drop_table('server');
                 DBUtil::drop_table('configurations');
-                DBUtil::drop_table('user');
-                DB::rollback_transaction();
-
+		DBUtil::drop_table('user');
+                DBUtil::drop_table('permission');
+		DBUtil::drop_table('library');
+                
                 return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);
             } catch (FuelException $e) {
                 return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);
