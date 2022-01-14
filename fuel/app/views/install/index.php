@@ -324,6 +324,17 @@
                                                 Plex information:
                                             </div>
                                             <div>
+                                                <label class="FormLabel-label-1sr1f" style="width: 50px; display: inline-block;" for="https">
+                                                    HTTPS:
+                                                </label>
+                                                <div style="display: inline-block;">
+                                                    <label class="switch">
+                                                        <input id="https" name="https" type="checkbox" />
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div>
                                                 <label class="FormLabel-label-1sr1f " for="url">
                                                     Plex URL:
                                                 </label>

@@ -12,6 +12,16 @@ use function PHPSTORM_META\type;
 
 class Controller_Rest_Install extends Controller_Rest
 {
+    public function before()
+    {
+        parent::before();
+
+        $lock = Config::load('lock', true);
+
+        if($lock)
+            Response::redirect('/login');
+    }
+
     public function post_require()
     {
         $result = [];
@@ -562,13 +572,11 @@ class Controller_Rest_Install extends Controller_Rest
     {
         try {
             $url = Input::post('url');
-
-            //@TODO CHECK AND REMOVE HTTP AND HTTPS
-
+            $https = Input::post('https');
             $port = Input::post('port');
             $token = Input::post('token');
 
-            $curl = Request::forge('http://' . $url . ($port ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
+            $curl = Request::forge(($https === '1' ? 'https' : 'http') . '://' . $url . ($port ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
             $result = $curl->execute();
 
             if(!$result)
@@ -578,8 +586,8 @@ class Controller_Rest_Install extends Controller_Rest
 
             $server = Model_Server::forge();
             $server->set([
-		'user_id'   => $user->id,
-		'https'     => 0,
+                'user_id'   => $user->id,
+                'https'     => (int)$https,
                 'url'       => $url,
                 'port'      => (int)$port,
                 'token'     => $token,

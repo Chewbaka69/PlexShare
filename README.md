@@ -1,4 +1,4 @@
-![PHP](https://img.shields.io/badge/PHP->=_5.6-738bd7.svg?style=flat-square)
+![PHP](https://img.shields.io/badge/PHP->=_8.0-738bd7.svg?style=flat-square)
 ![PHP](https://img.shields.io/badge/FuelPhp-1.8.2-8304d7.svg?style=flat-square)
 ![Extension](https://img.shields.io/badge/Needed-Curl-blue.svg?style=flat-square)
 ![Database](https://img.shields.io/badge/Needed-MySQL-blue.svg?style=flat-square)
@@ -8,7 +8,7 @@
 Web Application standalone that provide the management of local users, many server and the libraries.
 
 # Description
-With this web application, some one can create an account directly this app.
+With this web application, anyone can create an account directly this app.
 Every body can add his PlexServer to the list.
 When you are connected by default you have access to all servers.
 But the admin can manage permission by user or by library like limit of number streaming, the quality and other
@@ -20,7 +20,7 @@ With only one interface and without plex.tv registration, everybody can have acc
 # Features
 - Register and Login without plex.tv account
 - Manage some PlexServer to share theirs libraries
-- Manage permission to limit acces to the users
+- Manage permission to limit access to the users
 
 # Tehcnologies
 - MySQL

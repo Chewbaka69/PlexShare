@@ -228,14 +228,24 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="PrePlayDetailsGroupItem-groupItem-3Tut9">
+                                <div id="current-sub-titles" class="PrePlayDetailsGroupItem-groupItem-3Tut9">
                                     <div class="PrePlayDetailsGroupItem-label-2Ee43"><?php echo __('subtitles'); ?></div>
                                     <div class="PrePlayDetailsGroupItem-content-1aRNU">
                                         <span>
-                                            <?php if(count($episode->getMetaData()['Stream']['SubTitle']) > 0): ?>
-                                                <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['language']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['language'] : ''; ?>
-                                                <span class="DashSeparator-separator-2a3yn">—</span>
-                                                <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle'] : $movie->getMetaData()['Stream']['SubTitle'][0]['title']; ?>
+                                            <?php if(count($subtitles) > 0): ?>
+                                                <?php if(count($subtitles) > 1): ?>
+                                                    <button aria-haspopup="true" id="id-248" role="button" class="DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37 DisclosureArrowButton-isSelected-oswRN Link-link-2XYrU Link-default-32xSO  Link-isSelected-3GpAs    " type="button">
+                                                        <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['language']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['language'] : ''; ?>
+                                                        <span class="DashSeparator-separator-2a3yn">—</span>
+                                                        <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle'] : $movie->getMetaData()['Stream']['SubTitle'][0]['title']; ?>
+                                                        <div class="DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd DisclosureArrow-isSelected-VMAVr"></div>
+                                                    </button>
+                                                <?php else: ?>
+                                                    <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['language']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['language'] : ''; ?>
+                                                    <span class="DashSeparator-separator-2a3yn">—</span>
+                                                    <?php echo isset($episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle']) ? $episode->getMetaData()['Stream']['SubTitle'][0]['displayTitle'] : $movie->getMetaData()['Stream']['SubTitle'][0]['title']; ?>
+                                                <?php endif; ?>
+
                                             <?php else: ?>
                                                 <?php echo __('none'); ?>
                                             <?php endif;?>
@@ -280,6 +290,7 @@
         <div class="Measure-shrinkContent-32Udi Measure-expandContent-1JQfL"></div>
     </div>
 </div>
+
 <div class="Menu-select-season hidden" style="position: absolute; top: 60px;">
     <div id="id-1865">
         <div role="menu" class="MenuContainer-menu-3Gtlw MenuContainer-medium-2XOYJ">
@@ -303,6 +314,9 @@
                     <a role="menuitem" href="/episode/<?php echo $one_episode->id; ?>" class="<?php echo $one_episode->id === $episode->id ? 'SelectedMenuItem-isSelected-3zuEi' : ''; ?> MenuItem-menuItem-25266 MenuItem-default-tX5Cl Link-link-2XYrU Link-default-32xSO">
                         <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                             <div class="SelectedMenuItem-menuLabel-1tKeW"><?php echo $one_episode->number; ?> - <?php echo $one_episode->title; ?></div>
+                            <?php if ($one_episode->id === $episode->id) : ?>
+                                <div class="SelectedMenuItem-selectedIcon-3S2cy"><i class="plex-icon-selected-560" aria-hidden="false" aria-label="Sélectionné(e)"></i></div>
+                            <?php endif; ?>
                         </div>
                     </a>
                 <?php endforeach; ?>
@@ -310,6 +324,44 @@
         </div>
     </div>
 </div>
+
+<div class="Menu-select-subtitle hidden" style="position: fixed; top: 420px; left: 520px; will-change: transform;" x-placement="bottom-start">
+    <div data-reactroot="" id="id-25">
+        <div role="menu" class="MenuContainer-menu-3Gtlw MenuContainer-large-1Hnrd">
+            <div class="Menu-menuScroller-E0NwY Scroller-vertical-1bgGS Scroller-scroller-d5-b- Scroller-vertical-1bgGS Scroller-auto-3t4gM" style="max-height: 550px;">
+                <button role="menuitem" class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl  Link-link-2XYrU Link-default-32xSO" type="button">
+                    <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
+                        <div class="SelectedMenuItem-menuLabel-1tKeW">
+                          <span>
+                            <span>
+                              Aucun
+                            </span>
+                          </span>
+                        </div>
+                    </div>
+                </button>
+                <?php foreach ($subtitles as $subtitle) : ?>
+                <button role="menuitem" class="<?php echo isset($subtitle['selected']) ? 'SelectedMenuItem-isSelected-3zuEi' : ''; ?> MenuItem-menuItem-25266 MenuItem-default-tX5Cl  Link-link-2XYrU Link-default-32xSO" type="button">
+                    <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
+                        <div class="SelectedMenuItem-menuLabel-1tKeW">
+                          <span>
+                            <span>
+                              <?php echo $subtitle['displayTitle']; ?>
+                            </span>
+                          </span>
+                        </div>
+                        <?php if(isset($subtitle['selected'])): ?>
+                        <div class="SelectedMenuItem-selectedIcon-3S2cy"><i class="plex-icon-selected-560" aria-hidden="false" aria-label="Sélectionné(e)"></i></div>
+                        <?php endif; ?>
+                    </div>
+                </button>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script type="text/javascript">
     $(window).on('load', function() {
         /** READ MORE **/
@@ -338,6 +390,16 @@
             $('.Menu-select-episode').css('left', $(this).position().left + 'px');
             $('.Menu-select-episode').toggleClass('hidden');
         });
+
+        /** SHOW SUB-TITLE LIST **/
+        $('#id-248').on('click', function (event) {
+            event.stopPropagation();
+            $(this).find('.DisclosureArrow-disclosureArrow-1sBFv').toggleClass('DisclosureArrowButton-down-bd2wx DisclosureArrowButton-up-2fzdj');
+            $('.Menu-select-subtitle').css('left', $(this).position().left + 240 + 'px');
+            $('.Menu-select-subtitle').css('top', $(this).position().top + 150 + 'px');
+            $('.Menu-select-subtitle').toggleClass('hidden');
+        });
+
         $(document).on('mouseup', function() {
             if($('.Menu-select-season').css('display') !== 'none')
                 $('.PageHeaderBreadcrumbButton-button-1uaPj.Season').click();

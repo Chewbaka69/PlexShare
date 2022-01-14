@@ -27,10 +27,12 @@ class Controller_Episode extends Controller_Home
 
         $seasons = $episode->getTvShow()->getSeasons();
         $episodes = $episode->getSeason()->getEpisodes();
+        $subtitles = $episode->getMetaData()['Stream']['SubTitle'];
 
         $body->set('episode', $episode);
         $body->set('seasons', $seasons);
         $body->set('episodes', $episodes);
+        $body->set('subtitles', $subtitles);
 
         $this->template->body = $body;
     }

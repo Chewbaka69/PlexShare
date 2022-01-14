@@ -58,9 +58,9 @@ class Server
 
     public function checkNotFound()
     {
-        $this->_checkMovies();
-        $this->_checkSeasons();
         $this->_checkTvShows();
+        $this->_checkSeasons();
+        $this->_checkMovies();
     }
 
     private function _checkMovies()
@@ -89,6 +89,7 @@ class Server
                 $curl->execute();
             } catch (RequestStatusException $exception) {
                 $movie->set([
+                    'updatedAt' => time(),
                     'disable'    => 1
                 ]);
 
@@ -256,7 +257,5 @@ class Server
         foreach ($seasons as $season) {
             Model_Season::getMovies($server,$season);
         }
-
-        //$this->browseMovies($server);
     }
 }

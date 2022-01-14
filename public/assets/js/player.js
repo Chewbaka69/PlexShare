@@ -201,11 +201,11 @@ function launchPlayer(view) {
         $('.AudioVideoPlaybackSettings-container-2pTAj.AudioVideoStripeContainer-container-MI02O').css('transform', 'translateY(246px)');
     });
     /** MOUSE MOVE ON PLAYER KEEP VISIBLE NAVBAR **/
-    $(document).on('mousemove', '#divVideo, #movie_stream, button[role="playCenter"]', function () {
+    $(document).on('mousemove', '#movie_stream, button[role="playCenter"]', function () {
         $('button[role="playCenter"], #movie_stream, video').css('cursor', 'pointer');
         $('button[role="playCenter"], .AudioVideoFullPlayer-topBar-2XUGM, .AudioVideoFullPlayer-bottomBar-2yixi').mouseover();
         lastTimeMouseMoved = new Date().getTime();
-        timeout = setInterval(function() {
+        timeout = setTimeout(function() {
             var currentTime = new Date().getTime();
             if ((currentTime - lastTimeMouseMoved) > 1000) {
                 $('button[role="playCenter"], #movie_stream, video').css('cursor', 'none');
