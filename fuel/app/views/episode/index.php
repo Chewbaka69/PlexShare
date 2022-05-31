@@ -400,12 +400,16 @@
             $('.Menu-select-subtitle').toggleClass('hidden');
         });
 
+        /** HIDE WHEN CLICK OUTSIDE **/
         $(document).on('mouseup', function() {
             if($('.Menu-select-season').css('display') !== 'none')
                 $('.PageHeaderBreadcrumbButton-button-1uaPj.Season').click();
 
             if($('.Menu-select-episode').css('display') !== 'none')
                 $('.PageHeaderBreadcrumbButton-button-1uaPj.Episode').click();
+
+            if($('.Menu-select-subtitle').css('display') !== 'none')
+                $('#id-248').click();
         });
         /** PLAY EPISODE **/
         $(document).on('click', '#id-16, .MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {

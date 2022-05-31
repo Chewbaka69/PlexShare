@@ -53,14 +53,14 @@
             <?php foreach ($movies as $movie) : ?>
                 <div class=" virtualized-cell-3KPHx " data-qa-id="cellItem"
                      style="display: inline-block; margin-left: 25px; margin-top: 15px;">
-                    <div class="MetadataPosterCard-cardContainer-2gRcQ"
-                         data-qa-id="metadataPosterCard--/library/metadata/1">
+                    <div class="MetadataPosterCard-cardContainer-2gRcQ">
                         <div class="MetadataPosterCard-card-3bztR " style="width: 126px; height: 189px;">
                             <div class="MetadataPosterCardFace-face--dz_D MetadataPosterCardFace-poster-L2P6r MetadataPosterCardFace-faceFront-1bxHG  ">
                                 <i class="plex-icon-shows-560  MetadataPosterCardIcon-placeholderIcon-2P76z" aria-hidden="true" style="font-size: 30px; line-height: 189px;"></i>
                                 <div class="PosterCardImg-imageContainer-1Ar4M" data-movie-id="<?php echo $movie->id; ?>">
                                     <div style="background-image: none; background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"
-                                         class=""></div>
+                                         class="">
+                                    </div>
                                 </div>
                                 <div class=" MetadataPosterCardOverlay-overlay-1uMpL">
                                     <div class="MetadataPosterCardOverlay-background-2EwyB"></div>
@@ -78,12 +78,12 @@
                                             <i class="plex-icon-play-560 PlayButton-playIcon-dt3sk"
                                                aria-hidden="true"></i></div>
                                     </button>
-                                    <button data-qa-id="metadataPosterMoreButton" id="id-28" tabindex="-1"
+                                    <button data-qa-id="metadataPosterMoreButton" tabindex="-1"
                                             aria-label="Plus d'actions" aria-haspopup="true" role="button"
                                             class="MetadataPosterCardOverlay-moreButton-3FK-K MetadataPosterCardOverlay-button-M43H- Link-link-2XYrU Link-default-32xSO"
                                             type="button"><i class="plex-icon-more-560" aria-hidden="true"></i>
                                     </button>
-                                    <button aria-label="Sélectionner 13 Hours" id="id-27" tabindex="-1" role="button"
+                                    <button tabindex="-1" role="button"
                                             class="MetadataPosterCardOverlay-selectButton-3rwSV SelectButton-selectButton-3Kbjm MetadataPosterCardOverlay-button-M43H-  Link-link-2XYrU Link-default-32xSO"
                                             type="button">
                                         <div class="MetadataPosterCardOverlay-selectCircle-3ql8S SelectButton-selectCircle-3tdvG"
@@ -314,7 +314,7 @@
             if($('.Menu-filter-movies').css('display') !== 'none')
                 $('#id-14').click();
         });
-        /** LAUNCH PLAYER */
+        // LAUNCH PLAYER
         $(document).on('click', '.MetadataPosterCardOverlay-playButton-1fjhk.PlayButton-playButton-3WX8X', function (event) {
             event.stopPropagation();
             var movie_id = $(this).data('id');
@@ -329,32 +329,32 @@
                 console.error(data);
             });
         });
-        /** LOAD IMAGES **/
+        // LOAD IMAGES
         $('.MetadataListPageContent-metadataListScroller-1uFgY.MetadataListPageContent-hasGutter-1EfyE.Scroller-scroller-d5-b-.Scroller-vertical-1bgGS').scroll(function() {
 
             let number = 1;
 
-            $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
+            $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]:not(.hasBackground)').each(function (index, element) {
 
                 let movie_id = $(element).data('movie-id');
                 let position = element.getBoundingClientRect();
                 let movie = document.querySelector('[data-movie-id="' + movie_id + '"] > div');
 
-                if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !movie.classList.contains('hasBackground') ) {
-                    movie.classList.add('hasBackground');
-                    /** IF USING CLOUDFLARE TOO MANY REQUEST **/
+                //if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !movie.classList.contains('hasBackground') ) {
+                    this.classList.add('hasBackground');
+                    // IF USING CLOUDFLARE TOO MANY REQUEST
                     setTimeout(function () {
                         $('[data-movie-id="' + movie_id + '"] > div')
                             .css('opacity', 0)
                             .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")')
                             .animate({opacity: 1}, 500);
-                    }, 50 +( 50 * number));
+                    }, 100 +( 50 * number));
                     number++;
-                } else if( ( position.top < 0 || position.top > (window.innerHeight || document.documentElement.clientHeight) ) && movie.classList.contains('hasBackground') ) {
+                /*} else if( ( position.top < 0 || position.top > (window.innerHeight || document.documentElement.clientHeight) ) && movie.classList.contains('hasBackground') ) {
                     $('[data-movie-id="' + movie_id + '"] > div').css('background-image', '')
                         .removeClass('hasBackground')
                         .animate({opacity: 0}, 500);
-                }
+                }*/
             });
         });
 

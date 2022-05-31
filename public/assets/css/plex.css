@@ -3896,10 +3896,12 @@ a:hover .DisclosureArrow-disclosureArrow-1sBFv, button:hover .DisclosureArrow-di
     transform: rotateY(180deg)
 }
 
+/**
+* OVERLOAD BROWSER
 .MetadataPosterCard-cardContainer-2gRcQ {
     -webkit-perspective: 500px;
     perspective: 500px
-}
+}*/
 
 .MetadataPosterCard-card-3bztR {
     position: relative;
