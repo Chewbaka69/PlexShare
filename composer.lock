@@ -915,5 +915,5 @@
         "php": ">=5.6.33"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.0.0"
 }

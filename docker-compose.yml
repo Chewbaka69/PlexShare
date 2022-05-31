@@ -1,0 +1,35 @@
+version: '3.2'
+
+services:
+  plexshare:
+    # Image doc here: https://dockerfile.readthedocs.io/en/latest/content/DockerImages/dockerfiles/php-nginx.html
+    container_name: plexshare
+    image: chewbaka69/plexshare
+    build: .
+    working_dir: /app
+    # If you use a reverse PROXY you can comment those 2 lines below
+    ports:
+      - '80:80'
+    restart: unless-stopped
+    environment:
+      # NGINX
+      WEB_DOCUMENT_ROOT: /app/public
+      WEB_DOCUMENT_INDEX: index.php
+
+      # LOGS
+      LOG_STDOUT: ./var/log/plexshare.stdout.log
+      LOG_STDERR: ./var/log/plexshare.stderr.log
+
+      # PHP CONFIG
+      # PHP_DISMOD:
+
+      PHP_POST_MAX_SIZE: 20M
+      PHP_MEMORY_LIMIT: 521M
+      PHP_MAX_EXECUTION_TIME: 300
+
+      PHP_DATE_TIMEZONE: Europe/Paris
+
+      # COMPOSER
+      COMPOSER_VERSION: 1
+    volumes:
+      - .:/app
