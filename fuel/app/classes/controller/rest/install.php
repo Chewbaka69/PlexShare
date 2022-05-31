@@ -87,7 +87,6 @@ class Controller_Rest_Install extends Controller_Rest
         $logs = '';
 
         try {
-            $logs .= 'Creation table user'."\r\n";
             /**
              * CREATE TABLE USER
              */
@@ -106,9 +105,8 @@ class Controller_Rest_Install extends Controller_Rest
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
 
-            $logs .= 'Table user create!'."\r\n";
+            $logs .= 'Table user created!'."\r\n";
 
-            $logs .= 'Creation table server'."\r\n";
             /**
              * CREATE TABLE SERVER
              */
@@ -132,9 +130,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'Server table create!'."\r\n";
+            $logs .= 'Server table created!'."\r\n";
 
-            $logs .= 'Creation table library'."\r\n";
             /**
              * CREATE TABLE LIBRARY
              */
@@ -153,9 +150,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'Library table create!'."\r\n";
+            $logs .= 'Library table created!'."\r\n";
 
-            $logs .= 'Creation table tv_show'."\r\n";
             /**
              * CREATE TABLE LIBRARY
              */
@@ -183,9 +179,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'Library table create!'."\r\n";
+            $logs .= 'Library table created!'."\r\n";
 
-            $logs .= 'Creation table season'."\r\n";
             /**
              * CREATE TABLE SEASON
              */
@@ -206,9 +201,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'Season table create!'."\r\n";
+            $logs .= 'Season table created!'."\r\n";
 
-            $logs .= 'Creation table movie'."\r\n";
             /**
              * CREATE TABLE SEASON
              */
@@ -238,9 +232,8 @@ class Controller_Rest_Install extends Controller_Rest
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
             DBUtil::create_index('movie', 'title', 'searchTitle', 'fulltext');
-            $logs .= 'Movie table create!'."\r\n";
+            $logs .= 'Movie table created!'."\r\n";
 
-            $logs .= 'Creation table configuration'."\r\n";
             /**
              * CREATE TABLE CONFIGURATION
              */
@@ -253,9 +246,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'Configuration table create!'."\r\n";
+            $logs .= 'Configuration table created!'."\r\n";
 
-            $logs .= 'Creation table permission'."\r\n";
             /**
              * CREATE TABLE PERMISSION
              */
@@ -269,9 +261,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'Permission table create!'."\r\n";
+            $logs .= 'Permission table created!'."\r\n";
 
-            $logs .= 'Creation table libraries permission'."\r\n";
             /**
              * CREATE TABLE USER'S PERMISSION
              */
@@ -286,9 +277,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'Libraries Permission table create!'."\r\n";
+            $logs .= 'Libraries Permission table created!'."\r\n";
 
-            $logs .= 'Creation table user permission'."\r\n";
             /**
              * CREATE TABLE USER'S PERMISSION
              */
@@ -304,9 +294,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'User Permission table create!'."\r\n";
+            $logs .= 'User Permission table created!'."\r\n";
 
-            $logs .= 'Creation table user watching'."\r\n";
             /**
              * CREATE TABLE USER'S WATCHING
              */
@@ -341,9 +330,8 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 array('id'), false, 'InnoDB', 'utf8_unicode_ci'
             );
-            $logs .= 'User Setting table create!'."\r\n";
+            $logs .= 'User Setting table created!'."\r\n";
 
-            $logs .= 'Create Foreign key'."\r\n";
             /**
              * FOREIGN KEY
              */
@@ -498,16 +486,16 @@ class Controller_Rest_Install extends Controller_Rest
                 'on_delete' => 'NO ACTION',
             ));
 
-            $logs .= 'Foreign key create!'."\r\n";
+            $logs .= 'Foreign key created!'."\r\n";
 
-            DB::insert('permission',['name', 'parameters'])
-                ->values(['RIGHT_WATCH_DISABLED'])
-                ->values(['RIGHT_MAX_WATCH', 1])
-                ->values(['RIGHT_MAX_QUALITY', 1])
-                ->values(['RIGHT_MAX_CONCURRENT_STREAM', 1])
-                ->values(['RIGHT_DOWNLOAD_DISABLED'])
-                ->values(['RIGHT_MAX_DOWNLOAD', 1])
-            ;
+            DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_WATCH_DISABLED'])->execute();
+            DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_DOWNLOAD_DISABLED'])->execute();
+            DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_MAX_WATCH', 'parameters' => 1])->execute();
+            DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_MAX_QUALITY', 'parameters' => 1])->execute();
+            DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_MAX_CONCURRENT_STREAM', 'parameters' => 1])->execute();
+            DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_MAX_DOWNLOAD', 'parameters' => 1])->execute();
+
+            $logs .= 'Permission created!'."\r\n";
 
             $logs .= 'All Tables and Foreign Key successfully!'."\r\n";
 

@@ -313,8 +313,8 @@
                                     </button>
                                     <button class="btn btn-lg btn-link btn-loading col-sm-offset-8 col-sm-4 hidden"
                                             type="button"
-                                            onclick="window.location.replace('/login');">
-                                        <span class="btn-label">Finish!</span>
+                                            onclick="next()">
+                                        <span class="btn-label">Next ></span>
                                     </button>
                                 </div>
                                 <div id="config-plex" class="card-content hidden">
@@ -369,8 +369,8 @@
                                     </button>
                                     <button class="btn btn-lg btn-link btn-loading col-sm-offset-8 col-sm-4 hidden"
                                             type="button"
-                                            onclick="next()">
-                                        <span class="btn-label">Next ></span>
+                                            onclick="window.location.replace('/login');">
+                                        <span class="btn-label">Finish!</span>
                                     </button>
                                 </div>
                             </div>

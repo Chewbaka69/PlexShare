@@ -264,7 +264,7 @@
                         .css('opacity', 0)
                         .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")')
                         .animate({opacity: 1}, 500);
-                }, 50 +( 50 * number));
+                }, 10 +( 10 * number));
                 number++;
             });
 
@@ -279,7 +279,7 @@
                         .css('opacity', 0)
                         .css('background-image', 'url("/cover/tvshow?tvshow_id=' + tvshow_id + '&width=' + 175 + '&height=' + 263 + '")')
                         .animate({opacity: 1}, 500);
-                }, 50 +( 50 * number));
+                }, 10 +( 10 * number));
                 number++;
             });
         });

@@ -107,7 +107,7 @@
                         <div class="PrePlayMetadataInnerContent-innerContent-1BPzw">
                             <div class="PrePlayPrimaryTitle-primaryTitle-1r9P9">
                                 <div class="PrePlayLeftTitle-leftTitle-Ev1KG">
-                                    <a title="<?php echo $movie->title; ?>" href="#" role="link" class=" Link-link-2XYrU Link-default-32xSO"><i class="plex-icon-marketing-dvr-560" style="text-decoration: none"></i> <?php echo $movie->title; ?></a>
+                                    <a title="<?php echo $movie->title; ?>" href="#" role="link" class=" Link-link-2XYrU Link-default-32xSO"><?php echo $movie->title; ?></a>
                                 </div>
                             </div>
                             <div class="PrePlaySecondaryTitle-secondaryTitle-YJRGC PrePlayPrimaryTitle-primaryTitle-1r9P9"

@@ -476,7 +476,7 @@ class Model_Movie extends Model_Overwrite
             return $query
                 ->select('*')
                 ->where('type', 'movie')
-                ->group_by('originalTitle', 'title', 'year', 'studio')
+                ->group_by('originalTitle', 'title', 'year')
                 ->order_by('title', 'ASC')
                 ;
         });
