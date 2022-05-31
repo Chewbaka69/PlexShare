@@ -1,13 +1,11 @@
 <?php
 
-use Fuel\Core\Controller_Template;
-use Fuel\Core\Debug;
 use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 
-class Controller_Home extends Controller_Template
+class Controller_Home extends Controller_Security
 {
     public $template = 'layout/index';
 
@@ -71,7 +69,7 @@ class Controller_Home extends Controller_Template
 
         $this->template->MenuLibraries = $this->template->MenuServer ? $this->template->MenuServer->getLibraries() : null;
 
-        $watching_movies = Model_User_Watching::find_by([
+        $watching_movies = Model_User_History::find_by([
             ['user_id', '=', $this->_user->id],
             ['is_ended', '=', 0]
         ]);

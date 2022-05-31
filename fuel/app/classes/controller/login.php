@@ -15,14 +15,15 @@ class Controller_Login extends Controller
     {
         parent::before();
 
-        $user = Session::get('user');
         $lock = Config::load('lock', true);
-
-        if($user)
-            Response::redirect('/home');
 
         if(!$lock)
             Response::redirect('/install');
+
+        $user = Session::get('user');
+
+        if($user)
+            Response::redirect('/home');
     }
 
     public function action_index()

@@ -253,50 +253,34 @@
 
             let number = 1;
 
-            $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]').each(function (index, element) {
+            $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]:not(.hasBackground)').each(function (index, element) {
 
                 let movie_id = $(element).data('movie-id');
-                let position = element.getBoundingClientRect();
-                let movie = document.querySelector('[data-movie-id="' + movie_id + '"] > div');
 
-                if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !movie.classList.contains('hasBackground') ) {
-                    movie.classList.add('hasBackground');
-                    /** IF USING CLOUDFLARE TOO MANY REQUEST **/
-                    setTimeout(function () {
-                        $('[data-movie-id="' + movie_id + '"] > div')
-                            .css('opacity', 0)
-                            .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")')
-                            .animate({opacity: 1}, 500);
-                    }, 50 +( 50 * number));
-                    number++;
-                } else if( ( position.top < 0 || position.top > (window.innerHeight || document.documentElement.clientHeight) ) && movie.classList.contains('hasBackground') ) {
-                    $('[data-movie-id="' + movie_id + '"] > div').css('background-image', '')
-                        .removeClass('hasBackground')
-                        .animate({opacity: 0}, 500);
-                }
+                this.classList.add('hasBackground');
+                /** IF USING CLOUDFLARE TOO MANY REQUEST **/
+                setTimeout(function () {
+                    $('[data-movie-id="' + movie_id + '"] > div')
+                        .css('opacity', 0)
+                        .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")')
+                        .animate({opacity: 1}, 500);
+                }, 50 +( 50 * number));
+                number++;
             });
 
-            $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]').each(function (index, element) {
+            $('.PosterCardImg-imageContainer-1Ar4M[data-tvshow-id]:not(.hasBackground)').each(function (index, element) {
 
                 let tvshow_id = $(element).data('tvshow-id');
-                let position = element.getBoundingClientRect();
-                let tvshow = document.querySelector('[data-tvshow-id="' + tvshow_id + '"] > div');
 
-                if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !tvshow.classList.contains('hasBackground') ) {
-                    tvshow.classList.add('hasBackground');
-                    /** IF USING CLOUDFLARE TOO MANY REQUEST **/
-                    setTimeout(function () {
-                        $('[data-tvshow-id="' + tvshow_id + '"] > div')
-                            .css('opacity', 0)
-                            .css('background-image', 'url("/cover/tvshow?tvshow_id=' + tvshow_id + '&width=' + 175 + '&height=' + 263 + '")')
-                            .animate({opacity: 1}, 500);
-                    }, 50 +( 50 * number));
-                    number++;
-                } else if( ( position.top < 0 || position.top > (window.innerHeight || document.documentElement.clientHeight) ) && tvshow.classList.contains('hasBackground') ) {
-                    $('[data-tvshow-id="' + tvshow_id + '"] > div').css('background-image', '')
-                        .removeClass('hasBackground')
-                        .animate({opacity: 0}, 500);
-                }
+                this.classList.add('hasBackground');
+                /** IF USING CLOUDFLARE TOO MANY REQUEST **/
+                setTimeout(function () {
+                    $('[data-tvshow-id="' + tvshow_id + '"] > div')
+                        .css('opacity', 0)
+                        .css('background-image', 'url("/cover/tvshow?tvshow_id=' + tvshow_id + '&width=' + 175 + '&height=' + 263 + '")')
+                        .animate({opacity: 1}, 500);
+                }, 50 +( 50 * number));
+                number++;
             });
         });
 

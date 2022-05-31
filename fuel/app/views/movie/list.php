@@ -337,24 +337,16 @@
             $('.PosterCardImg-imageContainer-1Ar4M[data-movie-id]:not(.hasBackground)').each(function (index, element) {
 
                 let movie_id = $(element).data('movie-id');
-                let position = element.getBoundingClientRect();
-                let movie = document.querySelector('[data-movie-id="' + movie_id + '"] > div');
 
-                //if( position.top > 0 && position.top <= (window.innerHeight || document.documentElement.clientHeight) && !movie.classList.contains('hasBackground') ) {
-                    this.classList.add('hasBackground');
-                    // IF USING CLOUDFLARE TOO MANY REQUEST
-                    setTimeout(function () {
-                        $('[data-movie-id="' + movie_id + '"] > div')
-                            .css('opacity', 0)
-                            .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")')
-                            .animate({opacity: 1}, 500);
-                    }, 100 +( 50 * number));
-                    number++;
-                /*} else if( ( position.top < 0 || position.top > (window.innerHeight || document.documentElement.clientHeight) ) && movie.classList.contains('hasBackground') ) {
-                    $('[data-movie-id="' + movie_id + '"] > div').css('background-image', '')
-                        .removeClass('hasBackground')
-                        .animate({opacity: 0}, 500);
-                }*/
+                this.classList.add('hasBackground');
+                // IF USING CLOUDFLARE TOO MANY REQUEST
+                setTimeout(function () {
+                    $('[data-movie-id="' + movie_id + '"] > div')
+                        .css('opacity', 0)
+                        .css('background-image', 'url("/cover/movie?movie_id=' + movie_id + '&width=' + 175 + '&height=' + 263 + '")')
+                        .animate({opacity: 1}, 500);
+                }, 100 +( 50 * number));
+                number++;
             });
         });
 

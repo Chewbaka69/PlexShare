@@ -12,6 +12,12 @@ class Controller_Register extends Controller
     public function before()
     {
         parent::before();
+
+        $lock = Config::load('lock', true);
+
+        if(!$lock)
+            Response::redirect('/install');
+
         $user = Session::get('user');
 
         if($user)

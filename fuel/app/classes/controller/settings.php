@@ -1,14 +1,13 @@
 <?php
 
 use Fuel\Core\Config;
-use Fuel\Core\Controller_Template;
 use Fuel\Core\Input;
 use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 
-class Controller_Settings extends Controller_Template
+class Controller_Settings extends Controller_Security
 {
     public $template = 'settings/body';
 
@@ -65,12 +64,12 @@ class Controller_Settings extends Controller_Template
 
         $default_settings = Config::load('user_settings');
 
-        $settings = Model_Setting::find_one_by('user_id', Session::get('user')->id);
+        $settings = Model_User_Settings::find_one_by('user_id', Session::get('user')->id);
 
         $is_submit = Input::post('submit');
 
         if(isset($is_submit)) {
-            $settings = !empty($settings) ? $settings : new Model_Setting();
+            $settings = !empty($settings) ? $settings : new Model_User_Settings();
             $settings->set([
                 'user_id'   => $this->_user->id,
                 'language'  => Input::post('language'),

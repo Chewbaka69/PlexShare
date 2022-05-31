@@ -1,8 +1,8 @@
 <?php
 
-class Model_Setting extends Model_Overwrite
+class Model_User_Settings extends Model_Overwrite
 {
-    protected static $_table_name = 'user_setting';
+    protected static $_table_name = 'user_settings';
     protected static $_primary_key = 'id';
     protected static $_rules = array(
         'user_id' => 'required',

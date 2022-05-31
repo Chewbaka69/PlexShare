@@ -8,9 +8,9 @@ use Fuel\Core\Session;
 use Fuel\Core\View;
 use Fuel\Core\FuelException;
 
-class Controller_Rest_Movie extends Controller_Rest_Index
+class Controller_Rest_Movie extends Controller_Rest
 {
-    public function get_stream(): object
+    public function get_stream()
     {
         try {
 
@@ -30,10 +30,10 @@ class Controller_Rest_Movie extends Controller_Rest_Index
                 throw new FuelException('You dont have the permission to watch in this library!');
             }
 
-            $user_settings = Model_Setting::find_one_by('user_id', Session::get('user')->id);
+            $user_settings = Model_User_Settings::find_one_by('user_id', Session::get('user')->id);
 
             if ($movie->type !== 'movie') {
-                $episodes = $movie->getSeason()?->getEpisodes();
+                $episodes = $movie->getSeason()->getEpisodes();
             }
             else {
                 $episodes = [$movie];
@@ -60,10 +60,10 @@ class Controller_Rest_Movie extends Controller_Rest_Index
             $timeplay = Input::post('timeplay');
             $isFinish = Input::post('isFinish');
 
-            $watching = Model_User_Watching::find_one_by([
+            $watching = Model_User_History::find_one_by([
                             ['movie_id', '=', $movie_id],
                             ['user_id', '=', $user->id]
-                        ]) ?: new Model_User_Watching();
+                        ]) ?: new Model_User_History();
 
             $watching->set([
                 'user_id' => $user->id,

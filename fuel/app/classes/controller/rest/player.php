@@ -24,10 +24,10 @@ class Controller_Rest_Player extends Controller_Rest
             if (!$movie)
                 throw new FuelException('No movie found');
 
-            $user_watching = Model_User_Watching::find_one_by([
+            $user_watching = Model_User_History::find_one_by([
                 ['movie_id', '=', $movie_id],
                 ['movie_id', '=', $user->id]
-            ]) ?: new Model_User_Watching();
+            ]) ?: new Model_User_History();
 
             return $this->response(['error' => false, 'message' => 'OK!'], 200);
         } catch (Exception $exception) {

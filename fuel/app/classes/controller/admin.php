@@ -1,12 +1,11 @@
 <?php
 
-use Fuel\Core\Controller_Template;
 use Fuel\Core\Lang;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 
-class Controller_Admin extends Controller_Template
+class Controller_Admin extends Controller_Security
 {
     public $template = 'admin/body';
 

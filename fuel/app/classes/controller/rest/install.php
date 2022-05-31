@@ -311,10 +311,10 @@ class Controller_Rest_Install extends Controller_Rest
              * CREATE TABLE USER'S WATCHING
              */
             DBUtil::create_table(
-                'user_watching',
+                'user_history',
                 array(
                     'id' => array('constraint' => 36, 'type' => 'varchar'),
-                    'user_id' => array('constraint' => 11, 'type' => 'int'),
+                    'user_id' => array('constraint' => 36, 'type' => 'varchar'),
                     'movie_id' => array('constraint' => 36, 'type' => 'varchar'),
                     'watching_time' => array('constraint' => 11, 'type' => 'int'),
                     'ended_time' => array('constraint' => 11, 'type' => 'int', 'default' => 0),
@@ -437,8 +437,8 @@ class Controller_Rest_Install extends Controller_Rest
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
             ));
-            /*DBUtil::add_foreign_key('user_watching', array(
-                'constraint' => 'constraintUserUserWatching',
+            DBUtil::add_foreign_key('user_history', array(
+                'constraint' => 'constraintUserUserHistory',
                 'key' => 'user_id',
                 'reference' => array(
                     'table' => 'user',
@@ -446,9 +446,9 @@ class Controller_Rest_Install extends Controller_Rest
                 ),
                 'on_update' => 'NO ACTION',
                 'on_delete' => 'NO ACTION',
-            ));*/
-            DBUtil::add_foreign_key('user_watching', array(
-                'constraint' => 'constraintMovieWatching',
+            ));
+            DBUtil::add_foreign_key('user_history', array(
+                'constraint' => 'constraintMovieHistory',
                 'key' => 'movie_id',
                 'reference' => array(
                     'table' => 'movie',
@@ -514,18 +514,18 @@ class Controller_Rest_Install extends Controller_Rest
             return $this->response(['error' => false, 'message' => $logs]);
         } catch (FuelException $e) {
             try {
-		DBUtil::drop_table('user_watching');
-                DBUtil::drop_table('user_permission');
+		DBUtil::drop_table('user_history');
+        DBUtil::drop_table('user_permission');
 		DBUtil::drop_table('user_settings');
 		DBUtil::drop_table('library_permission');
 		DBUtil::drop_table('movie');
 		DBUtil::drop_table('season');
 		DBUtil::drop_table('tvshow');
 		DBUtil::drop_table('library');
-                DBUtil::drop_table('server');
-                DBUtil::drop_table('configurations');
+        DBUtil::drop_table('server');
+        DBUtil::drop_table('configurations');
 		DBUtil::drop_table('user');
-                DBUtil::drop_table('permission');
+        DBUtil::drop_table('permission');
 		DBUtil::drop_table('library');
                 
                 return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);

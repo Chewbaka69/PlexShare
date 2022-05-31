@@ -2,9 +2,9 @@
 
 
 
-class Model_User_Watching extends Model_Overwrite
+class Model_User_History extends Model_Overwrite
 {
-    protected static $_table_name = 'user_watching';
+    protected static $_table_name = 'user_history';
     protected static $_primary_key = 'id';
     protected static $_properties = array(
         'id',
