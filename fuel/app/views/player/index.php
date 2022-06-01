@@ -39,7 +39,7 @@
             </div>
             <div class="AudioVideoFullPlayerContentHeadingContainer-divider-1A1d_"></div>
         </div>
-        <div class="AudioVideoPlayQueue-content-28l4x Scroller-vertical-VScFL Scroller-scroller-3GqQc Scroller-vertical-VScFL Scroller-auto-LsWiW" style="overflow-y: auto;">
+        <div class="AudioVideoPlayQueue-content-28l4x Scroller-vertical-VScFL Scroller-scroller-d5-b- Scroller-vertical-VScFL Scroller-auto-LsWiW" style="overflow-y: auto;">
             <?php foreach ($episodes as $episode) : ?>
             <div class="AudioVideoPlayQueueItemDragSource-container-3ncn7">
                 <div class="AudioVideoPlayQueueItem-container-2_nsg AudioVideoPlayQueueItem-isCurrentItem-3g1KW"

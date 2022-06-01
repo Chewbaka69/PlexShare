@@ -8,6 +8,7 @@ class Model_Permission extends Model_Overwrite
      * RIGHT_WATCH_DISABLED
      * RIGHT_DOWNLOAD_DISABLED
      * RIGHT_MAX_DOWNLOAD
+     * RIGHT_MAX_DOWNLOAD_SPEED
      * RIGHT_MAX_WATCH
      * RIGHT_MAX_QUALITY
      * RIGHT_MAX_CONCURRENT_STREAM
@@ -24,9 +25,9 @@ class Model_Permission extends Model_Overwrite
     /**
      * @param string $permission
      * @param Model_Movie $movie
-     * @return bool
+     * @return bool|int
      */
-    public static function isGranted($permission, Model_Library $library = null, $data = null       )
+    public static function isGranted($permission, Model_Library $library = null, $data = null)
     {
         $user = Session::get('user');
 
@@ -45,25 +46,17 @@ class Model_Permission extends Model_Overwrite
         ]);
 
         if ($permission->name === 'RIGHT_WATCH_DISABLED') {
-            if($library_permission !== null && $library_permission->value === 1)
+            if($library_permission === null)
                 return false;
-            else if($library_permission !== null && $library_permission->value === 0)
-                return true;
-            else if($library_permission === null)
-                return true;
             else
-                return false;
+                return true;
         }
 
         if ($permission->name === 'RIGHT_DOWNLOAD_DISABLED') {
-            if($library_permission !== null && $library_permission->value === 1)
+            if($library_permission === null)
                 return false;
-            else if($library_permission !== null && $library_permission->value === 0)
-                return true;
-            else if($library_permission === null)
-                return true;
             else
-                return false;
+                return true;
         }
 
         if ($permission->name === 'RIGHT_MAX_DOWNLOAD') {
@@ -71,6 +64,15 @@ class Model_Permission extends Model_Overwrite
              *  RETURN TRUE
              *  ELSE
              *  RETURN FALSE
+             */
+            return true;
+        }
+
+        if ($permission->name === 'RIGHT_MAX_DOWNLOAD_SPEED') {
+            /** @TODO IF (ENABLED)
+             *  RETURN VALUE
+             *  ELSE
+             *  RETURN 0
              */
             return true;
         }

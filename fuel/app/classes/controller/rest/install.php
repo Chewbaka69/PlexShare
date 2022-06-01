@@ -494,6 +494,7 @@ class Controller_Rest_Install extends Controller_Rest
             DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_MAX_QUALITY', 'parameters' => 1])->execute();
             DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_MAX_CONCURRENT_STREAM', 'parameters' => 1])->execute();
             DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_MAX_DOWNLOAD', 'parameters' => 1])->execute();
+            DB::insert('permission')->set(['id' => Str::random('uuid'), 'name' => 'RIGHT_MAX_DOWNLOAD_SPEED', 'parameters' => 1])->execute();
 
             $logs .= 'Permission created!'."\r\n";
 

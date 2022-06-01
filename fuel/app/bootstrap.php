@@ -6,6 +6,7 @@ require COREPATH.'bootstrap.php';
 	// Add classes you want to override here
 	// Example: 'View' => APPPATH.'classes/view.php',
     'Database_Query_Builder_Insert' => APPPATH.'classes/database/query/builder/insert.php',
+    'File'                          => APPPATH.'classes/file.php',
 ));
 
 // Register the autoloader

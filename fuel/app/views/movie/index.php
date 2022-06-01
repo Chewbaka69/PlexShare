@@ -5,8 +5,8 @@
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
         <div class="pageHeaderToolbar-toolbarContainer-2N-IJ Measure-container-2XznZ">
             <div class="pageHeaderToolbar-toolbar-1lW-M">
-                <?php if(Model_Permission::isGranted('RIGHT_DOWNLOAD_DISABLED', $movie->getLibrary())) : ?>
-                <a title="<?php echo __('download'); ?>" href="<?php echo $movie->getDownloadLink() ?>" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                <?php if(!Model_Permission::isGranted('RIGHT_DOWNLOAD_DISABLED', $movie->getLibrary())) : ?>
+                <a title="<?php echo __('download'); ?>" href="/movie/<?php echo $movie->id; ?>/download" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-sync-560" aria-hidden="true"></i>
                 </a>
                 <?php endif; ?>
@@ -298,9 +298,9 @@
                                         </div>
                                         <div style="height: 183px; overflow: hidden;">
                                             <div class="Measure-container-3yONE">
-                                                <div class="HubCell-hubScroller-2qgkr VirtualListScroller-scroller-37EU_ Scroller-horizontal-cOKsq Scroller-scroller-3GqQc Scroller-horizontal-cOKsq ">
+                                                <div class="HubCell-hubScroller-2qgkr VirtualListScroller-scroller-37EU_ Scroller-horizontal-1k8ET Scroller-scroller-d5-b- Scroller-horizontal-1k8ET ">
                                                     <?php $translate = -143; ?>
-                                                    <div class=" " style="width: 5012px; height: 183px;">
+                                                    <div class=" " style="width: auto; height: 183px;">
                                                             <?php foreach ($movie->getMetadata()['Role'] as $role) : ?>
                                                                 <?php $translate += 148; ?>
                                                                 <div data-qa-id="cellItem" style="position: absolute; width: 118px; height: 168px; transform: translate3d(<?php echo $translate; ?>px, 10px, 0px);">

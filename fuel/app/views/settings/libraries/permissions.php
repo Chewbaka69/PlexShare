@@ -1,6 +1,10 @@
 <div class="settings-container">
     <div class="filter-bar"><?php echo $library->getServer()->name; ?> > <?php echo $library->name; ?></div>
-    <div class="filter-bar" style="color: darkgrey;">By default a user can do everything without restriction. Use -1 to unlimited and 0 to block.</div>
+    <div class="filter-bar" style="color: darkgrey; height: auto">
+        By default a user can do everything without restriction. Use -1 to unlimited and 0 to block.
+        <br/>
+        <span class="text-danger"><i class="glyphicon warning-sign"></i></span> <span class="text-warning">Disable the permission, is like putting in unlimited mode.</span>
+    </div>
     <?php if ($permissions) : ?>
     <?php foreach ($permissions as $permission) : ?>
     <div class="SettingsFormSection-sectionWrapper-1-gPg" style="background-color: rgba(0,0,0,0.15); margin-bottom: 15px; border-bottom: 1px solid rgb(97,97,97)">

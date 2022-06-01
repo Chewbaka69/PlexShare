@@ -204,9 +204,9 @@
                                         </div>
                                         <div style="height: 183px; overflow: hidden;">
                                             <div class="Measure-container-3yONE">
-                                                <div class="HubCell-hubScroller-2qgkr VirtualListScroller-scroller-37EU_ Scroller-horizontal-cOKsq Scroller-scroller-3GqQc Scroller-horizontal-cOKsq ">
+                                                <div class="HubCell-hubScroller-2qgkr VirtualListScroller-scroller-37EU_ Scroller-horizontal-1k8ET Scroller-scroller-d5-b- Scroller-horizontal-1k8ET ">
                                                     <?php $translate = -143; ?>
-                                                    <div class=" " style="width: 5012px; height: 183px;">
+                                                    <div class=" " style="width: auto; height: 183px;">
                                                         <?php if(isset($tvshow->getMetadata()['Role'])) : ?>
                                                             <?php foreach ($tvshow->getMetadata()['Role'] as $role) : ?>
                                                                 <?php $translate += 148; ?>

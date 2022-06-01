@@ -26,8 +26,7 @@ class Controller_Rest_Settings extends Controller_Rest
             $https      = Input::post('https') === 'true' ? true : false;
 
             //@TODO CHECK AND REMOVE HTTP AND HTTPS
-
-            $curl = Request::forge(($https ? 'https' : 'http') . '://' . $url . ($port ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
+            $curl = Request::forge(($https ? 'https' : 'http') . '://' . $url . (!empty($port) ? ':' . $port : '') . '/?X-Plex-Token=' . $token, 'curl');
 
             if($https) {
                 $curl->set_options([
@@ -46,7 +45,7 @@ class Controller_Rest_Settings extends Controller_Rest
                 'user_id'   => Session::get('user')->id,
                 'https'     => $https,
                 'url'       => $url,
-                'port'      => $port,
+                'port'      => !empty($port) ? $port : null,
                 'token'     => $token,
                 'lastcheck' => time()
             ]);

@@ -366,8 +366,7 @@ class Model_Movie extends Model_Overwrite
     {
         try {
             $this->download = Cache::get($this->id . '.download');
-            if ($this->download)
-                return $this->download;
+            return $this->download;
         } catch (CacheNotFoundException $e) {
             if(!$this->_server)
                 $this->getServer();
