@@ -4,18 +4,21 @@ use Fuel\Core\Debug;
 
 class Model_Trailer
 {
+    private $_movie_id;
+
     private $_title;
 
     private $_year;
 
     private $_type;
 
-    private $_url;
-
     private $_trailer;
 
-    public function __construct($title, $year, $type)
+    private $_trailer_url;
+
+    public function __construct($movie_id, $title, $year, $type)
     {
+        $this->_movie_id   = $movie_id;
         $this->_title   = $title;
         $this->_year   = $year;
         $this->_type    = $type;
@@ -23,7 +26,7 @@ class Model_Trailer
         if($this->_type === 'movie') {
             $this->getUrl();
 
-            if($this->_url === null)
+            if($this->_trailer_url === null)
                 return;
 
             $this->getMovieTrailer();
@@ -38,36 +41,54 @@ class Model_Trailer
      */
     public function getTrailer()
     {
-        return $this->_trailer;
+        if($this->_type !== 'movie')
+            return;
+
+        try
+        {
+            $trailer = $this->getMovieTrailer();
+
+            if(!$trailer)
+                $trailer = $this->getMovieTeaser();
+
+            return $trailer;
+        } catch (Exception $e) {
+            return;
+        }
     }
 
     private function getUrl()
     {
-        $html = Request::forge('https://www.themoviedb.org/search/movie?query=' . urlencode($this->_title) . '+y%3A' . $this->_year . '&language=us', 'curl');
-        $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
+        try {
+            $this->_trailer_url = Cache::get($this->_movie_id.'.trailer_url');
+            return $this->_trailer_url;
+        } catch (CacheNotFoundException $e)
+        {
+            $html = Request::forge('https://www.themoviedb.org/search/movie?query=' . urlencode($this->_title) . '+y%3A' . $this->_year . '&language=us', 'curl');
+            $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
 
-        $html->execute();
+            $html->execute();
 
-        if ($html->response()->status !== 200)
-            return false;
+            if ($html->response()->status !== 200) return false;
 
-        $media = $html->response()->body;
+            $media = $html->response()->body;
 
-        $regex = '/<a data-id="[a-z0-9]*" data-media-type="movie" data-media-adult="[a-z]*" class="[a-z]*" href="(\/movie\/[\d]*\?language\=us)">/i';
+            $regex = '/<a data-id="[a-z0-9]*" data-media-type="movie" data-media-adult="[a-z]*" class="[a-z]*" href="(\/movie\/[\d]*\?language\=us)">/i';
 
-        preg_match($regex, $media, $urls);
+            preg_match($regex, $media, $urls);
 
-        //Debug::dump($urls);die();
+            if (!isset($urls[1])) return false;
 
-        if (!isset($urls[1]))
-            return false;
+            $this->_trailer_url = explode('?', $urls[1])[0];
 
-        $this->_url = explode('?', $urls[1])[0];
+            Cache::set($this->_movie_id . '.trailer_url', $this->_trailer_url, 24 * 60 * 60);
+            return $this->_trailer_url;
+        }
     }
 
     private function getMovieTrailer()
     {
-        $html = Request::forge('https://www.themoviedb.org' . $this->_url . '/videos?active_nav_item=Trailers&video_language=en-US&language=en-US', 'curl');
+        $html = Request::forge('https://www.themoviedb.org' . $this->getUrl() . '/videos?active_nav_item=Trailers&video_language=en-US&language=en-US', 'curl');
         $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
         $html->set_options(array(
                 CURLOPT_FOLLOWLOCATION => true,
@@ -90,20 +111,18 @@ class Model_Trailer
         $youtube = '//www.youtube.com/embed/'.$youtube[1].'?enablejsapi=1&autoplay=0&hl=en-US&modestbranding=1&fs=1';
 
         $this->_trailer = $youtube;
+
+        return $this->_trailer;
     }
 
     private function getMovieTeaser()
     {
-        $html = Request::forge('https://www.themoviedb.org' . $this->_url . '/videos?active_nav_item=Teasers&video_language=en-US&language=en-US', 'curl');
+        $html = Request::forge('https://www.themoviedb.org' . $this->getUrl() . '/videos?active_nav_item=Teasers&video_language=en-US&language=en-US', 'curl');
         $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
-        $html->set_options(array(
-                CURLOPT_FOLLOWLOCATION => true,
-            )
-        );
+        $html->set_options([CURLOPT_FOLLOWLOCATION => true,]);
         $html->execute();
 
-        if ($html->response()->status !== 200)
-            return false;
+        if ($html->response()->status !== 200) return false;
 
         $media = $html->response()->body;
 
@@ -111,11 +130,12 @@ class Model_Trailer
 
         preg_match($regex, $media, $youtube);
 
-        if (!isset($youtube[1]))
-            return false;
+        if (!isset($youtube[1])) return false;
 
         $youtube = preg_replace('/\&origin\=https%3A%2F%2Fwww\.themoviedb\.org/i', '', $youtube[1]);
 
         $this->_trailer = $youtube;
+
+        return $this->_trailer;
     }
 }

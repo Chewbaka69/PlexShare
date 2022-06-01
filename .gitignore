@@ -24,6 +24,7 @@
 /fuel/app/config/db.php
 /fuel/app/config/crypt.php
 /fuel/app/config/lock.php
+/fuel/app/config/development/
 
 /packages
 /vendor

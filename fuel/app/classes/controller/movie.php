@@ -108,5 +108,34 @@ class Controller_Movie extends Controller_Home
         }
     }
 
+    public function action_stream()
+    {
+        $movie_id = $this->param('movie_id');
+        $transcode = $this->param('transcode');
+        $session = $this->param('session');
+        $base = $this->param('base');
+        $extension = Input::extension();
 
+        if (!$movie_id)
+            throw new FuelException('No movie id');
+
+        /** @var Model_Movie $movie */
+        $movie = Model_Movie::find_by_pk($movie_id);
+
+        if (!$movie)
+            throw new FuelException('No movie found');
+
+        if (Model_Permission::isGranted('RIGHT_WATCH_DISABLED', $movie->getLibrary()))
+            throw new FuelException('You dont have the permission to watch in this library!');
+
+        $url = ($movie->getServer()->https === '1' ? 'https' : 'http') . '://';
+        $url .= $movie->getServer()->url . ($movie->getServer()->port ? ':' . $movie->getServer()->port : '') . '/';
+        $url .= 'video/:/';
+        $url .= 'transcode/' . $transcode . '/';
+        $url .= 'session/' . $session . '/';
+        $url .= 'base/' . $base . '.' . $extension;
+
+        readfile($url);
+        exit;
+    }
 }

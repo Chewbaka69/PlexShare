@@ -309,7 +309,7 @@ class Model_Movie extends Model_Overwrite
             $request .= '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '');
             //$request .= '/video/:/transcode/universal/decision?hasMDE=1'; // DASH
             $request .= '/video/:/transcode/universal/start.m3u8'; // HLS
-            $request .= '?identifier=[PlexShare]';
+            $request .= '?identifier=[PlexShare_V0.0.1]';
             $request .= '&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key);
             $request .= '&mediaIndex=0';
             $request .= '&partIndex=0';
@@ -324,7 +324,7 @@ class Model_Movie extends Model_Overwrite
             $request .= '&audioBoost=100';
             $request .= '&videoResolution=1920x1080';
             $request .= '&Accept-Language=' . $language;
-            $request .= '&X-Plex-Platform=Chrome';
+            $request .= '&X-Plex-Platform=Firefox';
             $request .= '&X-Plex-Token=' . $this->_server->token;
 
             $curl = Request::forge($request, 'curl');
@@ -339,7 +339,7 @@ class Model_Movie extends Model_Overwrite
             $curl->execute();
 
             if ($curl->response()->status !== 200)
-                throw new FuelException('No session found!');
+                throw new FuelException('Error to create a session on plex!');
 
             preg_match('/session\/[a-z0-9\-]+\/base\/index\.m3u8/', $curl->response()->body, $matches);
 
@@ -353,7 +353,8 @@ class Model_Movie extends Model_Overwrite
 
             $this->_session = $split[1];
 
-            return ($this->_server->https === '1' ? 'https' : 'http') . '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
+            return '/movie/' . $this->id . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
+            //return ($this->_server->https === '1' ? 'https' : 'http') . '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
         } catch (Exception $exception) {
             if($exception->getCode() === 403)
                 throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!',$exception->getCode());
@@ -483,7 +484,16 @@ class Model_Movie extends Model_Overwrite
 
     public function getTrailer()
     {
-        $trailer = new Model_Trailer($this->originalTitle ?: $this->title, $this->year, $this->type);
-        $this->trailer = $trailer->getTrailer();
+        try {
+            $this->trailer = Cache::get($this->id.'.trailer');
+            return $this->trailer;
+        } catch (CacheNotFoundException $e)
+        {
+            $trailer = new Model_Trailer($this->id, $this->originalTitle ?: $this->title, $this->year, $this->type);
+            $this->trailer = $trailer->getTrailer();
+
+            Cache::set($this->id . '.trailer', $this->trailer, 24 * 60 * 60);
+            return $this->trailer;
+        }
     }
 }

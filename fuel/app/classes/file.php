@@ -12,11 +12,10 @@ class File extends Fuel\Core\File
      *
      * @return  int
      */
-    public static function readChunked(string $file_path, int $speed_limit, bool $return_bytes = TRUE)
+    public static function readChunked(string $file_path, int $speed_limit, int $tickrate = 1024, bool $return_bytes = TRUE)
     {
         $buffer = '';
         $speed_limit += $speed_limit * 0.2;
-        $tickrate = 1024;
         $cnt    = 0;
 
         $handle = fopen($file_path, "rb");

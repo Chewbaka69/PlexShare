@@ -503,19 +503,19 @@ class Controller_Rest_Install extends Controller_Rest
             return $this->response(['error' => false, 'message' => $logs]);
         } catch (FuelException $e) {
             try {
-		DBUtil::drop_table('user_history');
-        DBUtil::drop_table('user_permission');
-		DBUtil::drop_table('user_settings');
-		DBUtil::drop_table('library_permission');
-		DBUtil::drop_table('movie');
-		DBUtil::drop_table('season');
-		DBUtil::drop_table('tvshow');
-		DBUtil::drop_table('library');
-        DBUtil::drop_table('server');
-        DBUtil::drop_table('configurations');
-		DBUtil::drop_table('user');
-        DBUtil::drop_table('permission');
-		DBUtil::drop_table('library');
+                DBUtil::drop_table('user_history');
+                DBUtil::drop_table('user_permission');
+                DBUtil::drop_table('user_settings');
+                DBUtil::drop_table('library_permission');
+                DBUtil::drop_table('movie');
+                DBUtil::drop_table('season');
+                DBUtil::drop_table('tvshow');
+                DBUtil::drop_table('library');
+                DBUtil::drop_table('server');
+                DBUtil::drop_table('configurations');
+                DBUtil::drop_table('user');
+                DBUtil::drop_table('permission');
+                DBUtil::drop_table('library');
                 
                 return $this->response(array('error' => true, 'message' => $e->getMessage()), 400);
             } catch (FuelException $e) {
