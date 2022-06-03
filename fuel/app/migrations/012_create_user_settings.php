@@ -16,12 +16,12 @@ class Create_user_settings
 			'maxdownloadspeed' => array('default' => '-1', 'type' => 'int', 'null' => false, 'constraint' => 11),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintUserUserSetting ON user_settings(`user_id`)')->execute();
+		\DB::query('CREATE INDEX constraintUserUserSetting ON ' . \DB::table_prefix('user_settings') . '(`user_id`)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintUserUserSetting ON user_settings')->execute();
+		\DB::query('DROP INDEX constraintUserUserSetting ON ' . \DB::table_prefix('user_settings'))->execute();
 
 		\DBUtil::drop_table('user_settings');
 	}

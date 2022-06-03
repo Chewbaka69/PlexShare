@@ -17,12 +17,12 @@ class Create_user
 			'disable' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintUserUser ON user(`parent_id`)')->execute();
+		\DB::query('CREATE INDEX constraintUserUser ON ' . \DB::table_prefix('user') . '(`parent_id`)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintUserUser ON user')->execute();
+		\DB::query('DROP INDEX constraintUserUser ON ' . \DB::table_prefix('season'))->execute();
 
 		\DBUtil::drop_table('user');
 	}

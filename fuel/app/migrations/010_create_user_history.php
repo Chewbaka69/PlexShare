@@ -15,14 +15,14 @@ class Create_user_history
 			'is_ended' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintUserUserHistory ON user_history(`user_id`)')->execute();
-		\DB::query('CREATE INDEX constraintMovieHistory ON user_history(`movie_id`)')->execute();
+		\DB::query('CREATE INDEX constraintUserUserHistory ON ' . \DB::table_prefix('user_history') . '(`user_id`)')->execute();
+		\DB::query('CREATE INDEX constraintMovieHistory ON ' . \DB::table_prefix('user_history') . '(`movie_id`)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintUserUserHistory ON user_history')->execute();
-		\DB::query('DROP INDEX constraintMovieHistory ON user_history')->execute();
+		\DB::query('DROP INDEX constraintUserUserHistory ON ' . \DB::table_prefix('user_history'))->execute();
+		\DB::query('DROP INDEX constraintMovieHistory ON ' . \DB::table_prefix('user_history'))->execute();
 
 		\DBUtil::drop_table('user_history');
 	}

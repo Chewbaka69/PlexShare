@@ -6,6 +6,7 @@ class Model_Permission extends Model_Overwrite
 {
     /**
      * RIGHT_WATCH_DISABLED
+     * RIGHT_TRAILER_DISABLED
      * RIGHT_DOWNLOAD_DISABLED
      * RIGHT_MAX_DOWNLOAD
      * RIGHT_MAX_DOWNLOAD_SPEED
@@ -25,9 +26,9 @@ class Model_Permission extends Model_Overwrite
     /**
      * @param string $permission
      * @param Model_Movie $movie
-     * @return bool|int
+     * @return bool|int FALSE allow to download & TRUE block to download
      */
-    public static function isGranted($permission, Model_Library $library = null, $data = null)
+    public static function isGranted($permission, Model_Library $library, $data = null)
     {
         $user = Session::get('user');
 
@@ -59,13 +60,25 @@ class Model_Permission extends Model_Overwrite
                 return true;
         }
 
+        if ($permission->name === 'RIGHT_TRAILER_DISABLED') {
+            if($library_permission === null)
+                return false;
+            else
+                return true;
+        }
+
         if ($permission->name === 'RIGHT_MAX_DOWNLOAD') {
-            /** @TODO IF (NUMBER_DOWNLOAD <= MAX_DOWNLOAD)  // in last 24h
-             *  RETURN TRUE
-             *  ELSE
+            /** @TODO IF (MAX_DOWNLOAD > NUMBER_DOWNLOAD)  // in last 24h
              *  RETURN FALSE
+             *  ELSE
+             *  RETURN TRUE
              */
-            return true;
+            if($library_permission === NULL)
+                return false;
+            else if((int)$library_permission->value > $data)
+                return false;
+            else
+                return true;
         }
 
         if ($permission->name === 'RIGHT_MAX_DOWNLOAD_SPEED') {

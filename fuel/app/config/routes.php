@@ -9,7 +9,7 @@ return array(
     'season/:season_id'                             => 'season/index',
     'episode/:movie_id/download'                    => 'movie/download',
     'episode/:episode_id'                           => 'episode/index',
-    'movie/:movie_id/video/\:/transcode/:transcode/session/:session/base/:base' => 'movie/stream',
+    'movie/:movie_id/video/\:/transcode/:transcode/session/:session/:index/:base' => 'movie/stream',
     'movie/:movie_id/download'                      => 'movie/download',
     'movie/:movie_id'                               => 'movie/index',
     'movie/list'                                    => 'movie/list',

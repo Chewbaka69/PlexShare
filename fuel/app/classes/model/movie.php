@@ -307,24 +307,25 @@ class Model_Movie extends Model_Overwrite
 
             $request = $this->_server->https === '1' ? 'https' : 'http';
             $request .= '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '');
-            //$request .= '/video/:/transcode/universal/decision?hasMDE=1'; // DASH
+            //$request .= '/video/:/transcode/universal/start.mpd?hasMDE=1'; // DASH
             $request .= '/video/:/transcode/universal/start.m3u8'; // HLS
             $request .= '?identifier=[PlexShare_V0.0.1]';
             $request .= '&path=http%3A%2F%2F127.0.0.1%3A32400' . urlencode($this->plex_key);
             $request .= '&mediaIndex=0';
             $request .= '&partIndex=0';
+            //$request .= '&protocol=dash';
             $request .= '&protocol=hls';
             $request .= '&offset=0';
             $request .= '&fastSeek=1';
-            $request .= '&directStream=0';
-            $request .= '&directPlay=1';
+            $request .= '&directStream=1';
+            $request .= '&directPlay=0';
             $request .= '&videoQuality=100';
             $request .= '&maxVideoBitrate=' . $maxVideoBitrate;
             $request .= '&subtitleSize=' . $subtitleSize;
             $request .= '&audioBoost=100';
             $request .= '&videoResolution=1920x1080';
             $request .= '&Accept-Language=' . $language;
-            $request .= '&X-Plex-Platform=Firefox';
+            $request .= '&X-Plex-Platform=Chrome';
             $request .= '&X-Plex-Token=' . $this->_server->token;
 
             $curl = Request::forge($request, 'curl');
@@ -357,9 +358,9 @@ class Model_Movie extends Model_Overwrite
             //return ($this->_server->https === '1' ? 'https' : 'http') . '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
         } catch (Exception $exception) {
             if($exception->getCode() === 403)
-                throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!',$exception->getCode());
+                throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!', 200);
             else
-                throw new FuelException($exception->getMessage(),$exception->getCode());
+                throw new FuelException($exception->getMessage(), 200);
         }
     }
 

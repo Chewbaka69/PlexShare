@@ -27,12 +27,12 @@ class Create_tvshow
 			'disable' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintTvShowLibrary ON tvshow(`library_id`)')->execute();
+		\DB::query('CREATE INDEX constraintTvShowLibrary ON ' . \DB::table_prefix('tvshow') . '(`library_id`)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintTvShowLibrary ON tvshow')->execute();
+		\DB::query('DROP INDEX constraintTvShowLibrary ON ' . \DB::table_prefix('tvshow'))->execute();
 
 		\DBUtil::drop_table('tvshow');
 	}

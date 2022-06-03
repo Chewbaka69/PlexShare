@@ -19,7 +19,7 @@
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560" aria-hidden="true"></i>
                 </button>
-                <?php if($movie->getTrailer() !== null) : ?>
+                <?php if(!Model_Permission::isGranted('RIGHT_TRAILER_DISABLED', $movie->getLibrary()) && $movie->getTrailer() !== null) : ?>
                 <button id="id-362" title="<?php echo __('watch_trailer'); ?>" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
                     <i class="plex-icon-toolbar-play-trailer-560" aria-hidden="true"></i>
                 </button>
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </div>
-                    <?php if($movie->getTrailer() !== null) : ?>
+                    <?php if(!Model_Permission::isGranted('RIGHT_TRAILER_DISABLED', $movie->getLibrary()) && $movie->getTrailer() !== null) : ?>
                     <div style="font-size: 20px;padding: 0;" class="col-sm-12 text-center">
                         <button id="id-362" class="Link-link-2XYrU Link-default-32xSO" style="background: #dc3535;border-radius: 3px;padding: 0 7px;width: 100%;margin-top: 15px;">
                             <i class="glyphicon video-hd"></i> <?php echo __('watch_trailer'); ?>

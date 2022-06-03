@@ -121,6 +121,11 @@ class Model_Server extends Model_Overwrite
         return $libraries;
     }
 
+    public function getHubs()
+    {
+
+    }
+
     public function getThirtyLastedTvShows()
     {
         try {
@@ -167,33 +172,6 @@ class Model_Server extends Model_Overwrite
         } catch (Exception $exception){
             Debug::dump($exception);
         }
-
-        //return self::find(function ($query) use ($server) {
-        /** @var Database_Query_Builder_Select $query */
-        /*return $query
-            ->select('movie.*', DB::expr('COUNT(' . DB::table_prefix('movie') . '.type) AS count'))
-            ->join('season', 'LEFT')
-            ->on('movie.season_id', '=', 'season.id')
-            ->join('tvshow', 'LEFT')
-            ->on('season.tv_show_id', '=', 'tvshow.id')
-            ->join('library', 'LEFT')
-            ->on('tvshow.library_id', '=', 'library.id')
-            ->join('server', 'LEFT')
-            ->on('library.server_id', '=', 'server.id')
-            ->where('server.id', $server->id)
-            ->and_where('server.online', 1)
-            ->and_where('server.disable', 0)
-            ->and_where('library.disable', 0)
-            ->and_where('tvshow.disable', 0)
-            ->and_where('season.disable', 0)
-            ->and_where('movie.disable', 0)
-            ->and_where('movie.type', 'episode')
-            ->order_by('movie.addedAt', 'DESC')
-            ->order_by(DB::expr('MAX(' . DB::table_prefix('movie') .'.addedAt)'), 'DESC ')//'movie.addedAt', 'DESC')
-            ->group_by('movie.season_id')
-            ->limit(30)
-        ;
-    });*/
     }
 
     public function getThirtyLastedMovies()

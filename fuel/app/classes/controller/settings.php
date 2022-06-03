@@ -3,7 +3,8 @@
 use Fuel\Core\Config;
 use Fuel\Core\Input;
 use Fuel\Core\Lang;
-use Fuel\Core\Response;
+    use Fuel\Core\Migrate;
+    use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 

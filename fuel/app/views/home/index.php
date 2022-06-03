@@ -1,9 +1,9 @@
 <div class="PageHeader-pageHeader-18RSw">
-    <div class="PageHeaderLeft-pageHeaderLeft-2TxSo"><span>Découvrir<span
+    <div class="PageHeaderLeft-pageHeaderLeft-2TxSo"><span><?php echo __('discover'); ?><span
                     class="PageHeaderSeparator-pageHeaderSeparator-221fi DashSeparator-separator-2a3yn">—</span></span>
         <button aria-haspopup="true" data-qa-id="directoriesMenuButton" id="id-1976" role="button"
                 class="PageHeaderBreadcrumbButton-button-1uaPj DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37 DisclosureArrowButton-isSelected-oswRN Link-link-2XYrU Link-default-32xSO  Link-isSelected-3GpAs"
-                type="button">Toutes les bibliothèques
+                type="button"><?php echo __('all_libraries'); ?>
             <div class="DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd DisclosureArrow-isSelected-VMAVr"></div>
         </button>
     </div>
@@ -16,7 +16,7 @@
             <div class="HubCell-hubCell-3Ys17" style="visibility: visible;" data-qa-id="hub--home.continue">
                 <div class="HubCellHeader-hubCellHeader-2pvYN HubCellHeader-hubCellHeader-2pvYN">
                     <div class="MetadataHubCellHeader-title-3ngFlY HubCellTitle-hubCellTitle-2abIn"
-                         data-qa-id="hubCellTitle">CONTINUER À REGARDER<span
+                         data-qa-id="hubCellTitle"><?php echo strtoupper(__('continue_to_watch')); ?><span
                                 class="MetadataHubCellHeader-titleSeparator-2XLwHj DashSeparator-separator-2a3yn">—</span><span
                                 class="MetadataHubCellHeader-sourceTitle-VjjOkx">Hack-Free</span></div>
                 </div>

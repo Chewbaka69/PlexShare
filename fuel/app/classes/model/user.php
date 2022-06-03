@@ -36,7 +36,7 @@ class Model_User extends Model_Overwrite
 
     public static function Login($login, $password)
     {
-        $result = self::find_by(function ($query) use ($login,$password){
+        $result = self::find_one_by(function ($query) use ($login,$password){
             return $query
                 ->where('password', $password)
                 ->and_where('parent_id', null)
@@ -48,7 +48,7 @@ class Model_User extends Model_Overwrite
         });
 
         if($result !== null)
-            return $result[0];
+            return $result;
         else
             return false;
     }

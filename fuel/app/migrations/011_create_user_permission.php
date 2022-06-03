@@ -15,16 +15,16 @@ class Create_user_permission
 			'disable' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintPermissionUserPermission ON user_permission(`permission_id`)')->execute();
-		\DB::query('CREATE INDEX constraintUserUserPermission ON user_permission(`user_id`)')->execute();
-		\DB::query('CREATE INDEX constraintLibraryUserPermission ON user_permission(`library_id`)')->execute();
+		\DB::query('CREATE INDEX constraintPermissionUserPermission ON ' . \DB::table_prefix('user_permission') . '(`permission_id`)')->execute();
+		\DB::query('CREATE INDEX constraintUserUserPermission ON ' . \DB::table_prefix('user_permission') . '(`user_id`)')->execute();
+		\DB::query('CREATE INDEX constraintLibraryUserPermission ON ' . \DB::table_prefix('user_permission') . '(`library_id`)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintPermissionUserPermission ON user_permission')->execute();
-		\DB::query('DROP INDEX constraintUserUserPermission ON user_permission')->execute();
-		\DB::query('DROP INDEX constraintLibraryUserPermission ON user_permission')->execute();
+		\DB::query('DROP INDEX constraintPermissionUserPermission ON ' . \DB::table_prefix('user_permission'))->execute();
+		\DB::query('DROP INDEX constraintUserUserPermission ON ' . \DB::table_prefix('user_permission'))->execute();
+		\DB::query('DROP INDEX constraintLibraryUserPermission ON ' . \DB::table_prefix('user_permission'))->execute();
 
 		\DBUtil::drop_table('user_permission');
 	}

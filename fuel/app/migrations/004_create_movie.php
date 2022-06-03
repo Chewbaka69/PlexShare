@@ -28,16 +28,16 @@ class Create_movie
 			'disable' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintMovieLibrary ON movie(`library_id`)')->execute();
-		\DB::query('CREATE INDEX constraintMovieSeason ON movie(`season_id`)')->execute();
-		\DB::query('CREATE INDEX searchTitle ON movie(`title` DESC)')->execute();
+		\DB::query('CREATE INDEX constraintMovieLibrary ON ' . \DB::table_prefix('movie') . '(`library_id`)')->execute();
+		\DB::query('CREATE INDEX constraintMovieSeason ON ' . \DB::table_prefix('movie') . '(`season_id`)')->execute();
+		\DB::query('CREATE INDEX searchTitle ON ' . \DB::table_prefix('movie') . '(`title` DESC)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintMovieLibrary ON movie')->execute();
-		\DB::query('DROP INDEX constraintMovieSeason ON movie')->execute();
-		\DB::query('DROP INDEX searchTitle ON movie')->execute();
+		\DB::query('DROP INDEX constraintMovieLibrary ON ' . \DB::table_prefix('movie'))->execute();
+		\DB::query('DROP INDEX constraintMovieSeason ON ' . \DB::table_prefix('movie'))->execute();
+		\DB::query('DROP INDEX searchTitle ON ' . \DB::table_prefix('movie'))->execute();
 
 		\DBUtil::drop_table('movie');
 	}

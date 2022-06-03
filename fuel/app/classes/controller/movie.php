@@ -65,10 +65,36 @@ class Controller_Movie extends Controller_Home
             if (!$movie)
                 throw new FuelException('No movie found');
 
+            $user_id = $this->_user->id;
+
+            $user_downloads = Model_User_Download::find(function ($query) use ($user_id) {
+                $startOfDay = date("Y-m-d 00:00:00");
+                $endOfDay = date("Y-m-d 23:59:59");
+                $query->where('user_id', $user_id)
+                      ->and_where('date', '>=', strtotime($startOfDay))
+                      ->and_where('date', '<=', strtotime($endOfDay))
+                ;
+            });
+
             if (Model_Permission::isGranted('RIGHT_DOWNLOAD_DISABLED', $movie->getLibrary()))
                 throw new FuelException('You dont have the permission to download in this library!');
 
+            if (Model_Permission::isGranted('RIGHT_MAX_DOWNLOAD', $movie->getLibrary(), count($user_downloads)))
+                throw new FuelException('You reach the limit of download in this library today!');
+
             $url = $movie->getDownloadLink();
+
+            $download = Model_User_Download::forge(array(
+                                          'user_id'     => $this->_user->id,
+                                          'movie_id'    => $movie_id,
+                                          'date'        => time()
+                                      ));
+
+            if(!$download->validates()) {
+                throw new FuelException($download->validation()->show_errors());
+            }
+
+            $download->save();
 
             $filename = '';
             $size = 0;
@@ -98,9 +124,9 @@ class Controller_Movie extends Controller_Home
             header('Content-Length: '.$size);
 
             // @TODO: add it to admin panel and permission
-            $speed = 2000;
+            $speed = 5000;
 
-            File::readChunked($url, $speed);
+            File::readChunked($url, $speed, 2048);
 
             exit(200);
         } catch (Exception $exception) {
@@ -113,6 +139,7 @@ class Controller_Movie extends Controller_Home
         $movie_id = $this->param('movie_id');
         $transcode = $this->param('transcode');
         $session = $this->param('session');
+        $index = $this->param('index');
         $base = $this->param('base');
         $extension = Input::extension();
 
@@ -133,7 +160,7 @@ class Controller_Movie extends Controller_Home
         $url .= 'video/:/';
         $url .= 'transcode/' . $transcode . '/';
         $url .= 'session/' . $session . '/';
-        $url .= 'base/' . $base . '.' . $extension;
+        $url .= $index . '/' . $base . '.' . $extension;
 
         readfile($url);
         exit;

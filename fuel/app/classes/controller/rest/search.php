@@ -11,7 +11,12 @@ class Controller_Rest_Search extends Controller_Rest
     {
         $search = '%'.Input::get('search').'%';
 
-        $query = DB::query('SELECT * FROM '.DB::table_prefix('movie').' WHERE '.DB::table_prefix('movie').'.type = :type AND ('.DB::table_prefix('movie').'.`title` LIKE :search OR MATCH('.DB::table_prefix('movie').'.`title`) AGAINST(:search)) ORDER BY MATCH('.DB::table_prefix('movie').'.`title`) AGAINST(:search) DESC LIMIT 5');
+        $query = DB::query('SELECT * FROM '.DB::table_prefix('movie').
+                           ' WHERE '.DB::table_prefix('movie').'.type = :type
+                           AND ('.DB::table_prefix('movie').'.`title` LIKE :search
+                           OR MATCH('.DB::table_prefix('movie').'.`title`) AGAINST(:search))
+                           ORDER BY MATCH('.DB::table_prefix('movie').'.`title`)
+                           AGAINST(:search) DESC LIMIT 5');
 
         $query->bind('search', $search);
 

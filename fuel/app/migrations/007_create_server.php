@@ -23,12 +23,12 @@ class Create_server
 			'disable' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintServerUser ON server(`user_id`)')->execute();
+		\DB::query('CREATE INDEX constraintServerUser ON ' . \DB::table_prefix('server') . '(`user_id`)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintServerUser ON server')->execute();
+		\DB::query('DROP INDEX constraintServerUser ON ' . \DB::table_prefix('server'))->execute();
 
 		\DBUtil::drop_table('server');
 	}

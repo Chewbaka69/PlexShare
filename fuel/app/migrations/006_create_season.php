@@ -20,12 +20,12 @@ class Create_season
 			'disable' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintSeasonTvShow ON season(`tv_show_id`)')->execute();
+		\DB::query('CREATE INDEX constraintSeasonTvShow ON ' . \DB::table_prefix('season') . '(`tv_show_id`)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintSeasonTvShow ON season')->execute();
+		\DB::query('DROP INDEX constraintSeasonTvShow ON ' . \DB::table_prefix('season'))->execute();
 
 		\DBUtil::drop_table('season');
 	}

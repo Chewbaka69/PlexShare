@@ -9,7 +9,7 @@ class Controller_Home extends Controller_Security
 {
     public $template = 'layout/index';
 
-    private $_user;
+    protected $_user;
 
     public function before()
     {

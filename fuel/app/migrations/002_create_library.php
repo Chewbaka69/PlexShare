@@ -18,12 +18,12 @@ class Create_library
 			'disable' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
 		), array('id'));
 
-		\DB::query('CREATE INDEX constraintServerLibrary ON library(`server_id`)')->execute();
+		\DB::query('CREATE INDEX constraintServerLibrary ON ' . \DB::table_prefix('library') . '(`server_id`)')->execute();
 	}
 
 	public function down()
 	{
-		\DB::query('DROP INDEX constraintServerLibrary ON library')->execute();
+		\DB::query('DROP INDEX constraintServerLibrary ON ' . \DB::table_prefix('library'))->execute();
 
 		\DBUtil::drop_table('library');
 	}
