@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\DB;
 use Fuel\Core\Format;
 use Fuel\Core\Request;
 use Fuel\Core\Cache;
@@ -358,9 +359,9 @@ class Model_Movie extends Model_Overwrite
             //return ($this->_server->https === '1' ? 'https' : 'http') . '://' . $this->_server->url . ($this->_server->port ? ':' . $this->_server->port : '') . '/video/:/transcode/universal/session/' . $this->_session . '/base/index.m3u8';
         } catch (Exception $exception) {
             if($exception->getCode() === 403)
-                throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!', 200);
+                throw new FuelException('Cannot connect to the server.<br/>The token must be outdated!', $exception->getCode());
             else
-                throw new FuelException($exception->getMessage(), 200);
+                throw new FuelException($exception->getMessage(), $exception->getCode());
         }
     }
 
@@ -478,7 +479,7 @@ class Model_Movie extends Model_Overwrite
                 ->select('*')
                 ->where('type', 'movie')
                 ->group_by('originalTitle', 'title', 'year')
-                ->order_by('title', 'ASC')
+                ->order_by(DB::expr("str_to_date(`originallyAvailableAt`, '%Y-%m-%d')"), 'DESC')
                 ;
         });
     }

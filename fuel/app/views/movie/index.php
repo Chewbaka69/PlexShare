@@ -94,11 +94,11 @@
                         <div class="col-sm-4 text-center" title="Dolby Digital" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-dolby"></i></div>
                     <?php endif; ?>
 
-                    <?php if(isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/7\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php if(isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/7\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['displayTitle'])) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-7-1"></i></div>
-                    <?php elseif (isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/5\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php elseif (isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/5\.1(\([a-z]*\))?/',$movie->getMetaData()['Stream']['Audio'][0]['displayTitle'])) : ?>
                         <div class="col-sm-4 text-center" style="font-size: 35px;"><i class="glyphicon sound-5-1"></i></div>
-                    <?php elseif (isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/stereo/',$movie->getMetaData()['Stream']['Audio'][0]['audioChannelLayout'])) : ?>
+                    <?php elseif (isset($movie->getMetaData()['Stream']['Audio'][0]) && preg_match('/Stereo/',$movie->getMetaData()['Stream']['Audio'][0]['displayTitle'])) : ?>
                         <div class="col-sm-4 text-center" title="Stereo" data-placement="bottom" data-toggle="tooltip" style="font-size: 35px;"><i class="glyphicon sound-stereo"></i></div>
                     <?php endif; ?>
                 </div>

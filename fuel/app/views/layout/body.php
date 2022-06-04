@@ -105,36 +105,44 @@ $(function() {
             method: 'GET',
             data: {search: $(this).val()},
             dataType: 'json'
-        }).done(function (data) {
+        }).done(function (datas) {
             $('._search').remove();
 
-            if(data.movies.length === 0 && data.episodes.length === 0)
+            if(datas.length === 0)
                 return;
 
             $('#search_result').removeClass('hidden');
 
-            data.movies.forEach(function (movie, index) {
-                let template = $('#film_template').clone();
+            datas.forEach(function (data, index) {
+                if(!data.type)
+                    return;
+
+                let template = $('#search_template').clone();
 
                 template.removeClass('hidden');
                 template.addClass('_search');
-                template.html(template.html().replace(/{\$TITLE\$}/g, movie.title));
-                template.html(template.html().replace(/{\$YEAR\$}/g, movie.year));
-                template.html(template.html().replace(/{\$MOVIEID\$}/g, movie.id));
 
-                $('#film_template').after(template);
-            });
+                if(data.type === 'movie') {
+                    template.html(template.html().replace(/{\$HREF_SEARCH\$}/g, '/movie/' + data.id));
+                    template.html(template.html().replace(/{\$URL_COVER\$}/g, '/cover/movie?movie_id=' + data.id));
+                }
 
-            data.episodes.forEach(function (episode, index) {
-                let template = $('#episode_template').clone();
+                if(data.type === 'episode') {
+                    template.html(template.html().replace(/{\$HREF_SEARCH\$}/g, '/episode/' + data.id));
+                    template.html(template.html().replace(/{\$URL_COVER\$}/g, '/cover/movie?movie_id=' + data.id));
+                }
 
-                template.removeClass('hidden');
-                template.addClass('_search');
-                template.html(template.html().replace(/{\$TITLE\$}/g, episode.title));
-                template.html(template.html().replace(/{\$YEAR\$}/g, episode.year));
-                template.html(template.html().replace(/{\$MOVIEID\$}/g, episode.id));
+                if(data.type === 'tvshow') {
+                    template.html(template.html().replace(/{\$HREF_SEARCH\$}/g, '/tvshow/' + data.id));
+                    template.html(template.html().replace(/{\$URL_COVER\$}/g, '/cover/tvshow?tvshow_id=' + data.id));
+                }
 
-                $('#episode_template').after(template);
+                template.html(template.html().replace(/{\$TITLE\$}/g, data.title));
+                template.html(template.html().replace(/{\$YEAR\$}/g, data.year));
+                template.html(template.html().replace(/{\$TYPE\$}/g, data.type));
+                template.html(template.html().replace(/{\$TVSHOW\$}/g, data.tvshow));
+
+                $('#search_template').after(template);
             });
         }).fail(function (data) {
             console.error(data.responseText);

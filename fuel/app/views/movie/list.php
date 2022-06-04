@@ -12,7 +12,7 @@
         </button>
         <button aria-haspopup="true" data-qa-id="typeDropdownButton" id="id-14" role="button"
                 class="PageHeaderBreadcrumbButton-button-1uaPj DisclosureArrowButton-disclosureArrowButton-3tbYZ DisclosureArrowButton-medium-3-Y37  Link-link-2XYrU Link-default-32xSO"
-                type="button">Par Titre
+                type="button">Date de sortie
             <div class="DisclosureArrowButton-disclosureArrow-34Wg3 DisclosureArrow-disclosureArrow-1sBFv DisclosureArrowButton-down-bd2wx DisclosureArrowButton-medium-3-Y37 DisclosureArrow-down-1U7WW DisclosureArrow-up-rjGpc DisclosureArrow-default-3_FCW DisclosureArrow-medium-3VjTd "></div>
         </button>
         <span class="PageHeaderBadge-badge-sOmD- Badge-badge-1VCQ1 Badge-default-1XnzT"><?php echo count($movies); ?></span>
@@ -217,88 +217,72 @@
     <div data-reactroot="" id="id-1865">
         <div role="menu" class="MenuContainer-menu-3Gtlw MenuContainer-medium-2XOYJ">
             <div class="Menu-menuScroller-E0NwY Scroller-vertical-1bgGS Scroller-scroller-d5-b- Scroller-vertical-1bgGS Scroller-auto-3t4gM"
-                 style="max-height: 591px;"><a data-qa-id="dropdownItem" role="menuitem"
-                                               href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=titleSort%3Adesc&amp;save=1"
-                                               class=" SelectedMenuItem-isSelected-3zuEi MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
+                 style="max-height: 591px;">
+                <a data-qa-id="dropdownItem" role="menuitem"
+                       href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=titleSort%3Adesc&amp;save=1"
+                       class=" MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Titre</div>
-                        <div class="SelectedMenuItem-selectedIcon-3S2cy"><i class="plex-icon-sort-ascending-560"
-                                                                            aria-hidden="false"
-                                                                            aria-label="Croissant"></i></div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
+                </a>
+                <a data-qa-id="dropdownItem" role="menuitem"
                        href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=year%3Adesc&amp;save=1"
                        class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Année</div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
+                </a>
+                <a data-qa-id="dropdownItem" role="menuitem"
                        href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=originallyAvailableAt%3Adesc&amp;save=1"
-                       class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
+                       class=" SelectedMenuItem-isSelected-3zuEi MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Date de sortie</div>
+                        <div class="SelectedMenuItem-selectedIcon-3S2cy"><i class="plex-icon-sort-descending-560"></i></div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
+                </a>
+                <a data-qa-id="dropdownItem" role="menuitem"
                        href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=rating%3Adesc&amp;save=1"
                        class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Note Critique</div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
+                </a>
+                <a data-qa-id="dropdownItem" role="menuitem"
                        href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=userRating%3Adesc&amp;save=1"
                        class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Évaluation</div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
+                </a>
+                <a data-qa-id="dropdownItem" role="menuitem"
                        href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=contentRating%3Adesc&amp;save=1"
                        class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Évaluation du contenu</div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
+                </a>
+                <a data-qa-id="dropdownItem" role="menuitem"
                        href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=duration%3Adesc&amp;save=1"
                        class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Durée</div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
-                       href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=viewOffset%3Adesc&amp;save=1"
-                       class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
-                    <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
-                        <div class="SelectedMenuItem-menuLabel-1tKeW">En cours</div>
-                    </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
-                       href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=viewCount%3Adesc&amp;save=1"
-                       class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
-                    <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
-                        <div class="SelectedMenuItem-menuLabel-1tKeW">Lectures</div>
-                    </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
+                </a>
+                <a data-qa-id="dropdownItem" role="menuitem"
                        href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=addedAt%3Adesc&amp;save=1"
                        class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Date d'ajout</div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
+                </a>
+                <a data-qa-id="dropdownItem" role="menuitem"
                        href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=lastViewedAt%3Adesc&amp;save=1"
                        class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
                     <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
                         <div class="SelectedMenuItem-menuLabel-1tKeW">Date du visionnage</div>
                     </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
-                       href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=mediaHeight&amp;save=1"
-                       class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
-                    <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
-                        <div class="SelectedMenuItem-menuLabel-1tKeW">Résolution</div>
-                    </div>
-                </a><a data-qa-id="dropdownItem" role="menuitem"
-                       href="#!/server/df1de861fbaba243c18ed9275fd42e3248d19336?key=%2Flibrary%2Fsections%2F1&amp;typeKey=%2Flibrary%2Fsections%2F1%2Fall%3Ftype%3D1&amp;limit=&amp;sort=mediaBitrate%3Adesc&amp;save=1"
-                       class="  MenuItem-menuItem-25266 MenuItem-default-tX5Cl   Link-link-2XYrU Link-default-32xSO">
-                    <div class="SelectedMenuItem-menuItemContainer-7SpJZ">
-                        <div class="SelectedMenuItem-menuLabel-1tKeW">Débit</div>
-                    </div>
-                </a></div>
+                </a>
+            </div>
         </div>
     </div>
 </div>

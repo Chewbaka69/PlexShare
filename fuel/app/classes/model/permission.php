@@ -74,11 +74,11 @@ class Model_Permission extends Model_Overwrite
              *  RETURN TRUE
              */
             if($library_permission === NULL)
-                return false;
-            else if((int)$library_permission->value > $data)
-                return false;
-            else
                 return true;
+            else if((int)$library_permission->value > $data)
+                return true;
+            else
+                return false;
         }
 
         if ($permission->name === 'RIGHT_MAX_DOWNLOAD_SPEED') {
@@ -91,12 +91,17 @@ class Model_Permission extends Model_Overwrite
         }
 
         if ($permission->name === 'RIGHT_MAX_WATCH') {
-            /** @TODO IF (NUMBER_WATCH <= MAX_WATCH) // in last 24h
-             *  RETURN TRUE
-             *  ELSE
+            /** @TODO IF (MAX_WATCH > NUMBER_WATCH)  // in last 24h
              *  RETURN FALSE
+             *  ELSE
+             *  RETURN TRUE
              */
-            return true;
+            if($library_permission === NULL)
+                return true;
+            else if((int)$library_permission->value > $data)
+                return true;
+            else
+                return false;
         }
 
         if ($permission->name === 'RIGHT_MAX_QUALITY') {

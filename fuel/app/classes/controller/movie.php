@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\DB;
 use Fuel\Core\FuelException;
 use Fuel\Core\Input;
 use Fuel\Core\Lang;
@@ -24,8 +25,6 @@ class Controller_Movie extends Controller_Home
 
         if(!$movie)
             Response::redirect('/home');
-
-        $movie->getTrailer();
 
         $this->template->title = $movie->title;
 
@@ -70,7 +69,8 @@ class Controller_Movie extends Controller_Home
             $user_downloads = Model_User_Download::find(function ($query) use ($user_id) {
                 $startOfDay = date("Y-m-d 00:00:00");
                 $endOfDay = date("Y-m-d 23:59:59");
-                $query->where('user_id', $user_id)
+                $query->select(DB::expr('count(id) as count'))
+                      ->where('user_id', $user_id)
                       ->and_where('date', '>=', strtotime($startOfDay))
                       ->and_where('date', '<=', strtotime($endOfDay))
                 ;
@@ -79,8 +79,8 @@ class Controller_Movie extends Controller_Home
             if (Model_Permission::isGranted('RIGHT_DOWNLOAD_DISABLED', $movie->getLibrary()))
                 throw new FuelException('You dont have the permission to download in this library!');
 
-            if (Model_Permission::isGranted('RIGHT_MAX_DOWNLOAD', $movie->getLibrary(), count($user_downloads)))
-                throw new FuelException('You reach the limit of download in this library today!');
+            if (!Model_Permission::isGranted('RIGHT_MAX_DOWNLOAD', $movie->getLibrary(), $user_downloads[0]->count))
+                throw new FuelException('You have reach the maximum number of download in this library today!');
 
             $url = $movie->getDownloadLink();
 
@@ -152,8 +152,24 @@ class Controller_Movie extends Controller_Home
         if (!$movie)
             throw new FuelException('No movie found');
 
+        $user_id = $this->_user->id;
+
+        $user_histories = Model_User_History::find(function ($query) use ($movie_id, $user_id) {
+            $startOfDay = date("Y-m-d 00:00:00");
+            $endOfDay = date("Y-m-d 23:59:59");
+            $query->select(DB::expr('count(id) as count'))
+                  ->where('user_id', $user_id)
+                  ->and_where('movie_id', '<>', $movie_id)
+                  ->and_where('date', '>=', strtotime($startOfDay))
+                  ->and_where('date', '<=', strtotime($endOfDay))
+            ;
+        });
+
         if (Model_Permission::isGranted('RIGHT_WATCH_DISABLED', $movie->getLibrary()))
             throw new FuelException('You dont have the permission to watch in this library!');
+
+        if (!Model_Permission::isGranted('RIGHT_MAX_WATCH', $movie->getLibrary(), $user_histories[0]->count))
+            throw new FuelException('You have reach the maximum number of watch in this library for today!');
 
         $url = ($movie->getServer()->https === '1' ? 'https' : 'http') . '://';
         $url .= $movie->getServer()->url . ($movie->getServer()->port ? ':' . $movie->getServer()->port : '') . '/';

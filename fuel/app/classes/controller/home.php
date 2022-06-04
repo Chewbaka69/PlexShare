@@ -26,7 +26,7 @@ class Controller_Home extends Controller_Security
         $server = $sessionServer ? Model_Server::find_by_pk($sessionServer->id) : Model_Server::find_one_by([
                 ['online', '=', 1],
                 ['disable', '=', 0],
-            ], null, null);
+            ]);
 
         Lang::load('menu');
         Lang::load('settings');

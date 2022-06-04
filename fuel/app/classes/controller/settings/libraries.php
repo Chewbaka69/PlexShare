@@ -35,15 +35,14 @@ class Controller_Settings_Libraries extends Controller_Settings
         if($library === null)
             Response::redirect('/settings/libraries');
 
-        $permissions = Model_Permission::find_all();
+        $permissions = Model_Permission::find_by('disable', 0);
 
         $library_permissions = Model_Library_Permission::find_by('library_id', $library_id);
-
-        $library_permissions = $library_permissions ?: [];
 
         $temp = [];
 
         // ORDER ARRAY BY PERMISSION ID
+        // MORE EASY TO DISPLAY
         foreach ($library_permissions as $library_permission) {
             $temp[$library_permission->permission_id] = $library_permission;
         }

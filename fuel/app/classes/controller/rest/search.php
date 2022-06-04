@@ -9,23 +9,50 @@ class Controller_Rest_Search extends Controller_Rest
 {
     public function get_index()
     {
-        $search = '%'.Input::get('search').'%';
+        $search = '+'.implode('* +',
+                              explode(' ',
+                                      rtrim(Input::get('search'))
+                              )
+                    ).'*';
 
-        $query = DB::query('SELECT * FROM '.DB::table_prefix('movie').
-                           ' WHERE '.DB::table_prefix('movie').'.type = :type
-                           AND ('.DB::table_prefix('movie').'.`title` LIKE :search
-                           OR MATCH('.DB::table_prefix('movie').'.`title`) AGAINST(:search))
-                           ORDER BY MATCH('.DB::table_prefix('movie').'.`title`)
-                           AGAINST(:search) DESC LIMIT 5');
-
+        $query = DB::query('SELECT * FROM '.DB::table_prefix('movie').'
+                           WHERE MATCH('.DB::table_prefix('movie').'.`title`) AGAINST(:search  IN BOOLEAN MODE)
+                           ORDER BY MATCH('.DB::table_prefix('movie').'.`title`) AGAINST(:search  IN BOOLEAN MODE) DESC LIMIT 6');
         $query->bind('search', $search);
+        $movies = $query->execute();
 
-        $query->param('type', 'movie');
-        $search_movie = $query->execute();
+        $query = DB::query('SELECT * FROM '.DB::table_prefix('tvshow').'
+                           WHERE MATCH('.DB::table_prefix('tvshow').'.`title`) AGAINST(:search  IN BOOLEAN MODE)
+                           ORDER BY MATCH('.DB::table_prefix('tvshow').'.`title`) AGAINST(:search  IN BOOLEAN MODE) DESC LIMIT 4');
+        $query->bind('search', $search);
+        $tv_shows = $query->execute();
 
-        $query->param('type', 'episode');
-        $search_episode = $query->execute();
+        $results = [];
 
-        return $this->response(['movies' => $search_movie, 'episodes' => $search_episode]);
+        foreach ($movies as $movie) {
+            $data = [
+                'id' => $movie['id'],
+                'type' => $movie['type'],
+                'title' => $movie['title'],
+                'year' => $movie['type'] === 'movie' ? $movie['year'] : '',
+                'tvshow' => $movie['tvshow'] ?? '',
+            ];
+
+            $results[] = $data;
+        }
+
+        foreach ($tv_shows as $movie) {
+            $data = [
+                'id' => $movie['id'],
+                'type' => 'tvshow',
+                'title' => $movie['title'],
+                'year' => $movie['year'],
+                'tvshow' => $movie['tvshow'] ?? '',
+            ];
+
+            $results[] = $data;
+        }
+
+        return $this->response($results);
     }
 }

@@ -13,7 +13,7 @@ function toHHMMSS(num) {
     return times + minutes + ':' + seconds;
 }
 
-async function updateWatching(movie_id, totaltime, timeplay, isFinish = false){
+async function updateWatching(movie_id, totaltime, timeplay, is_ended = false){
     $.ajax({
         url: '/rest/movie/watching',
         method: 'POST',
@@ -21,7 +21,7 @@ async function updateWatching(movie_id, totaltime, timeplay, isFinish = false){
             movie_id: movie_id,
             totaltime: totaltime,
             timeplay: timeplay,
-            isFinish: isFinish
+            is_ended: is_ended
         },
         dataType: 'json'
     }).done(function (data) {
@@ -116,7 +116,7 @@ function launchPlayer(view) {
 
                 let now = Date.now();
 
-                if(totaltime !== null && timeplay !== 0 && (lastUpdateTime === 0  || (lastUpdateTime + 10*1000) < now)) {
+                if(totaltime !== null && timeplay !== 0 && (lastUpdateTime === 0  || (lastUpdateTime + 5*1000) < now)) {
                     lastUpdateTime = now;
                     updateWatching(movie_id, totaltime, timeplay, (percent > 97));
                 }

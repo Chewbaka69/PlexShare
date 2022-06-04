@@ -93,10 +93,10 @@
             }).done(function (data) {
                 show_alert('success', 'Server save succesfully!');
                 $('.media-server-modal button.close').click();
+                setTimeout(function(){location.reload()}, 200);
             }).fail(function (data) {
                 data = JSON.parse(data.responseText);
                 show_alert('error', data.message);
-                setTimeout(function(){location.reload()}, 200);
             });
         });
         <?php if ($countServers > 0) : ?>

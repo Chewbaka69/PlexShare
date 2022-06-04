@@ -30,14 +30,14 @@ class Create_movie
 
 		\DB::query('CREATE INDEX constraintMovieLibrary ON ' . \DB::table_prefix('movie') . '(`library_id`)')->execute();
 		\DB::query('CREATE INDEX constraintMovieSeason ON ' . \DB::table_prefix('movie') . '(`season_id`)')->execute();
-		\DB::query('CREATE INDEX searchTitle ON ' . \DB::table_prefix('movie') . '(`title` DESC)')->execute();
+		\DB::query('CREATE FULLTEXT searchTitle ON ' . \DB::table_prefix('movie') . '(`title` DESC)')->execute();
 	}
 
 	public function down()
 	{
 		\DB::query('DROP INDEX constraintMovieLibrary ON ' . \DB::table_prefix('movie'))->execute();
 		\DB::query('DROP INDEX constraintMovieSeason ON ' . \DB::table_prefix('movie'))->execute();
-		\DB::query('DROP INDEX searchTitle ON ' . \DB::table_prefix('movie'))->execute();
+		\DB::query('DROP FULLTEXT searchTitle ON ' . \DB::table_prefix('movie'))->execute();
 
 		\DBUtil::drop_table('movie');
 	}

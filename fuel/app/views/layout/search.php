@@ -4,18 +4,18 @@
         de résultats...</a>
     <div>
         <div>
-            <div class="QuickSearchProvider-title-1DX5M" aria-label="heading" aria-level="4">Library</div>
+            <div class="QuickSearchProvider-title-1DX5M" aria-label="heading" aria-level="4"></div>
             <div>
                 <div>
-                    <h5 class="QuickSearchHubContainer-hubTitle-2B0GD">Films</h5>
-                    <div id="film_template" role="button" class="hidden QuickSearchResult-button-1ZHpO  Link-link-2XYrU Link-default-32xSO">
-                        <a tabindex="1" title="{$TITLE$}" href="/movie/{$MOVIEID$}" role="link" class="QuickSearchResult-underlay-QgyJt Link-link-2XYrU Link-default-32xSO"></a>
+                    <?php //<h5 class="QuickSearchHubContainer-hubTitle-2B0GD">Films</h5> ?>
+                    <div id="search_template" role="button" class="hidden QuickSearchResult-button-1ZHpO  Link-link-2XYrU Link-default-32xSO">
+                        <a tabindex="1" title="{$TITLE$}" href="{$HREF_SEARCH$}" role="link" class="QuickSearchResult-underlay-QgyJt Link-link-2XYrU Link-default-32xSO"></a>
                         <div class="QuickSearchResult-overlay-38WrL">
                             <div class="QuickSearchResult-imageContainer-DvFlp">
                                 <div class="QuickSearchMetadataPosterCard-card-3_XFi MetadataPosterButtonCard-card-2T8TR"
                                      style="width: 28px; height: 42px;">
                                     <div class="PosterCardImg-imageContainer-1Ar4M">
-                                        <div style="background-image: url('/cover/movie?movie_id={$MOVIEID$}&width=42&height=63'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"></div>
+                                        <div style="background-image: url('{$URL_COVER$}&width=42&height=63'); background-size: cover; background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; z-index: 2;"></div>
                                     </div>
                                     <button aria-label="Lire {$TITLE$}" tabindex="-1" role="button" class="MetadataPosterButtonCard-playButton-aOV1E PlayButton-playButton-3WX8X Link-link-2XYrU Link-default-32xSO" type="button">
                                         <div class="MetadataPosterButtonCard-playCircle-366hc PlayButton-playCircle-3Evfd">
@@ -29,7 +29,10 @@
                                     <span title="{$TITLE$}">{$TITLE$}</span>
                                 </div>
                                 <div class=" QuickSearchTitle-title-2ApAO QuickSearchTitle-isSecondary-mxETF">
-                                    <span data-qa-id="metadataYear">{$YEAR$}</span></div>
+                                    <span>{$TYPE$}</span>
+                                    <span>{$YEAR$}</span>
+                                    <span>{$TVSHOW$}</span>
+                                </div>
                             </div>
                             <button id="id-1341" tabindex="-1" aria-label="Plus d'actions" aria-haspopup="true" role="button"
                                     class="QuickSearchResult-moreButton-2Agbk Link-link-2XYrU Link-default-32xSO" type="button">
@@ -38,10 +41,11 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <?php
+                /*<div>
                     <h5 class="QuickSearchHubContainer-hubTitle-2B0GD">Épisodes</h5>
                     <div id="episode_template" role="button" class="hidden QuickSearchResult-button-1ZHpO Link-link-2XYrU Link-default-32xSO">
-                        <a tabindex="1" title="{$TITLE$}" href="/movie/{$MOVIEID$}" role="link" class="QuickSearchResult-underlay-QgyJt Link-link-2XYrU Link-default-32xSO"></a>
+                        <a tabindex="1" title="{$TITLE$}" href="/episode/{$MOVIEID$}" role="link" class="QuickSearchResult-underlay-QgyJt Link-link-2XYrU Link-default-32xSO"></a>
                         <div class="QuickSearchResult-overlay-38WrL">
                             <div class="QuickSearchResult-imageContainer-DvFlp">
                                 <div class="QuickSearchMetadataPosterCard-card-3_XFi MetadataPosterButtonCard-card-2T8TR"
@@ -70,7 +74,8 @@
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>*/
+                ?>
             </div>
         </div>
     </div>

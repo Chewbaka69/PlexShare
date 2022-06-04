@@ -17,7 +17,10 @@ class Controller_Rest_Library extends Controller_Rest
             if ($library_id === null || $right_name === null || $checked === null)
                 throw new FuelException('Missing parameters');
 
-            $permission = Model_Permission::find_one_by('name', $right_name);
+            $permission = Model_Permission::find_one_by([
+                ['name', '=', $right_name],
+                ['disable', '=', 0]
+            ]);
 
             $permission_id = $permission->id;
 

@@ -12,7 +12,8 @@ class Model_User_History extends Model_Overwrite
         'movie_id',
         'watching_time',
         'ended_time',
-        'is_ended'
+        'is_ended',
+        'date'
     );
 
     private $_movie = null;
