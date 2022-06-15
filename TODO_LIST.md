@@ -21,7 +21,17 @@
   - [x] List last Movies
   - [x] List last TvShow
   - [ ] Search
-    - [x] By Name
+    - [x] By Movie Name
+    - [x] By TvShows Name
+    - [x] By Episode Name
+- [ ] Panel Configuration
+  - [x] Enable/Disabled registration
+  - [ ] Force user to use token on registration
+  - [ ] Enable/Disable Queue to limit connection
+  - [ ] Enable/Disable Guest account with limited permissions
+  - [ ] Enable/Disable Achievements
+  - [ ] Allow user to add his self Plex Server
+  - [ ] Enable/Disable Sub-accounts
 - [ ] Movies
   - [x] Title
   - [x] Description
@@ -51,7 +61,7 @@
   - [X] Add server
   - [X] Edit server
   - [X] Disable Server
-  - [X] Delete server
+  - [ ] Delete server
   - [ ] Check state and latence (cron)
 - [ ] Management Libraries
   - [x] List libraries
@@ -66,12 +76,13 @@
   - [ ] Netflix [OTHER]
 - [ ] Cache
   - [ ] Cache Libraries [OTHER]
-  - [x] Cache Media MetaData [OTHER]
+  - [x] Cache Media MetaData
   - [ ] Cache SQL request [OTHER]
+  - [ ] Migrate Cache to redis for performance
 - [ ] Streaming
   - [ ] Implement Video Player that stay when we change of page [OTHER]
-- [ ] Management PlexServer
-  - [ ] Stream directly from PlexServer or use the site like a web-proxy [OTHER]
+- [x] Management PlexServer
+  - [x] Stream directly from PlexServer or use the site like a web-proxy
 - [ ] Management User
   - [ ] Add sub-account [OTHER]
   - [ ] Edit sub-account [OTHER]
@@ -79,7 +90,7 @@
   - [ ] List of session [OTHER]
   - [ ] Ban IP [OTHER]
   - [ ] Delete Account [OTHER]
-  - [ ] Limit acces to ip [OTHER]
+  - [ ] Limit access by ip [OTHER]
 - [ ] Management Permission
   - [ ] Limit Quality [OTHER]
   - [ ] Limit number streaming [OTHER]

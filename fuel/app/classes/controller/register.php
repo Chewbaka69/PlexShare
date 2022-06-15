@@ -18,6 +18,11 @@ class Controller_Register extends Controller
         if(!$lock)
             Response::redirect('/install');
 
+        $panel = Config::load('panel', true);
+
+        if(!$panel['registration'])
+            Response::redirect('/login');
+
         $user = Session::get('user');
 
         if($user)
@@ -45,7 +50,7 @@ class Controller_Register extends Controller
                 if (Input::post('password') !== Input::post('confirm_password'))
                     throw new FuelException('Your password are not identical');
 
-                if(Model_User::EmailAlreadyUse(Input::post('email')))
+                if(Model_User::EmailAlreadyUsed(Input::post('email')))
                     throw new FuelException('Email already use!');
 
                 $config = Config::load('db', true);

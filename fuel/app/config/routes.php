@@ -13,5 +13,6 @@ return array(
     'movie/:movie_id/video/\:/transcode/:transcode/session/:session/:index/:base' => 'movie/stream',
     'movie/:movie_id/download'                      => 'movie/download',
     'movie/:movie_id'                               => 'movie/index',
-    'settings/libraries/premissions/:library_id'    => 'settings/libraries/permissions'
+    'settings/libraries/premissions/:library_id'    => 'settings/libraries/permissions',
+    'admin/users/premissions/:user_id'              => 'admin/users/permissions'
 );

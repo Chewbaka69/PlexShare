@@ -9,7 +9,7 @@
                         <li class="card-tile-list-item card-3-col-item">
                             <div class="card card-device <?php echo $user->disable ? 'disabled' : ''; ?>">
                                 <div class="card-actions">
-                                    <a href="/settings/users/premissions/<?php echo $user->id; ?>">
+                                    <a href="/admin/users/premissions/<?php echo $user->id; ?>">
                                         <button class="permissions-user-btn card-action-btn" data-library-id="<?php echo $user->id; ?>"
                                                 data-toggle="tooltip" data-original-title="Permissions">
                                             <i class="glyphicon unlock"></i>

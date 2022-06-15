@@ -20,7 +20,7 @@ class Model_User extends Model_Overwrite
         'disable',
     );
 
-    public static function EmailAlreadyUse($email)
+    public static function EmailAlreadyUsed($email)
     {
         $result = self::find(function ($query) use ($email){
             return $query

@@ -30,10 +30,15 @@ class Controller_Login extends Controller
     {
         $view = View::forge('login/index');
         $start_js = Asset::js('jquery.min.js');
+
+        $panel = Config::load('panel', true);
+
+        $view->set('registration', (bool)$panel['registration']);
+
         try {
-            $config = Config::load('db', true);
 
             if (Input::method() === 'POST') {
+                $config = Config::load('db', true);
 
                 $login = Input::post('email');
                 $password = Input::post('password');

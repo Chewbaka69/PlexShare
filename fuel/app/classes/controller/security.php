@@ -19,6 +19,7 @@
             if(!$user)
                 Response::redirect('/login');
         }
+
         public function action_index()
         {
             // DO NOTHING

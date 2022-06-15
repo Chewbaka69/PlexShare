@@ -78,7 +78,9 @@
                                 <span class="qxG01S">Sign in</span>
                             </button>
                         </form>
+                        <?php if($registration) : ?>
                         <span class="_3kVXYV _3TSWy2">Need an account? <a href="/register" role="link" class=" _2n0yJn _1vcAGA ">Create an account!</a></span>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

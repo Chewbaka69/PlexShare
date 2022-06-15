@@ -17,19 +17,4 @@ class Controller_Admin_Libraries extends Controller_Admin
 
         $this->template->body = $body;
     }
-
-    public function action_permissions()
-    {
-
-        $body = View::forge('admin/libraries/permissions');
-
-        $library_id = $this->param('library_id');
-
-        $permissions = Model_Permission::find_all();
-
-        $body->set('permissions', $permissions);
-        $body->set('user', Session::get('user'));
-
-        $this->template->body = $body;
-    }
 }

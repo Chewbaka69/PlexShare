@@ -13,7 +13,7 @@ class Create_user_history
 			'watching_time' => array('type' => 'int', 'null' => false, 'constraint' => 11),
 			'ended_time' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 11),
 			'is_ended' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
-			'date' => array('default' => '0', 'type' => 'int', 'null' => false, 'constraint' => 1),
+			'date' => array('type' => 'int', 'null' => false, 'constraint' => 11),
 		), array('id'));
 
 		\DB::query('CREATE INDEX constraintUserUserHistory ON ' . \DB::table_prefix('user_history') . '(`user_id`)')->execute();

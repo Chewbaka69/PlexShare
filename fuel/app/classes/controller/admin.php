@@ -47,17 +47,4 @@ class Controller_Admin extends Controller_Security
 
         $this->template->body = $body;
     }
-
-    public function action_users()
-    {
-        $this->template->js_bottom = ['plex_alert.js'];
-
-        $body = View::forge('admin/users');
-
-        $users = Model_User::find_all();
-
-        $body->set('users', $users);
-
-        $this->template->body = $body;
-    }
 }

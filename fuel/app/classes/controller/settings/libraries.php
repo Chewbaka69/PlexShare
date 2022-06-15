@@ -37,7 +37,7 @@ class Controller_Settings_Libraries extends Controller_Settings
 
         $permissions = Model_Permission::find_by('disable', 0);
 
-        $library_permissions = Model_Library_Permission::find_by('library_id', $library_id);
+        $library_permissions = Model_Library_Permission::find_by('library_id', $library_id) ?: [];
 
         $temp = [];
 
