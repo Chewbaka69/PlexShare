@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY ./ /app
 
+RUN php -v
+
 RUN composer install
 
 RUN (crontab -l ; echo "*/2     *       *       *       *       /usr/local/bin/php /app/oil refine server:ping")| crontab -
