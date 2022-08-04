@@ -35,7 +35,7 @@ class Controller_Movie extends Controller_Home
 
     public function action_list()
     {
-        $movies = Model_Movie::getList();
+        $movies = Model_Movie::getAllMovies();
 
         if(!$movies)
             Response::redirect('/home');

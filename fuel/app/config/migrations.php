@@ -18,6 +18,7 @@ return array(
         9 => '010_create_user_history',
         10 => '011_create_user_permission',
         11 => '012_create_user_settings',
+        12 => '013_add_originaltitle_to_tvshow.php',
       ),
     ),
     'module' => 

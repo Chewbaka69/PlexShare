@@ -1,4 +1,4 @@
-<div class="PrePlayPageHeader-pageHeader-2o14F PageHeader-pageHeader-18RSw">
+<div class="PrePlayPageHeader-altPageHeader-3bZbS PrePlayPageHeader-pageHeader-2o14F PageHeader-pageHeader-18RSw">
     <div class="PageHeaderLeft-pageHeaderLeft-2TxSo"><span
                 class="PageHeaderBreadcrumbButton-link-1N0DD"><?php echo $tvshow->title; ?></span></div>
     <div class="PageHeaderRight-pageHeaderRight-2CT0g">
@@ -7,6 +7,11 @@
                 <button id="id-22" title="<?php echo __('play'); ?>" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-play-560"></i></button>
+                <?php if(!Model_Permission::isGranted('RIGHT_TRAILER_DISABLED', $tvshow->getLibrary()) && $tvshow->getTrailer() !== null) : ?>
+                    <button id="id-362" title="<?php echo __('watch_trailer'); ?>" data-placement="bottom" data-toggle="tooltip" role="button" class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO" type="button">
+                        <i class="plex-icon-toolbar-play-trailer-560" aria-hidden="true"></i>
+                    </button>
+                <?php endif; ?>
                 <button id="id-23" title="<?php echo __('random_roder'); ?>" data-toggle="tooltip" data-placement="bottom" role="button"
                         class="ToolbarButton-toolbarButton-3xzHJ Link-link-2XYrU Link-default-32xSO"
                         type="button"><i class="plex-icon-toolbar-shuffle-560"></i></button>
@@ -58,6 +63,13 @@
                             </div>
                         </div>
                     </div>
+                    <?php if(!Model_Permission::isGranted('RIGHT_TRAILER_DISABLED', $tvshow->getLibrary()) && $tvshow->getTrailer() !== null) : ?>
+                        <div style="font-size: 20px;padding: 0;" class="col-sm-12 text-center">
+                            <button id="id-362" class="Link-link-2XYrU Link-default-32xSO" style="background: #dc3535;border-radius: 3px;padding: 0 7px;width: 100%;margin-top: 15px;">
+                                <i class="glyphicon video-hd"></i> <?php echo __('watch_trailer'); ?>
+                            </button>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class="PrePlayMetadataContent-content-2ww3j" style="padding-left: 320px;">
                     <div class="Measure-container-2XznZ">
@@ -277,6 +289,17 @@
                 $(this).find('div').removeClass('DisclosureArrow-up-1U7WW').addClass('DisclosureArrow-down-1U7WW');
                 summary.css('max-height', '78px');
             }
+        });
+        /** LAUNCH TRAILER **/
+        $(document).on('click', '#id-362', function (event) {
+            var height = $(window).height();
+            var width = $(window).width();
+            $(document).find('body').append('<div id="youtube-iframe" style="position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); z-index:1;">' +
+                '<iframe style="position: absolute; margin: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index:2;" width="' + (width/3*2) + '" height="' + (height/3*2) + '" src="<?php echo $tvshow->getTrailer(); ?>" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' +
+                '</div>');
+        });
+        $(document).on('click', '#youtube-iframe', function (event) {
+            event.target.remove();
         });
         /** LOAD IMG **/
         $('.actor_img').each(function (index, element) {

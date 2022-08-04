@@ -38,13 +38,14 @@ class Controller_Login extends Controller
         try {
 
             if (Input::method() === 'POST') {
-                $config = Config::load('db', true);
+                $configdb = Config::load('db', true);
+                $configCrypt = Config::load('crypt', true);
 
                 $login = Input::post('email');
                 $password = Input::post('password');
-                $password = hash('sha512', $config['default']['hash'] . $password);
+                $passwordHash = hash('sha512', $configCrypt['sodium']['cipherkey'] . $password);
 
-                if($user = Model_User::Login($login, $password)) {
+                if($user = Model_User::Login($login, $passwordHash)) {
                     $user->lastlogin = time();
                     $user->save();
 

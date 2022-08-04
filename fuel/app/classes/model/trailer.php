@@ -1,10 +1,11 @@
 <?php
 
-use Fuel\Core\Debug;
+    use Fuel\Core\CacheNotFoundException;
+    use Fuel\Core\Debug;
 
 class Model_Trailer
 {
-    private $_movie_id;
+    private $_id;
 
     private $_title;
 
@@ -16,24 +17,12 @@ class Model_Trailer
 
     private $_trailer_url;
 
-    public function __construct($movie_id, $title, $year, $type)
+    public function __construct($id, $title, $year, $type)
     {
-        $this->_movie_id   = $movie_id;
+        $this->_id   = $id;
         $this->_title   = $title;
         $this->_year   = $year;
         $this->_type    = $type;
-
-        if($this->_type === 'movie') {
-            $this->getUrl();
-
-            if($this->_trailer_url === null)
-                return;
-
-            $this->getMovieTrailer();
-
-            if(!$this->_trailer)
-                $this->getMovieTeaser();
-        }
     }
 
     /**
@@ -41,52 +30,69 @@ class Model_Trailer
      */
     public function getTrailer()
     {
-        if($this->_type !== 'movie')
-            return;
-
-        try
+        try {
+            throw new CacheNotFoundException('');
+            $this->_trailer = Cache::get($this->_id.'.trailer');
+            return $this->_trailer;
+        } catch (CacheNotFoundException $e)
         {
-            $trailer = $this->getMovieTrailer();
+            $this->getUrl();
 
-            if(!$trailer)
-                $trailer = $this->getMovieTeaser();
+            if(!$this->_trailer_url)
+                return null;
 
-            return $trailer;
-        } catch (Exception $e) {
-            return;
+            $this->_getTrailer();
+
+            if(!$this->_trailer)
+                $this->_getTeaser();
+
+            if(!$this->_trailer)
+                return null;
+
+            Cache::set($this->_id . '.trailer', $this->_trailer, 24 * 60 * 60);
+            return $this->_trailer;
         }
     }
 
     private function getUrl()
     {
         try {
-            $this->_trailer_url = Cache::get($this->_movie_id.'.trailer_url');
+            $this->_trailer_url = Cache::get($this->_id.'.trailer_url');
             return $this->_trailer_url;
         } catch (CacheNotFoundException $e)
         {
-            $html = Request::forge('https://www.themoviedb.org/search/movie?query=' . urlencode($this->_title) . '+y%3A' . $this->_year . '&language=us', 'curl');
+            $type = $this->_type === 'movie' ? 'movie' : 'tv';
+
+            $entities = array('%21', '%2A', '%27', '%28', '%29', '%3B', '%3A', '%40', '%26', '%3D', '%2B', '%24', '%2C', '%2F', '%3F', '%25', '%23', '%5B', '%5D');
+            $replacements = array('!', '*', "'", "(", ")", ";", ":", "@", "&", "=", "+", "$", ",", "/", "?", "%", "#", "[", "]");
+            $title = str_replace($entities, $replacements, urlencode(htmlspecialchars_decode($this->_title, ENT_QUOTES)));
+
+            $html = Request::forge('https://www.themoviedb.org/search/' . $type . '?query=' . $title . '+y%3A' . $this->_year . '&language=us', 'curl');
             $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
 
             $html->execute();
 
-            if ($html->response()->status !== 200) return false;
+            if ($html->response()->status !== 200)
+                return false;
 
             $media = $html->response()->body;
 
-            $regex = '/<a data-id="[a-z0-9]*" data-media-type="movie" data-media-adult="[a-z]*" class="[a-z]*" href="(\/movie\/[\d]*\?language\=us)">/i';
+            $regex = '/<a data-id="[a-z0-9]+" data-media-type="' . $type . '" data-media-adult="[a-z]+" class="[a-z]*" href="(\/' . $type . '\/[\d]+\?language\=us)">/i';
 
             preg_match($regex, $media, $urls);
 
-            if (!isset($urls[1])) return false;
+            if (!isset($urls[1]))
+                return false;
 
             $this->_trailer_url = explode('?', $urls[1])[0];
 
-            Cache::set($this->_movie_id . '.trailer_url', $this->_trailer_url, 24 * 60 * 60);
-            return $this->_trailer_url;
+            Cache::set($this->_id . '.trailer_url', $this->_trailer_url, 24 * 60 * 60);
+
+            return true;
         }
     }
 
-    private function getMovieTrailer()
+    private function _getTrailer()
     {
         $html = Request::forge('https://www.themoviedb.org' . $this->getUrl() . '/videos?active_nav_item=Trailers&video_language=en-US&language=en-US', 'curl');
         $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
@@ -112,17 +118,18 @@ class Model_Trailer
 
         $this->_trailer = $youtube;
 
-        return $this->_trailer;
+        return true;
     }
 
-    private function getMovieTeaser()
+    private function _getTeaser()
     {
         $html = Request::forge('https://www.themoviedb.org' . $this->getUrl() . '/videos?active_nav_item=Teasers&video_language=en-US&language=en-US', 'curl');
         $html->set_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0');
         $html->set_options([CURLOPT_FOLLOWLOCATION => true,]);
         $html->execute();
 
-        if ($html->response()->status !== 200) return false;
+        if ($html->response()->status !== 200)
+            return false;
 
         $media = $html->response()->body;
 
@@ -130,12 +137,13 @@ class Model_Trailer
 
         preg_match($regex, $media, $youtube);
 
-        if (!isset($youtube[1])) return false;
+        if (!isset($youtube[1]))
+            return false;
 
         $youtube = preg_replace('/\&origin\=https%3A%2F%2Fwww\.themoviedb\.org/i', '', $youtube[1]);
 
         $this->_trailer = $youtube;
 
-        return $this->_trailer;
+        return true;
     }
 }

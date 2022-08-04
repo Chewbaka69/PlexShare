@@ -45,8 +45,6 @@ class Model_Movie extends Model_Overwrite
     /** @var Model_Server */
     private $_server = null;
 
-    public $trailer = null;
-
     public function getSeason()
     {
         if(!$this->_season && $this->season_id !== null)
@@ -471,7 +469,7 @@ class Model_Movie extends Model_Overwrite
         return $movies_id_array;
     }
 
-    public static function getList()
+    public static function getAllMovies()
     {
         return self::find(function ($query) {
             /** @var Database_Query_Builder_Select $query */
@@ -486,16 +484,7 @@ class Model_Movie extends Model_Overwrite
 
     public function getTrailer()
     {
-        try {
-            $this->trailer = Cache::get($this->id.'.trailer');
-            return $this->trailer;
-        } catch (CacheNotFoundException $e)
-        {
-            $trailer = new Model_Trailer($this->id, $this->originalTitle ?: $this->title, $this->year, $this->type);
-            $this->trailer = $trailer->getTrailer();
-
-            Cache::set($this->id . '.trailer', $this->trailer, 24 * 60 * 60);
-            return $this->trailer;
-        }
+        $trailer = new Model_Trailer($this->id, $this->originalTitle ?: $this->title, $this->year, $this->type);
+        return $trailer->getTrailer();
     }
 }

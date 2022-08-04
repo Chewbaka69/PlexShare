@@ -14,6 +14,7 @@ class Model_Tvshow extends Model_Overwrite
         'plex_key',
         'studio',
         'title',
+        'originalTitle',
         'contentRating',
         'summary',
         'rating',
@@ -173,6 +174,7 @@ class Model_Tvshow extends Model_Overwrite
                     'plex_key' => $subsection['@attributes']['ratingKey'],
                     'studio' => isset($subsection['@attributes']['studio']) ? $subsection['@attributes']['studio'] : null,
                     'title' => $subsection['@attributes']['title'],
+                    'originalTitle' => isset($subsection['@attributes']['originalTitle']) ? $subsection['@attributes']['originalTitle'] : $subsection['@attributes']['title'],
                     'contentRating' => isset($subsection['@attributes']['contentRating']) ? $subsection['@attributes']['contentRating'] : null,
                     'summary' => isset($subsection['@attributes']['summary']) ? $subsection['@attributes']['summary'] : null,
                     'rating' => isset($subsection['@attributes']['rating']) ? $subsection['@attributes']['rating'] : null,
@@ -190,8 +192,6 @@ class Model_Tvshow extends Model_Overwrite
                 $tvshow->save();
 
                 $tvshows_id_array[] = ['id' => $tvshow->id, 'name' => $tvshow->title];
-
-                //self::getTvShowSeasons($server, $tvshow);
 
                 if (isset($subsections['@attributes']))
                     break;
@@ -248,5 +248,11 @@ class Model_Tvshow extends Model_Overwrite
         }
 
         return $this->_seasons;
+    }
+
+    public function getTrailer()
+    {
+        $trailer = new Model_Trailer($this->id, $this->originalTitle ?: $this->title, $this->year, 'tv_show');
+        return $trailer->getTrailer();
     }
 }
