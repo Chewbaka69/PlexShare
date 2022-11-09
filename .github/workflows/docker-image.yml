@@ -1,9 +1,8 @@
 name: Docker Image CI
 
 on:
-  push:
-    tags:
-    - '*'
+  release:
+    types: [created]
 
 jobs:
 
@@ -20,8 +19,8 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag chewbaka69/plexshare:latest
+      run: docker build . --file Dockerfile --tag chewbaka69/plexshare:${{ github.event.release.tag_name }} --tag chewbaka69/plexshare:latest
       
     - name: Docker Push
-      run: docker push chewbaka69/plexshare:latest
+      run: docker push --all-tags chewbaka69/plexshare
       
