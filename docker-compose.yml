@@ -4,8 +4,7 @@ services:
   plexshare:
     # Image doc here: https://dockerfile.readthedocs.io/en/latest/content/DockerImages/dockerfiles/php-nginx.html
     container_name: plexshare
-    image: chewbaka69/plexshare
-    build: .
+    image: chewbaka/plexshare:latest
     working_dir: /app
     # If you use a reverse PROXY you can comment those 2 lines below
     ports:
