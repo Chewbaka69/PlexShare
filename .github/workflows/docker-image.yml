@@ -29,4 +29,4 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: chewbaka/plexshare:latest,chewbaka/plexshare${{ github.event.release.tag_name }}
+        tags: chewbaka/plexshare:${{ github.event.release.tag_name }},chewbaka/plexshare:latest
