@@ -4,7 +4,7 @@ USER application
 
 WORKDIR /app
 
-COPY ./ /app
+COPY --chown=application:application ./ /app
 
 RUN php -v
 
