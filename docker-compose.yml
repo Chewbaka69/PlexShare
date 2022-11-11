@@ -32,5 +32,3 @@ services:
 
       # COMPOSER
       COMPOSER_VERSION: 1
-    volumes:
-      - .:/app
