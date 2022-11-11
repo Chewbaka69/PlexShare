@@ -12,6 +12,8 @@ services:
     restart: unless-stopped
     environment:
       # NGINX
+      # FOR the BASE_URL never forget the last /
+      # BASE_URL: http://your-domain.here/
       WEB_DOCUMENT_ROOT: /app/public
       WEB_DOCUMENT_INDEX: index.php
 
