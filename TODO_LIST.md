@@ -1,6 +1,9 @@
 # TODO LIST
 
 ## V1
+- [ ] Docker
+  - [x] Auto build docker image
+  - [ ] Add Env variables to auto config
 - [x] Theme
   - [x] Plex
 - [x] Installer
