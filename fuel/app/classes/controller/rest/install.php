@@ -7,6 +7,7 @@ use Fuel\Core\FuelException;
 use Fuel\Core\Input;
 use Fuel\Core\Migrate;
 use Fuel\Core\Request;
+use Fuel\Core\Response;
 use Fuel\Core\Str;
 
 class Controller_Rest_Install extends Controller_Rest
@@ -115,7 +116,7 @@ class Controller_Rest_Install extends Controller_Rest
     public function post_admin()
     {
         try {
-            $config = Config::load('db', true);
+            $configCrypt = Config::load('crypt', true);
 
             $email = Input::post('email');
             $username = Input::post('username');
@@ -128,7 +129,7 @@ class Controller_Rest_Install extends Controller_Rest
             $user = Model_User::forge(array(
                 'username'  => $username,
                 'email'     => $email,
-                'password'  => hash('sha512', $config['default']['hash'] . $password),
+                'password'  => hash('sha512', $configCrypt['sodium']['cipherkey'] . $password),
                 'admin'     => 1,
                 'lastlogin' => time()
             ));
