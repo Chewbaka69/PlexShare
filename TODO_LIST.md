@@ -9,6 +9,7 @@
   - [x] Create tables
   - [x] Add one PlexServer and check connection
   - [x] Create Admin account
+  - [ ] Cli installer
 - [x] Registration User
 - [x] Login User
 - [x] Browse Server
@@ -70,6 +71,10 @@
   - [ ] Add permition to user
 - [ ] Management User
   - [ ] Edit profil
+- [x] Documentation
+  - [x] Nginx
+  - [x] Docker
+  - [x] Cron
 
 ## OTHER Version
 - [ ] Theme
