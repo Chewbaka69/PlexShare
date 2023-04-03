@@ -7,6 +7,13 @@
 # PlexShare
 Web Application standalone that provide the management of local users, many server and the libraries.
 
+## V2 started
+Why starting a V2, while V1 is not Finish?
+Because the technology use is no more what i want for this app.
+
+So the V2 will use NextJS and Laravel
+New design for the FrontEnd and new Code for the Backend :)
+
 # Description
 With this web application, anyone can create an account directly this app.
 Every body can add his PlexServer to the list.
