@@ -14,6 +14,10 @@ Because the technology use is no more what i want for this app.
 So the V2 will use NextJS and Laravel
 New design for the FrontEnd and new Code for the Backend :)
 
+### Little issue
+Issue with NextJS 15...
+Trying to fix it
+
 # Description
 With this web application, anyone can create an account directly this app.
 Every body can add his PlexServer to the list.
