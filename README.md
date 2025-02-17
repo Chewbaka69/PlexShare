@@ -51,5 +51,12 @@ With only one interface and without plex.tv registration, everybody can have acc
 # Todo-List
 [TODO LIST](https://github.com/Chewbaka69/PlexShare/blob/master/TODO_LIST.md)
 
+# Sponsors
+| Termius  |
+| ------------- |
+| [![termius-icon-64](https://github.com/user-attachments/assets/a0061114-3370-403d-841c-b1c257af792d)](https://termius.com/)  |
+| [Termius](https://termius.com/) provides a secure, reliable, and collaborative SSH client. |
+
+
 # Licence
 This is free software under the GPL v3 open source license. Feel free to do with it what you wish, but any modification must be open sourced. A copy of the license is included.
